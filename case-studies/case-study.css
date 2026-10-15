@@ -1184,3 +1184,55 @@
 }
 
 
+
+/* ---------- no scroll effects (cs1.3) ----------
+   Everything scrolls normally: no pinned headers, fades, reveals or parallax. Each problem/solution block
+   carries its own number since the shared header no longer pins. */
+
+.hero-text,
+.panel-head,
+.label-pin,
+.tri-cell,
+.pss-label,
+.pband {
+  position: relative;
+  top: auto;
+}
+
+.pin-fade::after {
+  display: none;
+}
+
+.rv,
+.rv-img {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.ghost,
+.frame,
+.hero-text {
+  will-change: auto;
+}
+
+.pnum {
+  display: none;
+}
+
+.pcell.first {
+  grid-template-columns: 0 1fr;
+  column-gap: 0;
+}
+
+@media (min-width: 900px) {
+  .m-num {
+    display: block;
+    width: max-content;
+    padding: clamp(24px, 2.5vw, 40px) var(--pad) 0;
+    font-weight: 500;
+    font-size: clamp(48px, 4.5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+}

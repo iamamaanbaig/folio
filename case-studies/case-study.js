@@ -17,15 +17,13 @@
     });
   }, { passive: true });
 
-  /* ---------- 3. challenges: rows match their image, header bands pin under the section title ---------- */
+  /* ---------- 3. challenges: each challenge row ends where its image ends ---------- */
   const steps = $('.steps');
   if (steps) {
     const stack = $('.stack', steps);
     const shots = $$('.shot', stack);
     const row1 = $$('.row-1', steps);
     const row2 = $$('.row-2', steps);
-    const cells = $$('.tri-cell', steps);
-    const labelPin = $('.label-pin', steps);
 
     const layout = () => {
       [...row1, ...row2].forEach(el => el.style.removeProperty('--row-h'));
@@ -38,11 +36,6 @@
         const h2 = shots[1].getBoundingClientRect().bottom - top(row2[0]);
         row2.forEach(el => el.style.setProperty('--row-h', `${h2}px`));
       }
-      const strip = labelPin.offsetHeight;
-      cells.forEach(c => {
-        const band = $('.ghost-cell', c).offsetHeight;
-        c.style.setProperty('--pin-top', `${strip + band - c.offsetHeight}px`);
-      });
     };
     new ResizeObserver(layout).observe(document.body);
     $$('img', stack).forEach(img => img.complete || img.addEventListener('load', layout, { once: true }));

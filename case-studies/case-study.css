@@ -1204,6 +1204,18 @@
   top: auto;
 }
 
+/* Project challenges: only the section title pins; the Challenge / How I approached it row scrolls */
+.tri-cell {
+  position: relative;
+  top: auto;
+}
+
+/* The pinned title gets its own backing (with the grid lines redrawn) so text slides cleanly under it */
+.label-pin {
+  margin-left: 0;
+  background: linear-gradient(90deg, var(--stroke) 1px, transparent 1px) 0 0 / 50% 100% repeat-x, var(--bg);
+}
+
 /* Problems & solutions: only the section title pins; each block's header (number + Problem/Solution/
    Impact) scrolls with its block */
 .pband {

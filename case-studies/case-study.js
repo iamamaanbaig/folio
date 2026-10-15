@@ -1,4 +1,4 @@
-// Case study interactions (cs1.3): pinned section titles, layout, section index, image viewer, thumbnails, parallax.
+// Case study interactions (cs1.3): pinned section titles, number reel, layout, section index, image viewer, thumbnails.
 (() => {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = () => matchMedia('(min-width: 900px)').matches;
@@ -54,83 +54,23 @@
   const pss = $('.pss');
   if (pss) {
     const label = $('.pss-label', pss);
+    const band = $('.pband', pss);
+    const reel = $('.pnum', band);
+    const blocks = $$('.pblock', pss);
     const setStrip = () => pss.style.setProperty('--strip', `${label.offsetHeight}px`);
     new ResizeObserver(setStrip).observe(label);
     setStrip();
-  }
 
-  /* ---------- one scroll = next section (desktop) ----------
-     Each wheel gesture or PageDown/Space/arrow press glides to the next stop. Stops are section tops; a
-     section taller than the screen gets extra stops a screen apart so nothing is skipped. Trackpad inertia
-     is ignored until the wheel goes quiet, so one flick moves exactly one stop. */
-  if (desktop()) {
-    const sections = $$('.page > section');
-    let stops = [];
-    const buildStops = () => {
-      const vh = innerHeight;
-      const max = document.documentElement.scrollHeight - vh;
-      const out = [0];
-      sections.forEach(sec => {
-        const top = Math.round(sec.getBoundingClientRect().top + scrollY);
-        const h = sec.offsetHeight;
-        out.push(top);
-        // Only sections that overflow the screen noticeably get in-section stops
-        if (h - vh > vh * .4) {
-          for (let y = top + vh * .8; y < top + h - vh - vh * .3; y += vh * .8) out.push(Math.round(y));
-          out.push(Math.round(top + h - vh));
-        }
-      });
-      out.push(max);
-      stops = [...new Set(out.map(y => Math.min(max, Math.max(0, y))))].sort((a, b) => a - b);
+    // The number in the pinned header rolls to the block whose top has passed 40% of the space below it
+    const roll = () => {
+      const bandBottom = label.offsetHeight + band.offsetHeight;
+      const line = bandBottom + (innerHeight - bandBottom) * .4;
+      let i = 0;
+      blocks.forEach((b, k) => { if (b.getBoundingClientRect().top < line) i = k; });
+      reel.style.setProperty('--i', i);
     };
-    buildStops();
-    addEventListener('resize', buildStops);
-    document.fonts.ready.then(buildStops);
-    addEventListener('load', buildStops);
-
-    let animating = false;
-    let lastWheel = 0;
-    const glide = to => {
-      const from = scrollY;
-      if (Math.abs(to - from) < 2) return;
-      animating = true;
-      const T = reduceMotion ? 0 : 800;
-      let start = null;
-      const step = now => {
-        if (start === null) start = now;
-        const k = T ? Math.min(1, (now - start) / T) : 1;
-        const e = k === 1 ? 1 : 1 - Math.pow(2, -10 * k); // expo-out
-        scrollTo(0, from + (to - from) * e);
-        if (k < 1) requestAnimationFrame(step);
-        else animating = false;
-      };
-      requestAnimationFrame(step);
-    };
-    const go = dir => {
-      buildStops();
-      const y = scrollY;
-      const next = dir > 0 ? stops.find(s => s > y + 4) : [...stops].reverse().find(s => s < y - 4);
-      if (next !== undefined) glide(next);
-    };
-
-    addEventListener('wheel', e => {
-      if (e.ctrlKey || $('.viewer[open]')) return; // leave pinch-zoom and the image viewer alone
-      e.preventDefault();
-      const now = performance.now();
-      const quiet = now - lastWheel > 160;
-      lastWheel = now;
-      if (animating || !quiet || Math.abs(e.deltaY) < 4) return;
-      go(Math.sign(e.deltaY));
-    }, { passive: false });
-
-    addEventListener('keydown', e => {
-      if ($('.viewer[open]') || e.target.closest('input, textarea, select, [contenteditable]')) return;
-      const down = ['PageDown', 'ArrowDown', ' '].includes(e.key) && !e.shiftKey;
-      const up = ['PageUp', 'ArrowUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
-      if (!down && !up) return;
-      e.preventDefault();
-      if (!animating) go(down ? 1 : -1);
-    });
+    onScroll.push(roll);
+    roll();
   }
 
   /* ---------- section index: appears after the hero, tracks the current section, jumps on click ---------- */
@@ -193,60 +133,4 @@
     if (!btn) return;
     $$('button', group).forEach(b => b.setAttribute('aria-current', b === btn));
   }));
-
-  /* ---------- parallax: ghost words drift sideways behind their crop line ----------
-     The only scroll effect in this version. Each word drifts while its section crosses the screen, with a
-     soft time-based follow so it glides. Cropped words slide until their end shows; words that already fit
-     slide in from a cropped start. */
-  if (!reduceMotion) {
-    const items = $$('.ghost').map(g => ({ g, cell: g.parentElement, sec: g.closest('section'), cur: 0, tgt: 0, a: 0, b: 0 }));
-
-    const measure = () => items.forEach(it => {
-      const cellRight = it.cell.getBoundingClientRect().right;
-      const left = it.g.getBoundingClientRect().left - it.cur;
-      const hidden = it.g.scrollWidth - (cellRight - left);
-      const nudge = parseFloat(getComputedStyle(it.g).fontSize) * .3;
-      // Every word travels at least `nudge`, so short crops still read as motion
-      it.a = hidden >= nudge ? 0 : nudge - Math.max(0, hidden);
-      it.b = -Math.max(0, hidden);
-    });
-
-    const targets = () => {
-      const vh = innerHeight;
-      items.forEach(it => {
-        const r = it.sec.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
-        it.tgt = it.a + (it.b - it.a) * p;
-      });
-    };
-
-    let running = false;
-    let last = 0;
-    const tick = now => {
-      const k = 1 - Math.exp(-Math.min(64, now - last) / 140); // τ ≈ 140ms, same feel at 60/120Hz
-      last = now;
-      let moving = false;
-      items.forEach(it => {
-        it.cur += (it.tgt - it.cur) * k;
-        if (Math.abs(it.tgt - it.cur) > .1) moving = true;
-        else it.cur = it.tgt;
-        it.g.style.transform = `translate3d(${it.cur.toFixed(2)}px, 0, 0)`;
-      });
-      running = moving;
-      if (moving) requestAnimationFrame(tick);
-    };
-    const kick = () => {
-      targets();
-      if (running) return;
-      running = true;
-      last = performance.now();
-      requestAnimationFrame(tick);
-    };
-
-    onScroll.push(kick);
-    addEventListener('resize', () => { measure(); kick(); });
-    document.fonts.ready.then(() => { measure(); kick(); });
-    measure();
-    kick();
-  }
 })();

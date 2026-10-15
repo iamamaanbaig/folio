@@ -584,21 +584,21 @@
   font-weight: 500;
   letter-spacing: -0.04em;
   font-size: calc((var(--col) * 2 - var(--pad)) * 0.285);
-  height: .73em;
+  height: .8em; /* tall enough for round digits that dip below the baseline */
   overflow: hidden;
 }
 
 .pnum .reel {
   display: flex;
   flex-direction: column;
-  transform: translateY(calc(var(--i, 0) * -.73em));
+  transform: translateY(calc(var(--i, 0) * -.8em));
   transition: transform .7s var(--ease);
 }
 
 .pnum .reel span {
   display: block;
-  height: .73em;
-  line-height: .73em;
+  height: .8em;
+  line-height: .8em;
 }
 
 .pblock {
@@ -726,6 +726,16 @@
   margin-left: 1px;
   aspect-ratio: 16 / 10;
   background: var(--surface);
+}
+
+/* Image proportions per block, as in the reference: tall, square, then wide across two columns */
+.p-media.tall .box { aspect-ratio: 5 / 8; }
+.p-media.sq .box { aspect-ratio: 1 / 1; }
+.p-media.wide .box { aspect-ratio: 2.1 / 1; }
+
+.p-media.wide {
+  grid-column: 1 / 5;
+  padding-left: 1px;
 }
 
 .p-media figcaption {
@@ -1211,24 +1221,4 @@
   will-change: auto;
 }
 
-.pnum {
-  display: none;
-}
-
-.pcell.first {
-  grid-template-columns: 0 1fr;
-  column-gap: 0;
-}
-
-@media (min-width: 900px) {
-  .m-num {
-    display: block;
-    width: max-content;
-    padding: clamp(24px, 2.5vw, 40px) var(--pad) 0;
-    font-weight: 500;
-    font-size: clamp(48px, 4.5vw, 72px);
-    line-height: 1;
-    letter-spacing: -0.04em;
-  }
-}
 

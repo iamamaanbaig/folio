@@ -1,0 +1,46 @@
+:root {
+  --bg: #121315;
+  --stroke: #202123;
+  --columns: 6;
+  --gutter: 2.75vw;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: #fff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Fixed background of evenly spaced vertical strokes */
+.grid-lines {
+  position: fixed;
+  inset: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  border-right: 1px solid var(--stroke);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-lines span {
+  border-left: 1px solid var(--stroke);
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}

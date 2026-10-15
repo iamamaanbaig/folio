@@ -1,0 +1,875 @@
+/* Case study layout. Shared by every case study page; tokens live in /styles.css. */
+
+.page {
+  padding-bottom: clamp(64px, 8vw, 128px);
+}
+
+/* ---------- shared pieces ---------- */
+
+.lede {
+  margin: clamp(20px, 2vw, 32px) 0 0;
+  font-size: clamp(18px, 1.6vw, 26px);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--text-2);
+  max-width: calc(var(--col) * 3 - 1.5rem);
+  text-wrap: pretty;
+}
+
+/* Faint display word, cropped by the column line it sits against. Sized from the column width so the
+   crop lands in the same place at every screen size. */
+.ghost {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ghost);
+  font-size: calc((var(--col) * 2 - var(--pad)) * 0.285);
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
+  padding-top: calc(var(--pad) * .5);
+  white-space: nowrap;
+  user-select: none;
+  will-change: transform;
+}
+
+/* Background patch that lets a ghost word cover the grid lines behind it */
+.ghost-cell {
+  grid-area: 1 / 1;
+  margin-left: 1px;
+  width: calc(var(--col) * 2 - 1px);
+  background: var(--bg);
+  overflow: hidden;
+  padding: 0 0 var(--pad) var(--pad);
+}
+
+.eyebrow {
+  grid-area: 1 / 1;
+  position: relative;
+  margin: 0;
+  padding: 0 var(--pad) var(--pad);
+  font-size: clamp(14px, 1.15vw, 18px);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--text);
+}
+
+.section-label {
+  display: inline-block;
+  margin: 0 0 0 calc(var(--pad) - 8px);
+  padding: 6px 8px;
+  font-size: clamp(14px, 1.15vw, 18px);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--text);
+  text-box: trim-both cap alphabetic;
+  position: relative;
+  z-index: 1;
+}
+
+.accent {
+  background: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.m-label,
+.m-tag,
+.m-num,
+.inline-media {
+  display: none;
+}
+
+/* Reveal choreography: one easing (expo-out), short staggers, transform + opacity only */
+.rv {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+.rv-img {
+  opacity: 0;
+  transform: translateY(40px) scale(.985);
+  transform-origin: 50% 0;
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+}
+
+.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Soft dissolve under a pinned header, shown only while it is pinned */
+.pin-fade::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 1px);
+  height: var(--fade-h, clamp(40px, 5vw, 72px));
+  pointer-events: none;
+  background: linear-gradient(var(--bg), rgba(18, 19, 21, 0));
+  opacity: var(--fade, 0);
+  transition: opacity .3s;
+}
+
+/* ---------- 1. hero ---------- */
+
+.hero {
+  padding-top: clamp(96px, 11vw, 176px);
+}
+
+.hero h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(44px, 6.4vw, 112px);
+  line-height: 1;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+.frame {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(56px, 6.5vw, 112px);
+  aspect-ratio: 2 / 1;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, .06),
+    0 1px 2px rgba(0, 0, 0, .3),
+    0 10px 20px -6px rgba(0, 0, 0, .35),
+    0 32px 64px -24px rgba(0, 0, 0, .5);
+}
+
+/* ---------- panels (2. problem, 5. impact) ----------
+   The header row stays open on the grid and the ghost word covers the lines behind it; below the rule
+   the body masks the inner lines and the outer lines frame it. */
+
+.panel {
+  position: relative;
+  margin-top: clamp(64px, 8vw, 128px);
+}
+
+.panel-head {
+  position: relative;
+  display: grid;
+  align-items: end;
+}
+
+.panel-body {
+  background: var(--bg);
+  border: 1px solid var(--stroke);
+  padding: clamp(32px, 3.5vw, 56px) var(--pad) var(--pad);
+}
+
+.panel-body > .lede {
+  margin: 0;
+}
+
+/* ---------- 2. problem ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pad);
+  margin-top: clamp(48px, 5.5vw, 96px);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #17181A;
+  border: 1px solid var(--stroke);
+}
+
+.card-art {
+  aspect-ratio: 16 / 10;
+  background: #141517;
+  border-bottom: 1px solid var(--stroke);
+}
+
+.card-text {
+  padding: var(--pad) var(--pad) calc(var(--pad) * 1.25);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: clamp(22px, 1.9vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.card p {
+  margin: 12px 0 0;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.5;
+  color: var(--text-2);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+/* ---------- 3. challenges & approach ---------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-top: clamp(64px, 8vw, 128px);
+  border-bottom: 1px solid var(--stroke);
+}
+
+/* The section label pins at the top for the whole section; the header bands pin directly beneath it */
+.label-pin {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  align-self: start;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  padding: calc(var(--pad) * 1.5 - 6px) 0 calc(var(--pad) * .5);
+}
+
+/* Side header cells stick so only their bottom band (ghost word + label + rule) stays on screen.
+   Grid lines are redrawn inside the cells so they never break. */
+.tri-cell {
+  --lbl: clamp(14px, 1.15vw, 18px);
+  grid-row: 1;
+  position: sticky;
+  top: var(--pin-top, 0px);
+  z-index: 3;
+  align-self: start;
+  display: grid;
+  align-items: end;
+  padding-top: calc(var(--pad) * 1.5 + var(--lbl) * .73 + clamp(56px, 6vw, 96px));
+  border-bottom: 1px solid var(--stroke);
+}
+
+.tri-cell.gl {
+  grid-column: 1 / 3;
+  background: linear-gradient(90deg, var(--stroke) 1px, transparent 1px) 0 0 / 50% 100% repeat-x, var(--bg);
+}
+
+.tri-cell.gr {
+  grid-column: 5 / 7;
+  background:
+    linear-gradient(90deg, var(--stroke) 1px, transparent 1px) 0 0 / 50% 100% repeat-x,
+    linear-gradient(270deg, var(--stroke) 1px, transparent 1px),
+    var(--bg);
+}
+
+.tri-cell .ghost-cell,
+.tri-cell .eyebrow {
+  grid-area: 1 / 1;
+}
+
+.tri-cell .ghost-cell {
+  width: auto;
+}
+
+.tri-cell.gr .ghost-cell {
+  margin-right: 1px;
+}
+
+.tri-cell .eyebrow {
+  color: var(--text-2);
+}
+
+.stack-col {
+  grid-column: 3 / 5;
+  grid-row: 1 / span 3;
+}
+
+.stack {
+  display: grid;
+  gap: calc(var(--pad) * 1.5);
+  padding-top: calc(var(--pad) * 1.5);
+}
+
+.stack img {
+  display: block;
+  width: calc(100% + 1px);
+  aspect-ratio: 1.55;
+  object-fit: cover;
+  background: var(--surface);
+}
+
+.pair-c,
+.pair-a {
+  padding: clamp(40px, 4.5vw, 72px) var(--pad);
+  min-height: var(--row-h, auto);
+}
+
+.pair-c.row-1,
+.pair-a.row-1 {
+  grid-row: 2;
+}
+
+.pair-c.row-2,
+.pair-a.row-2 {
+  grid-row: 3;
+}
+
+.pair-c {
+  --h3: clamp(24px, 2.2vw, 36px);
+  grid-column: 1 / 3;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: clamp(20px, 2.2vw, 36px);
+  align-content: start;
+}
+
+.pair-a {
+  grid-column: 5 / 7;
+}
+
+.pair-c .num {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  font-size: calc(var(--h3) * 2.45);
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
+  padding-top: calc(var(--h3) * .17);
+}
+
+.pair-c h3 {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  font-size: var(--h3);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.pair-c p {
+  grid-column: 1 / -1;
+  margin: clamp(20px, 2vw, 28px) 0 0;
+  font-size: clamp(16px, 1.25vw, 20px);
+  line-height: 1.5;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.pair-a p {
+  margin: 0;
+  font-size: clamp(18px, 1.6vw, 26px);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+/* ---------- 4. problems → solutions → impact ---------- */
+
+.pss {
+  --tint: #181A1C;
+  --lines:
+    linear-gradient(90deg, var(--stroke) 1px, transparent 1px) 0 0 / calc(100% / 6) 100%,
+    linear-gradient(270deg, var(--stroke) 1px, transparent 1px);
+  --rail: linear-gradient(90deg, transparent calc(100% / 3), var(--tint) calc(100% / 3), var(--tint) calc(200% / 3), transparent calc(200% / 3));
+  position: relative;
+  margin-top: clamp(64px, 8vw, 128px);
+  border-bottom: 1px solid var(--stroke);
+  background: var(--lines), var(--rail);
+}
+
+.pss-label {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  padding: calc(var(--pad) * 1.5) 0 calc(var(--pad) * .75) var(--pad);
+  background: var(--lines), var(--rail), var(--bg);
+}
+
+.pss-label .section-label {
+  margin: 0;
+  padding: 0;
+}
+
+/* One header for the whole section; only its number rolls between blocks */
+.pband {
+  --fade-h: clamp(24px, 2.5vw, 40px);
+  position: sticky;
+  top: var(--strip, 0px);
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--stroke);
+}
+
+.pcell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0 1fr;
+  align-items: end;
+  border-left: 1px solid var(--stroke);
+  background: var(--bg);
+  overflow: hidden;
+  padding: calc(var(--pad) * .5) 0 var(--pad) var(--pad);
+}
+
+.pcell:last-child {
+  border-right: 1px solid var(--stroke);
+}
+
+.pcell.first {
+  grid-template-columns: auto 1fr;
+  column-gap: clamp(16px, 1.6vw, 28px);
+}
+
+.pcell.mid {
+  background: var(--tint);
+}
+
+.pcell.mid .ghost {
+  color: #222428;
+}
+
+.pcell .gclip,
+.pcell .eyebrow {
+  grid-area: 1 / 2;
+}
+
+.pcell .eyebrow {
+  padding: 0;
+  color: var(--text-2);
+}
+
+.gclip {
+  display: block;
+  overflow: hidden;
+  min-width: 0;
+  margin-right: -1px;
+}
+
+.pnum {
+  grid-area: 1 / 1;
+  align-self: end;
+  position: relative;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  font-size: calc((var(--col) * 2 - var(--pad)) * 0.285);
+  height: .73em;
+  overflow: hidden;
+}
+
+.pnum .reel {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--i, 0) * -.73em));
+  transition: transform .7s var(--ease);
+}
+
+.pnum .reel span {
+  display: block;
+  height: .73em;
+  line-height: .73em;
+}
+
+.pblock {
+  position: relative;
+}
+
+.pblock + .pblock {
+  margin-top: clamp(72px, 8vw, 136px);
+  border-top: 1px solid var(--stroke);
+}
+
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto 1fr;
+  padding-bottom: var(--pad);
+}
+
+.p-problem,
+.p-solution {
+  grid-row: 1;
+  padding: clamp(32px, 3.5vw, 56px) var(--pad) 0;
+}
+
+.p-problem {
+  grid-column: 1 / 3;
+}
+
+.p-solution {
+  grid-column: 3 / 5;
+}
+
+.p-problem p,
+.p-solution p {
+  margin: 0;
+  font-size: clamp(20px, 1.85vw, 30px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+.p-impact {
+  grid-column: 5 / 7;
+  grid-row: 1 / span 2;
+  margin: 0;
+  padding: clamp(32px, 3.5vw, 56px) var(--pad) 0;
+  list-style: none;
+}
+
+.p-impact li {
+  padding: 0 0 clamp(24px, 2.4vw, 36px);
+}
+
+.p-impact li + li {
+  border-top: 1px solid var(--stroke);
+  padding-top: clamp(24px, 2.4vw, 36px);
+}
+
+.p-impact h4 {
+  margin: 0;
+  font-size: clamp(18px, 1.55vw, 24px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.vd {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.vd svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.vd:hover {
+  color: var(--text);
+}
+
+.p-media {
+  grid-column: 3 / 5;
+  grid-row: 2;
+  margin: 0;
+  padding-top: clamp(32px, 3.5vw, 56px);
+}
+
+.p-media.wide {
+  grid-column: 1 / 5;
+  padding-left: 1px;
+}
+
+.p-media .box {
+  margin-left: 1px;
+  background: var(--surface);
+}
+
+.p-media.tall .box { aspect-ratio: 3 / 4; }
+.p-media.sq .box { aspect-ratio: 1 / 1; }
+.p-media.wide .box { aspect-ratio: 2.1 / 1; }
+
+.p-media figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px var(--pad) 0;
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.thumbs {
+  display: flex;
+  gap: 8px;
+}
+
+.thumbs button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: rgba(247, 248, 250, .22);
+  cursor: pointer;
+  outline: 1px solid transparent;
+  outline-offset: 3px;
+  transition: outline-color .2s, background .2s;
+}
+
+.thumbs button:hover {
+  background: rgba(247, 248, 250, .45);
+}
+
+.thumbs button[aria-current="true"] {
+  outline-color: var(--text);
+  background: var(--surface);
+}
+
+.thumbs button:focus-visible {
+  outline: 2px solid var(--text);
+}
+
+/* ---------- 5. project impact ---------- */
+
+.impact-sec .panel-body {
+  padding-bottom: 0;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: clamp(48px, 5.5vw, 96px) calc(var(--pad) * -1) 0;
+  border-top: 1px solid var(--stroke);
+  border-bottom: 1px solid var(--stroke);
+}
+
+.metric {
+  padding: clamp(32px, 3.5vw, 56px) var(--pad) clamp(36px, 4vw, 64px);
+}
+
+.metric + .metric {
+  border-left: 1px solid var(--stroke);
+}
+
+.metric .fig {
+  display: block;
+  width: max-content;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-size: clamp(56px, 6.6vw, 116px);
+  font-variant-numeric: tabular-nums;
+}
+
+.metric p {
+  margin: clamp(16px, 1.6vw, 24px) 0 0;
+  font-size: clamp(16px, 1.25vw, 20px);
+  line-height: 1.45;
+  color: var(--text-2);
+  max-width: 26ch;
+  text-wrap: pretty;
+}
+
+.quote {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin: 0 calc(var(--pad) * -1);
+  padding: clamp(48px, 5.5vw, 96px) 0 clamp(56px, 6vw, 104px);
+}
+
+.quote blockquote {
+  grid-column: 1 / 5;
+  margin: 0;
+  padding: 0 var(--pad);
+}
+
+.quote blockquote p {
+  margin: 0;
+  font-size: clamp(24px, 2.5vw, 40px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  text-indent: -.42em; /* hang the opening quote mark */
+}
+
+.quote footer {
+  margin-top: clamp(20px, 2vw, 32px);
+  font-size: clamp(14px, 1.05vw, 16px);
+  color: var(--text-2);
+}
+
+.quote footer b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .rv,
+  .rv-img {
+    transform: none;
+    transition: opacity .3s linear;
+  }
+
+  .pnum .reel {
+    transition: none;
+  }
+}
+
+/* ---------- mobile: single column, nothing pinned ---------- */
+
+@media (max-width: 899px) {
+  .lede {
+    max-width: none;
+  }
+
+  .frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .ghost-cell {
+    width: calc(var(--col) * 4 - 1px);
+  }
+
+  .ghost {
+    font-size: calc((var(--col) * 4 - var(--pad)) * 0.285);
+  }
+
+  .m-tag {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+
+  /* 3 */
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .steps > * {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  .label-pin,
+  .tri-cell {
+    position: relative;
+    top: 0;
+  }
+
+  .tri-cell {
+    padding-top: 16px;
+  }
+
+  .tri-cell.gr,
+  .stack-col,
+  .pin-fade::after {
+    display: none;
+  }
+
+  .pair-c,
+  .pair-a {
+    min-height: 0;
+  }
+
+  .pair-a {
+    padding-top: 0;
+  }
+
+  .pair-a .m-label {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .inline-media {
+    display: grid;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .inline-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.55;
+    object-fit: cover;
+    background: var(--surface);
+  }
+
+  /* 4 */
+  .pss {
+    background: none;
+  }
+
+  .pss-label {
+    position: relative;
+    background: none;
+  }
+
+  .pband {
+    display: none;
+  }
+
+  .m-num {
+    display: block;
+    width: max-content;
+    padding: clamp(32px, 8vw, 48px) var(--pad) 0;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .pblock + .pblock {
+    margin-top: clamp(40px, 10vw, 64px);
+  }
+
+  .pgrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pgrid > * {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  .p-media {
+    padding-left: var(--pad) !important;
+    padding-right: var(--pad);
+  }
+
+  .p-media figcaption {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* 5 */
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .metric + .metric {
+    border-left: 0;
+    border-top: 1px solid var(--stroke);
+  }
+
+  .quote {
+    grid-template-columns: 1fr;
+  }
+
+  .quote blockquote {
+    grid-column: 1;
+  }
+}
+
+.p-impact .m-tag + li {
+  border-top: 0;
+  padding-top: 0;
+}

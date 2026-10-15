@@ -30,9 +30,15 @@
   const frame = $('.frame');
   if (heroText && frame && !reduceMotion) {
     const cover = () => {
-      if (!desktop()) { heroText.style.opacity = ''; heroText.style.transform = ''; return; }
+      if (!desktop()) {
+        heroText.style.opacity = heroText.style.transform = frame.style.transform = '';
+        return;
+      }
       const t = heroText.getBoundingClientRect();
       const f = frame.getBoundingClientRect();
+      // The box grows from 92% to full width as it rises to the pinned title
+      const rise = Math.min(1, Math.max(0, 1 - (f.top - t.top) / (innerHeight * .75)));
+      frame.style.transform = `scale(${(.92 + rise * .08).toFixed(4)})`;
       const k = Math.min(1, Math.max(0, (t.bottom - f.top) / t.height)); // 0 = clear, 1 = fully covered
       heroText.style.opacity = (1 - k * .85).toFixed(3);
       heroText.style.transform = `scale(${(1 - k * .04).toFixed(4)})`;
@@ -56,7 +62,7 @@
   const steps = $('.steps');
   if (steps) {
     const stack = $('.stack', steps);
-    const imgs = $$('img', stack);
+    const shots = $$('.shot', stack);
     const row1 = $$('.row-1', steps);
     const row2 = $$('.row-2', steps);
     const cells = $$('.tri-cell', steps);
@@ -64,13 +70,13 @@
 
     const layout = () => {
       [...row1, ...row2].forEach(el => el.style.removeProperty('--row-h'));
-      if (desktop() && imgs.length >= 5) {
-        // Challenge 1 owns images 1–2, challenge 2 owns images 3–5
+      if (desktop() && shots.length >= 2) {
+        // Each challenge row ends where its image ends
         const gap = parseFloat(getComputedStyle(stack).rowGap) || 0;
         const top = el => el.getBoundingClientRect().top;
-        const h1 = top(imgs[2]) - gap / 2 - top(row1[0]);
+        const h1 = top(shots[1]) - gap / 2 - top(row1[0]);
         row1.forEach(el => el.style.setProperty('--row-h', `${h1}px`));
-        const h2 = imgs[4].getBoundingClientRect().bottom - top(row2[0]);
+        const h2 = shots[1].getBoundingClientRect().bottom - top(row2[0]);
         row2.forEach(el => el.style.setProperty('--row-h', `${h2}px`));
       }
       const strip = labelPin.offsetHeight;
@@ -80,7 +86,7 @@
       });
     };
     new ResizeObserver(layout).observe(document.body);
-    imgs.forEach(img => img.complete || img.addEventListener('load', layout, { once: true }));
+    $$('img', stack).forEach(img => img.complete || img.addEventListener('load', layout, { once: true }));
     layout();
 
     const fade = () => {
@@ -117,6 +123,60 @@
     };
     onScroll.push(update);
     update();
+  }
+
+  /* ---------- section index: appears after the hero, tracks the current section, jumps on click ---------- */
+  const index = $('.index');
+  if (index) {
+    const links = $$('a', index);
+    const targets = links.map(a => $(a.getAttribute('href')));
+    const track = () => {
+      const first = targets[0].getBoundingClientRect().top;
+      const last = targets[targets.length - 1].getBoundingClientRect().bottom;
+      index.classList.toggle('show', first < innerHeight * .6 && last > innerHeight * .5);
+      let cur = 0;
+      targets.forEach((t, i) => { if (t.getBoundingClientRect().top < innerHeight * .4) cur = i; });
+      links.forEach((a, i) => a.setAttribute('aria-current', i === cur));
+    };
+    onScroll.push(track);
+    track();
+    links.forEach((a, i) => a.addEventListener('click', e => {
+      e.preventDefault();
+      targets[i].scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    }));
+  }
+
+  /* ---------- image viewer: full-screen gallery for the challenge images ---------- */
+  const viewer = $('.viewer');
+  if (viewer) {
+    const img = $('img', viewer);
+    const cap = $('figcaption', viewer);
+    let list = [];
+    let at = 0;
+    const show = i => {
+      at = (i + list.length) % list.length;
+      img.src = list[at].src;
+      img.alt = list[at].alt;
+      cap.innerHTML = `<span>${list[at].alt}</span><span>${at + 1} / ${list.length}</span>`;
+      $('.prev', viewer).hidden = $('.next', viewer).hidden = list.length < 2;
+    };
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('[data-gallery]');
+      if (!btn) return;
+      const tpl = $(`template.gallery[data-id="${btn.dataset.gallery}"]`);
+      list = [...tpl.content.querySelectorAll('img')].map(i => ({ src: i.getAttribute('src'), alt: i.alt }));
+      show(+btn.dataset.index || 0);
+      viewer.showModal();
+    });
+    $('.prev', viewer).addEventListener('click', () => show(at - 1));
+    $('.next', viewer).addEventListener('click', () => show(at + 1));
+    $('.close', viewer).addEventListener('click', () => viewer.close());
+    viewer.addEventListener('click', e => { if (e.target === viewer) viewer.close(); });
+    viewer.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') show(at - 1);
+      if (e.key === 'ArrowRight') show(at + 1);
+    });
   }
 
   /* ---------- screen thumbnails ---------- */

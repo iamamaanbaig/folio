@@ -1204,6 +1204,23 @@
   top: auto;
 }
 
+/* Problems & solutions: only the section title pins; each block's header (number + Problem/Solution/
+   Impact) scrolls with its block */
+.pband {
+  position: relative;
+  top: auto;
+}
+
+.pnum {
+  height: auto;
+  line-height: .8;
+}
+
+.pnum > span {
+  display: block;
+  height: .8em;
+}
+
 /* No shadow/fade under pinned titles: content slides under a clean edge */
 .pin-fade::after {
   display: none;
@@ -1221,4 +1238,26 @@
   will-change: auto;
 }
 
+@media (max-width: 899px) {
+  /* Mobile: keep each block's number + faint "Problem" word; the column labels come from the inline tags */
+  .pband {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 
+  .pband .pcell:not(.first) {
+    display: none;
+  }
+
+  .pcell.first {
+    width: calc(var(--col) * 5);
+  }
+
+  .pcell.first .eyebrow {
+    visibility: hidden;
+  }
+
+  .pnum {
+    font-size: calc((var(--col) * 4 - var(--pad)) * 0.285);
+  }
+}

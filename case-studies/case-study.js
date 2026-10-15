@@ -1,4 +1,4 @@
-// Case study interactions (cs1.3): pinned section titles, number reel, layout, section index, image viewer, thumbnails.
+// Case study interactions (cs1.3): pinned section titles, layout, section index, image viewer, thumbnails.
 (() => {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = () => matchMedia('(min-width: 900px)').matches;
@@ -50,27 +50,13 @@
 
   }
 
-  /* ---------- 4. problems → solutions: title and column header pin for the whole section ---------- */
+  /* ---------- 4. problems → solutions: only the section title pins ---------- */
   const pss = $('.pss');
   if (pss) {
     const label = $('.pss-label', pss);
-    const band = $('.pband', pss);
-    const reel = $('.pnum', band);
-    const blocks = $$('.pblock', pss);
     const setStrip = () => pss.style.setProperty('--strip', `${label.offsetHeight}px`);
     new ResizeObserver(setStrip).observe(label);
     setStrip();
-
-    // The number in the pinned header rolls to the block whose top has passed 40% of the space below it
-    const roll = () => {
-      const bandBottom = label.offsetHeight + band.offsetHeight;
-      const line = bandBottom + (innerHeight - bandBottom) * .4;
-      let i = 0;
-      blocks.forEach((b, k) => { if (b.getBoundingClientRect().top < line) i = k; });
-      reel.style.setProperty('--i', i);
-    };
-    onScroll.push(roll);
-    roll();
   }
 
   /* ---------- section index: appears after the hero, tracks the current section, jumps on click ---------- */

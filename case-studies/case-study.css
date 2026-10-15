@@ -1186,7 +1186,7 @@
 
 
 /* ---------- no scroll effects (cs1.3) ----------
-   Everything scrolls normally: no pinned headers, fades, reveals or parallax. Each problem/solution block
+   Everything scrolls normally: no pinned headers, fades or reveals. Only the ghost-word parallax remains. Each problem/solution block
    carries its own number since the shared header no longer pins. */
 
 .hero-text,
@@ -1210,7 +1210,6 @@
   transition: none;
 }
 
-.ghost,
 .frame,
 .hero-text {
   will-change: auto;

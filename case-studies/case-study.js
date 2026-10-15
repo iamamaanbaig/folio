@@ -1,4 +1,4 @@
-// Case study interactions (no-scroll-effects version): layout, section index, image viewer, thumbnails.
+// Case study interactions (cs1.3): layout, section index, image viewer, thumbnails and ghost-word parallax.
 (() => {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = () => matchMedia('(min-width: 900px)').matches;
@@ -103,4 +103,59 @@
     $$('button', group).forEach(b => b.setAttribute('aria-current', b === btn));
   }));
 
+  /* ---------- parallax: ghost words drift sideways behind their crop line ----------
+     The only scroll effect in this version. Each word drifts while its section crosses the screen, with a
+     soft time-based follow so it glides. Cropped words slide until their end shows; words that already fit
+     slide in from a cropped start. */
+  if (!reduceMotion) {
+    const items = $$('.ghost').map(g => ({ g, cell: g.parentElement, sec: g.closest('section'), cur: 0, tgt: 0, a: 0, b: 0 }));
+
+    const measure = () => items.forEach(it => {
+      const cellRight = it.cell.getBoundingClientRect().right;
+      const left = it.g.getBoundingClientRect().left - it.cur;
+      const hidden = it.g.scrollWidth - (cellRight - left);
+      const nudge = parseFloat(getComputedStyle(it.g).fontSize) * .3;
+      // Every word travels at least `nudge`, so short crops still read as motion
+      it.a = hidden >= nudge ? 0 : nudge - Math.max(0, hidden);
+      it.b = -Math.max(0, hidden);
+    });
+
+    const targets = () => {
+      const vh = innerHeight;
+      items.forEach(it => {
+        const r = it.sec.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+        it.tgt = it.a + (it.b - it.a) * p;
+      });
+    };
+
+    let running = false;
+    let last = 0;
+    const tick = now => {
+      const k = 1 - Math.exp(-Math.min(64, now - last) / 140); // τ ≈ 140ms, same feel at 60/120Hz
+      last = now;
+      let moving = false;
+      items.forEach(it => {
+        it.cur += (it.tgt - it.cur) * k;
+        if (Math.abs(it.tgt - it.cur) > .1) moving = true;
+        else it.cur = it.tgt;
+        it.g.style.transform = `translate3d(${it.cur.toFixed(2)}px, 0, 0)`;
+      });
+      running = moving;
+      if (moving) requestAnimationFrame(tick);
+    };
+    const kick = () => {
+      targets();
+      if (running) return;
+      running = true;
+      last = performance.now();
+      requestAnimationFrame(tick);
+    };
+
+    onScroll.push(kick);
+    addEventListener('resize', () => { measure(); kick(); });
+    document.fonts.ready.then(() => { measure(); kick(); });
+    measure();
+    kick();
+  }
 })();

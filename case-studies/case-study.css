@@ -121,7 +121,18 @@
 /* ---------- 1. hero ---------- */
 
 .hero {
-  padding-top: clamp(96px, 11vw, 176px);
+  --hero-top: clamp(96px, 11vw, 176px);
+  position: relative;
+  padding-top: var(--hero-top);
+}
+
+/* The title block pins while the image box rises over it, then both leave together */
+.hero-text {
+  position: sticky;
+  top: var(--hero-top);
+  z-index: 1;
+  transform-origin: 0 0;
+  will-change: transform, opacity;
 }
 
 .hero h1 {
@@ -156,9 +167,16 @@
 }
 
 .panel-head {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 4;
   display: grid;
   align-items: end;
+  padding-top: clamp(40px, 4vw, 64px);
+  background:
+    linear-gradient(90deg, var(--stroke) 1px, transparent 1px) 0 0 / calc(100% / 6) 100%,
+    linear-gradient(270deg, var(--stroke) 1px, transparent 1px),
+    var(--bg);
 }
 
 .panel-body {
@@ -763,6 +781,12 @@
 
   .tri-cell {
     padding-top: 16px;
+  }
+
+  .hero-text,
+  .panel-head {
+    position: relative;
+    top: 0;
   }
 
   .tri-cell.gr,

@@ -25,6 +25,33 @@
   }), { rootMargin: '0px 0px -12% 0px' });
   $$('.rv, .rv-img').forEach(el => revealer.observe(el));
 
+  /* ---------- 1. hero: the title fades back as the image box rises over it ---------- */
+  const heroText = $('.hero-text');
+  const frame = $('.frame');
+  if (heroText && frame && !reduceMotion) {
+    const cover = () => {
+      if (!desktop()) { heroText.style.opacity = ''; heroText.style.transform = ''; return; }
+      const t = heroText.getBoundingClientRect();
+      const f = frame.getBoundingClientRect();
+      const k = Math.min(1, Math.max(0, (t.bottom - f.top) / t.height)); // 0 = clear, 1 = fully covered
+      heroText.style.opacity = (1 - k * .85).toFixed(3);
+      heroText.style.transform = `scale(${(1 - k * .04).toFixed(4)})`;
+    };
+    onScroll.push(cover);
+    addEventListener('resize', cover);
+    cover();
+  }
+
+  /* ---------- 2 & 5. panels: the header pins for the length of its section ---------- */
+  const panels = $$('.panel');
+  const panelFade = () => panels.forEach(sec => {
+    const head = $('.panel-head', sec);
+    const r = sec.getBoundingClientRect();
+    head.style.setProperty('--fade', r.top < -4 && r.bottom > head.offsetHeight + 80 ? 1 : 0);
+  });
+  onScroll.push(panelFade);
+  panelFade();
+
   /* ---------- 3. challenges: rows match their image group, header bands pin under the label ---------- */
   const steps = $('.steps');
   if (steps) {
@@ -107,8 +134,9 @@
     };
     const run = (el, delay) => {
       const to = +el.dataset.to;
-      const start = performance.now() + delay;
+      let start = null;
       const step = now => {
+        if (start === null) start = now + delay;
         const k = Math.min(1, Math.max(0, (now - start) / 1600));
         show(el, k < 1 ? to * (1 - Math.pow(2, -10 * k)) : to);
         if (k < 1) requestAnimationFrame(step);
@@ -129,7 +157,7 @@
      shows; words that already fit slide in from a cropped start. */
   if (!reduceMotion) {
     const items = $$('.ghost').map(g => ({ g, cell: g.parentElement, sec: g.closest('section'), cur: 0, tgt: 0, a: 0, b: 0 }));
-    const pinnedSection = sec => sec.classList.contains('steps') || sec.classList.contains('pss');
+    const pinnedSection = sec => desktop() && (sec.matches('.steps, .pss, .panel'));
 
     const measure = () => items.forEach(it => {
       const cellRight = it.cell.getBoundingClientRect().right;

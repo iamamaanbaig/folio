@@ -1273,3 +1273,143 @@
     font-size: calc((var(--col) * 4 - var(--pad)) * 0.285);
   }
 }
+
+/* ---------- Problems & solutions, block layout (cs1.3) ----------
+   Number on top, a label above each column, faint word behind each column's text, and a different
+   image placement per block: tall on the right (1), square under the solution (2), wide under
+   problem + solution (3). */
+
+.pblock {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto auto 1fr;
+  padding-bottom: clamp(48px, 5vw, 88px);
+}
+
+.pblock.v1 {
+  grid-template-areas:
+    "num  num  .    .    media media"
+    "prob prob sol  sol  media media"
+    ".    .    imp  imp  media media";
+}
+
+.pblock.v2 {
+  grid-template-areas:
+    "num  num  .     .     .   ."
+    "prob prob sol   sol   imp imp"
+    ".    .    media media imp imp";
+}
+
+.pblock.v3 {
+  grid-template-areas:
+    "num   num   .     .     .   ."
+    "prob  prob  sol   sol   imp imp"
+    "media media media media imp imp";
+}
+
+.pblock-num {
+  grid-area: num;
+  width: max-content;
+  margin: 0;
+  padding: clamp(40px, 4vw, 64px) var(--pad) 0;
+  font-weight: 500;
+  font-size: calc((var(--col) * 2 - var(--pad)) * 0.285);
+  line-height: .8;
+  letter-spacing: -0.04em;
+}
+
+.pc {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(24px, 2.5vw, 40px) var(--pad);
+}
+
+.pc > :not(.pghost) {
+  position: relative;
+  z-index: 1;
+}
+
+.p-problem { grid-area: prob; }
+.p-solution { grid-area: sol; }
+.p-impact { grid-area: imp; }
+
+/* Faint word sits behind the column's text, cropped by the column's right edge */
+.pghost {
+  position: absolute;
+  left: var(--pad);
+  /* same height in every column: level with the headline, whatever the column's length */
+  top: calc(clamp(24px, 2.5vw, 40px) + clamp(13px, 1vw, 15px) + clamp(12px, 1.2vw, 18px));
+  font-weight: 700;
+  font-size: calc((var(--col) * 2 - var(--pad)) * 0.285);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--ghost);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* columns on the tinted centre rail get a matching, slightly lighter faint word */
+.p-solution .pghost,
+.v1 .p-impact .pghost {
+  color: #222428;
+}
+
+.plabel {
+  margin: 0 0 clamp(12px, 1.2vw, 18px);
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.pblock .p-media {
+  grid-area: media;
+  align-self: start;
+  margin: 0;
+  padding: clamp(8px, 1vw, 16px) 0 0;
+}
+
+.pblock.v1 .p-media {
+  padding-top: clamp(40px, 4vw, 64px);
+}
+
+.pblock .p-media .box {
+  margin: 0 1px;
+}
+
+.v1 .p-media .box { aspect-ratio: 5 / 8; }
+.v2 .p-media .box { aspect-ratio: 1 / 1; }
+.v3 .p-media .box { aspect-ratio: 2.1 / 1; }
+
+.pblock .p-media figcaption {
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0 0;
+  text-align: center;
+}
+
+@media (max-width: 899px) {
+  .pss .pblock.v1,
+  .pss .pblock.v2,
+  .pss .pblock.v3 {
+    grid-template-columns: 1fr;
+    grid-template-areas: "num" "prob" "sol" "media" "imp";
+    grid-template-rows: auto;
+  }
+
+  .pblock-num {
+    font-size: calc((var(--col) * 4 - var(--pad)) * 0.285);
+  }
+
+  .pghost {
+    font-size: calc((var(--col) * 4 - var(--pad)) * 0.285);
+  }
+
+  .pblock .p-media,
+  .pblock.v1 .p-media {
+    padding: 8px var(--pad) 0;
+  }
+}

@@ -59,6 +59,80 @@
     setStrip();
   }
 
+  /* ---------- one scroll = next section (desktop) ----------
+     Each wheel gesture or PageDown/Space/arrow press glides to the next stop. Stops are section tops; a
+     section taller than the screen gets extra stops a screen apart so nothing is skipped. Trackpad inertia
+     is ignored until the wheel goes quiet, so one flick moves exactly one stop. */
+  if (desktop()) {
+    const sections = $$('.page > section');
+    let stops = [];
+    const buildStops = () => {
+      const vh = innerHeight;
+      const max = document.documentElement.scrollHeight - vh;
+      const out = [0];
+      sections.forEach(sec => {
+        const top = Math.round(sec.getBoundingClientRect().top + scrollY);
+        const h = sec.offsetHeight;
+        out.push(top);
+        // Only sections that overflow the screen noticeably get in-section stops
+        if (h - vh > vh * .4) {
+          for (let y = top + vh * .8; y < top + h - vh - vh * .3; y += vh * .8) out.push(Math.round(y));
+          out.push(Math.round(top + h - vh));
+        }
+      });
+      out.push(max);
+      stops = [...new Set(out.map(y => Math.min(max, Math.max(0, y))))].sort((a, b) => a - b);
+    };
+    buildStops();
+    addEventListener('resize', buildStops);
+    document.fonts.ready.then(buildStops);
+    addEventListener('load', buildStops);
+
+    let animating = false;
+    let lastWheel = 0;
+    const glide = to => {
+      const from = scrollY;
+      if (Math.abs(to - from) < 2) return;
+      animating = true;
+      const T = reduceMotion ? 0 : 800;
+      let start = null;
+      const step = now => {
+        if (start === null) start = now;
+        const k = T ? Math.min(1, (now - start) / T) : 1;
+        const e = k === 1 ? 1 : 1 - Math.pow(2, -10 * k); // expo-out
+        scrollTo(0, from + (to - from) * e);
+        if (k < 1) requestAnimationFrame(step);
+        else animating = false;
+      };
+      requestAnimationFrame(step);
+    };
+    const go = dir => {
+      buildStops();
+      const y = scrollY;
+      const next = dir > 0 ? stops.find(s => s > y + 4) : [...stops].reverse().find(s => s < y - 4);
+      if (next !== undefined) glide(next);
+    };
+
+    addEventListener('wheel', e => {
+      if (e.ctrlKey || $('.viewer[open]')) return; // leave pinch-zoom and the image viewer alone
+      e.preventDefault();
+      const now = performance.now();
+      const quiet = now - lastWheel > 160;
+      lastWheel = now;
+      if (animating || !quiet || Math.abs(e.deltaY) < 4) return;
+      go(Math.sign(e.deltaY));
+    }, { passive: false });
+
+    addEventListener('keydown', e => {
+      if ($('.viewer[open]') || e.target.closest('input, textarea, select, [contenteditable]')) return;
+      const down = ['PageDown', 'ArrowDown', ' '].includes(e.key) && !e.shiftKey;
+      const up = ['PageUp', 'ArrowUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
+      if (!down && !up) return;
+      e.preventDefault();
+      if (!animating) go(down ? 1 : -1);
+    });
+  }
+
   /* ---------- section index: appears after the hero, tracks the current section, jumps on click ---------- */
   const index = $('.index');
   if (index) {

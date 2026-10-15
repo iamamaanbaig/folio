@@ -1185,22 +1185,13 @@
 
 
 
-/* ---------- no scroll effects (cs1.3) ----------
-   Everything scrolls normally: no pinned headers, fades or reveals. Only the ghost-word parallax remains. Each problem/solution block
-   carries its own number since the shared header no longer pins. */
+/* ---------- cs1.3: pinned section titles + parallax only ----------
+   Section titles and their header rows stick until the section's bottom reaches them; no reveals, hero
+   effect, number reel or count-up. Each problem/solution block carries its own number. */
 
-.hero-text,
-.panel-head,
-.label-pin,
-.tri-cell,
-.pss-label,
-.pband {
+.hero-text {
   position: relative;
   top: auto;
-}
-
-.pin-fade::after {
-  display: none;
 }
 
 .rv,

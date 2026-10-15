@@ -1,4 +1,4 @@
-// Case study interactions (cs1.3): layout, section index, image viewer, thumbnails and ghost-word parallax.
+// Case study interactions (cs1.3): pinned section titles, layout, section index, image viewer, thumbnails, parallax.
 (() => {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = () => matchMedia('(min-width: 900px)').matches;
@@ -17,13 +17,25 @@
     });
   }, { passive: true });
 
-  /* ---------- 3. challenges: each challenge row ends where its image ends ---------- */
+  /* ---------- 2 & 5. panels: the title pins for the length of its section ---------- */
+  const panels = $$('.panel');
+  const panelFade = () => panels.forEach(sec => {
+    const head = $('.panel-head', sec);
+    const r = sec.getBoundingClientRect();
+    head.style.setProperty('--fade', r.top < -4 && r.bottom > head.offsetHeight + 80 ? 1 : 0);
+  });
+  onScroll.push(panelFade);
+  panelFade();
+
+  /* ---------- 3. challenges: rows match their image, header bands pin under the section title ---------- */
   const steps = $('.steps');
   if (steps) {
     const stack = $('.stack', steps);
     const shots = $$('.shot', stack);
     const row1 = $$('.row-1', steps);
     const row2 = $$('.row-2', steps);
+    const cells = $$('.tri-cell', steps);
+    const labelPin = $('.label-pin', steps);
 
     const layout = () => {
       [...row1, ...row2].forEach(el => el.style.removeProperty('--row-h'));
@@ -36,10 +48,42 @@
         const h2 = shots[1].getBoundingClientRect().bottom - top(row2[0]);
         row2.forEach(el => el.style.setProperty('--row-h', `${h2}px`));
       }
+      const strip = labelPin.offsetHeight;
+      cells.forEach(c => {
+        const band = $('.ghost-cell', c).offsetHeight;
+        c.style.setProperty('--pin-top', `${strip + band - c.offsetHeight}px`);
+      });
     };
     new ResizeObserver(layout).observe(document.body);
     $$('img', stack).forEach(img => img.complete || img.addEventListener('load', layout, { once: true }));
     layout();
+
+    const fade = () => {
+      const r = steps.getBoundingClientRect();
+      const pinned = r.top < -10 && r.bottom > innerHeight * .3;
+      cells.forEach(c => c.style.setProperty('--fade', pinned ? 1 : 0));
+    };
+    onScroll.push(fade);
+    fade();
+  }
+
+  /* ---------- 4. problems → solutions: title and column header pin for the whole section ---------- */
+  const pss = $('.pss');
+  if (pss) {
+    const label = $('.pss-label', pss);
+    const band = $('.pband', pss);
+    const firstBlock = $('.pblock', pss);
+    const setStrip = () => pss.style.setProperty('--strip', `${label.offsetHeight}px`);
+    new ResizeObserver(setStrip).observe(label);
+    setStrip();
+    const fade = () => {
+      const bandBottom = label.offsetHeight + band.offsetHeight;
+      const r = pss.getBoundingClientRect();
+      const pinned = firstBlock.getBoundingClientRect().top < bandBottom + 8 && r.bottom > bandBottom + 80;
+      band.style.setProperty('--fade', pinned ? 1 : 0);
+    };
+    onScroll.push(fade);
+    fade();
   }
 
   /* ---------- section index: appears after the hero, tracks the current section, jumps on click ---------- */

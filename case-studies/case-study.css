@@ -1194,6 +1194,11 @@
   top: auto;
 }
 
+/* No shadow/fade under pinned titles: content slides under a clean edge */
+.pin-fade::after {
+  display: none;
+}
+
 .rv,
 .rv-img {
   opacity: 1;

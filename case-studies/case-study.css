@@ -1493,3 +1493,32 @@
     display: block;
   }
 }
+
+/* Fix: problem cards overflowed the page on phones and mid-size screens. The square illustration was
+   sized from the card's height, which pushed the card wider than its column. */
+.cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+.card-art {
+  aspect-ratio: auto;
+  min-height: clamp(160px, 14vw, 240px);
+}
+
+@media (max-width: 899px) {
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .card-art {
+    min-height: 140px;
+  }
+}

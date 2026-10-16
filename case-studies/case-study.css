@@ -1338,7 +1338,7 @@
   position: absolute;
   left: var(--pad);
   /* same height in every column: level with the headline, whatever the column's length */
-  top: calc(clamp(24px, 2.5vw, 40px) + clamp(13px, 1vw, 15px) + clamp(12px, 1.2vw, 18px));
+  top: calc(clamp(24px, 2.5vw, 40px) + clamp(14px, 1.15vw, 18px) + clamp(16px, 1.6vw, 24px));
   font-weight: 700;
   font-size: calc((var(--col) * 2 - var(--pad)) * 0.285);
   line-height: 1;
@@ -1430,4 +1430,14 @@
 /* No horizontal rule between problem/solution blocks either */
 .pblock + .pblock {
   border-top: 0;
+}
+
+/* Problem / Solution / Impact labels: back to the header-label style used before the block redesign */
+.plabel {
+  font-size: clamp(14px, 1.15vw, 18px);
+  font-weight: 600;
+  letter-spacing: .12em;
+  line-height: 1;
+  color: var(--text-2);
+  margin-bottom: clamp(16px, 1.6vw, 24px);
 }

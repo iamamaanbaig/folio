@@ -7,9 +7,9 @@
   --ghost: #1B1C1F;
   --accent: linear-gradient(180deg, #5A98F2 0%, #2A60D0 100%);
 
-  --columns: 6;
+  --columns: 4;
   --gutter: 2.75vw;
-  --col: calc((100vw - 2 * var(--gutter)) / 6);
+  --col: calc((100vw - 2 * var(--gutter)) / 4);
   --pad: clamp(20px, 2vw, 32px);
   --ease: cubic-bezier(.16, 1, .3, 1);
 }

@@ -1441,3 +1441,55 @@
   color: var(--text-2);
   margin-bottom: clamp(16px, 1.6vw, 24px);
 }
+
+/* ---------- Problems & solutions: header row per block (reverted label style) ----------
+   Each block opens with a header row: number + faint word + label per column, white regular labels.
+   Content sits under its own column; the inline labels are only for mobile. */
+
+.pblock.v1,
+.pblock.v2 {
+  grid-template-areas:
+    "band band band  band  band band"
+    "prob prob sol   sol   imp  imp"
+    ".    .    media media imp  imp";
+}
+
+.pblock.v3 {
+  grid-template-areas:
+    "band  band  band  band  band band"
+    "prob  prob  sol   sol   imp  imp"
+    "media media media media imp  imp";
+}
+
+.pblock .pband {
+  grid-area: band;
+}
+
+.pcell .eyebrow {
+  font-size: clamp(16px, 1.3vw, 20px);
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--text);
+}
+
+.plabel {
+  display: none;
+}
+
+.pblock.v1 .p-media {
+  padding-top: clamp(8px, 1vw, 16px);
+}
+
+.v1 .p-media .box { aspect-ratio: 5 / 8; }
+
+@media (max-width: 899px) {
+  .pss .pblock.v1,
+  .pss .pblock.v2,
+  .pss .pblock.v3 {
+    grid-template-areas: "band" "prob" "sol" "media" "imp";
+  }
+
+  .plabel {
+    display: block;
+  }
+}

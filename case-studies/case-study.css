@@ -1426,3 +1426,8 @@
   position: relative;
   top: auto;
 }
+
+/* No horizontal rule between problem/solution blocks either */
+.pblock + .pblock {
+  border-top: 0;
+}

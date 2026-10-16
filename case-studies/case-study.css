@@ -670,15 +670,17 @@ section {
 .metric .fig {
   display: block;
   width: max-content;
-  font-size: clamp(48px, 5.4vw, 96px);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.045em;
-  font-variant-numeric: tabular-nums;
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(26px, 2.4vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
 }
 
+/* the lead outcome gets two columns and a larger headline */
 .metric:first-child .fig {
-  font-size: clamp(64px, 7.5vw, 132px);
+  font-size: clamp(34px, 3.6vw, 60px);
 }
 
 .metric p {

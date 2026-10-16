@@ -1,4 +1,4 @@
-// Case study interactions (cs1.3): pinned section titles, layout, section index, image viewer, thumbnails.
+// Case study interactions (cs1.3): layout, section index, image viewer, thumbnails.
 (() => {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = () => matchMedia('(min-width: 900px)').matches;
@@ -41,15 +41,6 @@
     $$('img', stack).forEach(img => img.complete || img.addEventListener('load', layout, { once: true }));
     layout();
 
-  }
-
-  /* ---------- 4. problems → solutions: only the section title pins ---------- */
-  const pss = $('.pss');
-  if (pss) {
-    const label = $('.pss-label', pss);
-    const setStrip = () => pss.style.setProperty('--strip', `${label.offsetHeight}px`);
-    new ResizeObserver(setStrip).observe(label);
-    setStrip();
   }
 
   /* ---------- section index: appears after the hero, tracks the current section, jumps on click ---------- */

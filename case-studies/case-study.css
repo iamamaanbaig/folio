@@ -1418,3 +1418,11 @@
 .p-impact li + li {
   border-top: 0;
 }
+
+/* No pinned labels: every section title scrolls with its section */
+.panel-head,
+.label-pin,
+.pss-label {
+  position: relative;
+  top: auto;
+}

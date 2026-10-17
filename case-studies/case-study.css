@@ -1,32 +1,31 @@
-/* Case study layout on the 4-column grid (cs1v1.4). Tokens live in /styles.css.
-   Every block snaps to whole columns: text runs one column wide (a comfortable ~40 characters), images two
-   or three columns wide, so pages stay compact and easy to scan. */
+/* Case study, divider style (cs1v1.5). Tokens live in /styles.css.
+   No background grid: structure comes from real dividers only. Each section is a framed panel that fills
+   one screen, so a single scroll snaps cleanly from one section to the next. Layout runs on 3 columns. */
 
-.page {
-  padding-bottom: clamp(56px, 6vw, 104px);
+:root {
+  --frame: var(--stroke);
+  --ghost-2: #1D1F22;
+  --sticky-h: 0px;
 }
 
-/* ---------- shared pieces ---------- */
+.page {
+  padding: 0 var(--gutter);
+}
+
+/* ---------- shared ---------- */
 
 .lede {
-  margin: clamp(16px, 1.6vw, 24px) 0 0;
-  font-size: clamp(18px, 1.5vw, 24px);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
+  margin: 0;
+  max-width: 46ch;
+  font-size: clamp(17px, 1.4vw, 22px);
+  line-height: 1.5;
   color: var(--text-2);
-  max-width: calc(var(--col) * 2 - var(--pad));
   text-wrap: pretty;
 }
 
-.lede strong,
-.card p strong,
-.pair-c p strong {
+.lede strong {
   font-weight: 500;
   color: var(--text);
-}
-
-.pair-a p strong {
-  font-weight: 600;
 }
 
 .accent {
@@ -36,105 +35,128 @@
   color: transparent;
 }
 
-/* Faint display word, one column wide and cropped by the next column line */
-.ghost {
-  margin: 0;
-  padding-top: calc(var(--pad) * .5);
-  font-weight: 700;
-  font-size: calc((var(--col) - var(--pad)) * 0.285);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  white-space: nowrap;
-  color: var(--ghost);
-  text-box: trim-both cap alphabetic;
-  user-select: none;
-}
-
-/* Background patch so the ghost word covers the grid line behind it */
-.ghost-cell {
-  grid-area: 1 / 1;
-  width: calc(var(--col) - 1px);
-  margin-left: 1px;
-  padding: 0 0 var(--pad) var(--pad);
-  overflow: hidden;
-  background: var(--bg);
-}
-
-.eyebrow,
-.section-label {
-  margin: 0;
-  font-size: clamp(14px, 1.1vw, 17px);
-  font-weight: 600;
-  letter-spacing: .12em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--text);
-}
-
-.eyebrow {
-  grid-area: 1 / 1;
-  position: relative;
-  padding: 0 var(--pad) var(--pad);
-}
-
-.section-label {
-  display: block;
-  padding: calc(var(--pad) * 1.5) var(--pad) 0;
-  text-box: trim-both cap alphabetic;
-}
-
-.m-label,
-.m-tag,
-.inline-media {
+.m-label {
   display: none;
 }
 
-section {
+/* Framed panel: outer frame on the gutters, a top rule closes each section off */
+.panel {
   position: relative;
+  border-left: 1px solid var(--frame);
+  border-right: 1px solid var(--frame);
+  border-top: 1px solid var(--frame);
 }
 
-/* ---------- 1. hero ---------- */
+/* Section header: large faint word behind a strong label */
+.sec-head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(110px, 10vw, 160px);
+  padding: 0 var(--pad) clamp(18px, 1.8vw, 28px);
+  overflow: hidden;
+}
+
+.ghost {
+  position: absolute;
+  left: calc(var(--pad) - .04em);
+  bottom: clamp(4px, .6vw, 10px);
+  font-size: clamp(72px, 8.4vw, 140px);
+  font-weight: 700;
+  line-height: .8;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  color: var(--ghost-2);
+  pointer-events: none;
+  user-select: none;
+}
+
+.sec-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  font-size: clamp(20px, 1.8vw, 28px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+}
+
+/* One square per challenge; the active one turns blue */
+.count {
+  display: inline-flex;
+  gap: 6px;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
+.count i {
+  width: 9px;
+  height: 9px;
+  background: var(--text);
+  opacity: .35;
+  transition: opacity .3s, background .3s;
+}
+
+.count i.on {
+  background: #4A86E8;
+  opacity: 1;
+}
+
+/* ---------- hero ---------- */
 
 .hero {
-  padding-top: clamp(64px, 7vw, 112px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.kicker {
-  margin: 0 0 clamp(16px, 1.6vw, 24px);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--text-2);
+/* full-bleed screen across the top, edge to edge */
+.hero-shot {
+  flex: 1 1 auto;
+  min-height: 34vh;
+  max-height: 46vh;
+  margin: 0 calc(var(--gutter) * -1);
+  background: var(--surface);
+}
+
+.hero-body {
+  padding: clamp(28px, 3.2vw, 52px) var(--pad) clamp(28px, 3vw, 48px);
+  border-left: 1px solid var(--frame);
+  border-right: 1px solid var(--frame);
 }
 
 .hero h1 {
-  margin: 0;
-  max-width: calc(var(--col) * 3.5);
+  margin: 0 0 clamp(14px, 1.4vw, 22px);
+  font-size: clamp(40px, 5vw, 84px);
   font-weight: 600;
-  font-size: clamp(40px, 5.6vw, 96px);
   line-height: 1.02;
-  letter-spacing: -0.024em;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
-/* At a glance: one fact per column */
-.glance {
+.hero .lede {
+  max-width: 60ch;
+}
+
+.facts {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: clamp(32px, 3.5vw, 56px) 0 0;
-  border-top: 1px solid var(--stroke);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--frame);
 }
 
-.glance > div {
-  padding: clamp(16px, 1.6vw, 24px) var(--pad) 0 0;
+.facts > div {
+  padding: clamp(16px, 1.6vw, 24px) var(--pad) clamp(22px, 2.2vw, 34px);
 }
 
-.glance > div + div {
-  padding-left: var(--pad);
+.facts > div + div {
+  border-left: 1px solid var(--frame);
 }
 
-.glance dt {
+.facts dt {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: .12em;
@@ -142,588 +164,167 @@ section {
   color: var(--text-2);
 }
 
-.glance dd {
-  margin: 8px 0 0;
+.facts dd {
+  margin: 10px 0 0;
+  max-width: 30ch;
   font-size: clamp(15px, 1.15vw, 18px);
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
-.glance .accent {
-  font-weight: 600;
+/* ---------- the problem ---------- */
+
+.problem {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-top: clamp(48px, 5vw, 80px);
 }
 
-.frame {
-  margin-top: clamp(40px, 4.5vw, 72px);
-  aspect-ratio: 2.4 / 1;
-  background: var(--surface);
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, .06),
-    0 1px 2px rgba(0, 0, 0, .3),
-    0 10px 20px -6px rgba(0, 0, 0, .35),
-    0 32px 64px -24px rgba(0, 0, 0, .5);
+.problem > .lede {
+  padding: clamp(20px, 2vw, 32px) var(--pad) clamp(32px, 3.4vw, 56px);
 }
-
-/* ---------- panels: 2. problem, 5. impact ----------
-   Header row is open on the grid; the body masks the inner lines and the outer lines frame it. */
-
-.panel {
-  margin-top: clamp(56px, 6vw, 104px);
-}
-
-.panel-head {
-  display: grid;
-  align-items: end;
-  padding-top: clamp(32px, 3vw, 48px);
-}
-
-.panel-body {
-  padding: clamp(28px, 3vw, 48px) var(--pad) var(--pad);
-  border: 1px solid var(--stroke);
-  background: var(--bg);
-}
-
-.panel-body > .lede {
-  margin: 0;
-}
-
-/* ---------- 2. problem ---------- */
 
 .cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--pad);
-  margin-top: clamp(32px, 3.5vw, 56px);
+  border-top: 1px solid var(--frame);
+  border-bottom: 1px solid var(--frame);
 }
 
 .card {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  border: 1px solid var(--stroke);
-  background: #17181A;
+  padding: clamp(28px, 3vw, 48px) var(--pad) clamp(36px, 4vw, 64px);
 }
 
-.card-art {
-  min-height: clamp(150px, 13vw, 220px);
-  border-right: 1px solid var(--stroke);
-  background: #141517;
-}
-
-.card-text {
-  align-self: center;
-  padding: var(--pad);
+.card + .card {
+  border-left: 1px solid var(--frame);
 }
 
 .card h3 {
-  margin: 0;
-  font-size: clamp(20px, 1.7vw, 28px);
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 clamp(12px, 1.2vw, 18px);
+  font-size: clamp(24px, 2.3vw, 38px);
   font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .card p {
-  margin: 10px 0 0;
-  font-size: clamp(15px, 1.1vw, 18px);
-  line-height: 1.5;
-  color: var(--text-2);
-  text-wrap: pretty;
-}
-
-/* ---------- 3. challenges & approach ----------
-   Challenge | image (two columns) | approach */
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: clamp(56px, 6vw, 104px);
-  border-bottom: 1px solid var(--stroke);
-}
-
-.label-pin {
-  grid-column: 1 / 3;
-  grid-row: 1;
-  align-self: start;
-  position: relative;
-  z-index: 2;
-}
-
-.tri-cell {
-  grid-row: 1;
-  display: grid;
-  align-items: end;
-  padding-top: calc(var(--pad) * 1.5 + 17px + clamp(40px, 4vw, 64px));
-  border-bottom: 1px solid var(--stroke);
-}
-
-.tri-cell.gl { grid-column: 1; }
-.tri-cell.gr { grid-column: 4; }
-
-.tri-cell .ghost-cell,
-.tri-cell .eyebrow {
-  grid-area: 1 / 1;
-}
-
-.tri-cell .ghost-cell {
-  width: auto;
-}
-
-.tri-cell.gr .ghost-cell {
-  margin-right: 1px;
-}
-
-.tri-cell .eyebrow {
-  color: var(--text-2);
-}
-
-.stack-col {
-  grid-column: 2 / 4;
-  grid-row: 1 / span 3;
-}
-
-.stack {
-  display: grid;
-  gap: calc(var(--pad) * 1.5);
-  padding-top: calc(var(--pad) * 1.5);
-}
-
-.stack .shot {
-  width: calc(100% + 1px);
-}
-
-.shot {
-  position: relative;
   margin: 0;
+  max-width: 46ch;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.55;
+  color: var(--text-2);
 }
 
-.shot-open {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  background: var(--surface);
-  cursor: zoom-in;
+/* ---------- project challenges ---------- */
+
+.challenges {
+  margin-top: clamp(48px, 5vw, 80px);
+  border-bottom: 1px solid var(--frame);
 }
 
-.shot-open img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1.55;
-  object-fit: cover;
-  transition: transform .6s var(--ease);
+/* the section title stays pinned while challenges snap underneath */
+.sec-head.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
 }
 
-.shot-open:hover img {
-  transform: scale(1.02);
+.ch-labels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--frame);
 }
 
-.shot-more {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  min-width: 48px;
-  height: 40px;
-  padding: 0 14px;
-  border: 0;
-  background: rgba(18, 19, 21, .86);
-  color: var(--text);
-  font: 600 15px/1 "Inter", sans-serif;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+.ch-labels span {
+  padding: 0 var(--pad) clamp(14px, 1.4vw, 20px);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-2);
 }
 
-.shot-open:focus-visible,
-.shot-more:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 3px;
+/* each challenge fills the screen below the pinned title */
+.ch-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: calc(100vh - var(--sticky-h));
 }
 
-.pair-c,
-.pair-a {
-  padding: clamp(32px, 3.5vw, 56px) var(--pad);
-  min-height: var(--row-h, auto);
+.ch-row + .ch-row {
+  border-top: 1px solid var(--frame);
 }
 
-.pair-c.row-1,
-.pair-a.row-1 { grid-row: 2; }
+.ch-text,
+.ch-approach {
+  padding: clamp(32px, 3.4vw, 56px) var(--pad);
+}
 
-.pair-c.row-2,
-.pair-a.row-2 { grid-row: 3; }
-
-.pair-c {
-  --h3: clamp(20px, 1.75vw, 28px);
-  grid-column: 1;
+.ch-text {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: clamp(14px, 1.4vw, 22px);
   align-content: start;
 }
 
-.pair-a {
-  grid-column: 4;
-}
-
-.pair-c .num {
-  grid-column: 1;
+.ch-text .num {
   grid-row: 1;
-  margin: 0;
-  padding-top: calc(var(--h3) * .17);
-  font-size: calc(var(--h3) * 2.45);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  text-box: trim-both cap alphabetic;
-}
-
-.pair-c h3 {
-  grid-column: 2;
-  grid-row: 1;
-  margin: 0;
-  font-size: var(--h3);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.018em;
-  text-wrap: balance;
-}
-
-.pair-c p {
-  grid-column: 1 / -1;
-  margin: clamp(16px, 1.6vw, 22px) 0 0;
-  font-size: clamp(15px, 1.15vw, 18px);
-  line-height: 1.5;
-  color: var(--text-2);
-  text-wrap: pretty;
-}
-
-.pair-a p {
-  margin: 0;
-  font-size: clamp(16px, 1.3vw, 20px);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-  text-wrap: pretty;
-}
-
-/* ---------- 4. problems → solutions → impact ----------
-   Per block: Problem | Solution (tinted rail) | Impact | screen */
-
-.pss {
-  --tint: #181A1C;
-  margin-top: clamp(56px, 6vw, 104px);
-  border-bottom: 1px solid var(--stroke);
-  background:
-    linear-gradient(90deg, var(--stroke) 1px, transparent 1px) 0 0 / 25% 100%,
-    linear-gradient(270deg, var(--stroke) 1px, transparent 1px),
-    linear-gradient(90deg, transparent 25%, var(--tint) 25%, var(--tint) 50%, transparent 50%);
-}
-
-.pblock {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    "band band band band"
-    "prob sol  imp  media"
-    ".    .    .    media";
-  padding-bottom: clamp(40px, 4.5vw, 72px);
-}
-
-.pblock.v3 {
-  grid-template-areas:
-    "band band  band  band"
-    "prob sol   imp   ."
-    ".    .     media media";
-}
-
-.pband {
-  grid-area: band;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: clamp(24px, 2.5vw, 40px);
-}
-
-.pcell {
-  display: grid;
-  grid-template-columns: 0 1fr;
-  align-items: end;
-  overflow: hidden;
-  padding: calc(var(--pad) * .5) 0 var(--pad) var(--pad);
-  border-left: 1px solid var(--stroke);
-  border-bottom: 1px solid var(--stroke); /* rule under columns 1–3 only; the screen column stays open */
-  background: var(--bg);
-}
-
-.pcell.first {
-  grid-template-columns: auto 1fr;
-  column-gap: clamp(12px, 1.2vw, 20px);
-}
-
-.pcell.mid {
-  background: var(--tint);
-}
-
-.pcell.mid .ghost {
-  color: #222428;
-}
-
-.gclip {
-  grid-area: 1 / 2;
-  display: block;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.gclip .ghost {
-  padding-top: 0;
-}
-
-.pcell .eyebrow {
-  grid-area: 1 / 2;
-  padding: 0;
-  font-size: clamp(15px, 1.2vw, 18px);
-  font-weight: 400;
-  letter-spacing: .04em;
-}
-
-.pnum {
-  grid-area: 1 / 1;
-  align-self: end;
-  margin: 0;
-  font-size: calc((var(--col) - var(--pad)) * 0.285);
+  font-size: clamp(56px, 5vw, 84px);
   font-weight: 500;
   line-height: .8;
   letter-spacing: -0.04em;
 }
 
-.pnum > span {
-  display: block;
-  height: .8em;
-}
-
-.pc {
-  padding: clamp(24px, 2.5vw, 40px) var(--pad) 0;
-}
-
-.p-problem { grid-area: prob; }
-.p-solution { grid-area: sol; }
-.p-impact { grid-area: imp; }
-
-.pc h4 {
+.ch-text h3 {
+  grid-row: 1;
+  align-self: end;
   margin: 0;
-  font-size: clamp(18px, 1.5vw, 24px);
+  font-size: clamp(22px, 2vw, 32px);
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.016em;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
   text-wrap: balance;
 }
 
-.pc p {
-  margin: 10px 0 0;
-  font-size: clamp(15px, 1.1vw, 17px);
+.ch-text p {
+  grid-column: 1 / -1;
+  margin: clamp(18px, 1.8vw, 26px) 0 0;
+  font-size: clamp(16px, 1.25vw, 19px);
   line-height: 1.5;
   color: var(--text-2);
   text-wrap: pretty;
 }
 
-.p-impact ul {
+.ch-approach p {
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.p-impact li {
-  position: relative;
-  padding: 0 0 12px 20px;
-  font-size: clamp(15px, 1.2vw, 19px);
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-.p-impact li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: .6em;
-  width: 10px;
-  height: 2px;
-  background: #4A86E8;
-}
-
-.vd {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  font-size: 14px;
-  color: var(--text-2);
-  text-decoration: none;
-  transition: color .2s;
-}
-
-.vd svg {
-  width: 16px;
-  height: 16px;
-  flex: none;
-}
-
-.vd:hover {
-  color: var(--text);
-}
-
-.p-media {
-  grid-area: media;
-  align-self: start;
-  margin: 0;
-  padding-top: clamp(24px, 2.5vw, 40px);
-}
-
-.p-media .box {
-  margin: 0 1px;
-  background: var(--surface);
-}
-
-.v1 .p-media .box { aspect-ratio: 4 / 5; }
-
-/* Block 1: the screen starts level with the top of the IMPACT label and keeps its old bottom edge */
-.pblock.v1 {
-  --lbl: clamp(15px, 1.2vw, 18px);
-  --media-gap: clamp(24px, 2.5vw, 40px);
-}
-
-.pblock.v1 .p-media {
-  margin-top: calc(-1 * (var(--pad) + var(--lbl)));
-  padding-top: 0;
-}
-
-.v1 .p-media .box {
-  aspect-ratio: auto;
-  height: calc((var(--col) - 2px) * 1.25 + var(--media-gap) + var(--pad) + var(--lbl));
-}
-.v2 .p-media .box { aspect-ratio: 1 / 1; }
-.v3 .p-media .box { aspect-ratio: 2.1 / 1; }
-
-.p-media figcaption {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding-top: 14px;
-  font-size: 14px;
-  color: var(--text-2);
-  text-align: center;
-}
-
-.thumbs {
-  display: flex;
-  gap: 8px;
-}
-
-.thumbs button {
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  background: rgba(247, 248, 250, .22);
-  cursor: pointer;
-  outline: 1px solid transparent;
-  outline-offset: 3px;
-  transition: outline-color .2s, background .2s;
-}
-
-.thumbs button:hover {
-  background: rgba(247, 248, 250, .45);
-}
-
-.thumbs button[aria-current="true"] {
-  outline-color: var(--text);
-  background: var(--surface);
-}
-
-.thumbs button:focus-visible {
-  outline: 2px solid var(--text);
-}
-
-/* ---------- 5. project impact ---------- */
-
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: clamp(32px, 3.5vw, 56px) calc(var(--pad) * -1) 0;
-  border-top: 1px solid var(--stroke);
-  border-bottom: 1px solid var(--stroke);
-}
-
-.metric {
-  padding: clamp(28px, 3vw, 48px) var(--pad) clamp(32px, 3.5vw, 56px);
-}
-
-/* the headline figure gets two columns */
-.metric:first-child {
-  grid-column: span 2;
-}
-
-.metric + .metric {
-  border-left: 1px solid var(--stroke);
-}
-
-.metric .fig {
-  display: block;
-  width: max-content;
-  max-width: 100%;
-  margin: 0;
-  font-size: clamp(26px, 2.4vw, 40px);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-}
-
-/* the lead outcome gets two columns and a larger headline */
-.metric:first-child .fig {
-  font-size: clamp(34px, 3.6vw, 60px);
-}
-
-.metric p {
-  margin: clamp(12px, 1.2vw, 18px) 0 0;
-  font-size: clamp(15px, 1.15vw, 18px);
+  font-size: clamp(17px, 1.4vw, 22px);
   line-height: 1.45;
-  color: var(--text-2);
-  max-width: 26ch;
+  letter-spacing: -0.01em;
   text-wrap: pretty;
 }
 
-.quote {
+/* images sit in the centre column and scroll with their challenge */
+.ch-media {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 0 calc(var(--pad) * -1);
-  padding: clamp(36px, 4vw, 64px) 0 clamp(40px, 4.5vw, 72px);
+  align-content: start;
+  gap: clamp(16px, 1.6vw, 24px);
+  padding: clamp(32px, 3.4vw, 56px) 0;
+  border-left: 1px solid var(--frame);
+  border-right: 1px solid var(--frame);
 }
 
-.quote blockquote {
-  grid-column: 1 / 4;
-  margin: 0;
-  padding: 0 var(--pad);
+.shot {
+  margin: 0 clamp(16px, 1.6vw, 24px);
+  aspect-ratio: 1.55;
+  background: var(--surface);
 }
 
-.quote blockquote p {
-  margin: 0;
-  font-size: clamp(22px, 2.1vw, 34px);
-  font-weight: 500;
-  line-height: 1.28;
-  letter-spacing: -0.02em;
-  text-indent: -.42em;
-  text-wrap: balance;
-}
-
-.quote footer {
-  margin-top: clamp(16px, 1.6vw, 24px);
-  font-size: 15px;
-  color: var(--text-2);
-}
-
-.quote footer b {
-  color: var(--text);
-  font-weight: 600;
+.page-end {
+  height: 1px;
 }
 
 /* ---------- section index ---------- */
@@ -740,12 +341,7 @@ section {
   background: rgba(18, 19, 21, .82);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  transform: translate(-50%, calc(100% + 40px));
-  transition: transform .6s var(--ease);
-}
-
-.index.show {
-  transform: translate(-50%, 0);
+  transform: translateX(-50%);
 }
 
 .index a {
@@ -788,244 +384,67 @@ section {
   outline-offset: -2px;
 }
 
-/* ---------- image viewer ---------- */
-
-.viewer {
-  width: 100vw;
-  height: 100vh;
-  max-width: none;
-  max-height: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: rgba(10, 11, 12, .94);
-  color: var(--text);
-}
-
-.viewer::backdrop {
-  background: transparent;
-}
-
-.viewer[open] {
-  display: grid;
-  place-items: center;
-  animation: viewer-in .35s var(--ease);
-}
-
-@keyframes viewer-in {
-  from { opacity: 0; }
-}
-
-.viewer-stage {
-  width: min(1200px, 84vw);
-  margin: 0;
-}
-
-.viewer-stage img {
-  display: block;
-  width: 100%;
-  max-height: 78vh;
-  object-fit: contain;
-  background: var(--surface);
-}
-
-.viewer-stage figcaption {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  margin-top: 16px;
-  font-size: 14px;
-  color: var(--text-2);
-}
-
-.viewer-btn {
-  position: fixed;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--stroke);
-  background: var(--bg);
-  color: var(--text);
-  font: 500 18px/1 "Inter", sans-serif;
-  cursor: pointer;
-}
-
-.viewer-btn:hover {
-  background: #1E1F22;
-}
-
-.viewer-btn:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 2px;
-}
-
-.viewer-btn.prev { left: 24px; top: 50%; transform: translateY(-50%); }
-.viewer-btn.next { right: 24px; top: 50%; transform: translateY(-50%); }
-.viewer-btn.close { right: 24px; top: 24px; }
-
-@media (prefers-reduced-motion: reduce) {
-  .shot-open img,
-  .index {
-    transition: none;
-  }
-}
-
-/* ---------- tablet & phone: one column ---------- */
+/* ---------- tablet & phone: one column, normal scrolling ---------- */
 
 @media (max-width: 899px) {
-  .lede,
-  .hero h1 {
-    max-width: none;
+  .hero,
+  .problem {
+    min-height: 0;
   }
 
-  .ghost-cell {
-    width: calc(var(--col) * 3 - 1px);
+  .hero-shot {
+    flex: none;
+    height: 44vw;
+    min-height: 0;
   }
 
-  .ghost,
-  .pnum {
-    font-size: calc((var(--col) * 3 - var(--pad)) * 0.285);
-  }
-
-  .glance {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .glance > div,
-  .glance > div + div {
-    padding: 16px 16px 0 0;
-  }
-
-  .frame {
-    aspect-ratio: 4 / 3;
-  }
-
-  .cards {
+  .facts,
+  .cards,
+  .ch-labels,
+  .ch-row {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .card {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  .facts > div + div,
+  .card + .card {
+    border-left: 0;
+    border-top: 1px solid var(--frame);
   }
 
-  .card-art {
-    min-height: 140px;
+  .sec-head.sticky {
+    position: relative;
   }
 
-  .m-tag {
+  .ch-labels {
+    display: none;
+  }
+
+  .ch-row {
+    min-height: 0;
+  }
+
+  .ch-media {
+    order: 3;
+    padding: 0 0 24px;
+    border: 0;
+  }
+
+  .shot {
+    margin: 0 var(--pad);
+  }
+
+  .ch-approach {
+    padding-top: 0;
+  }
+
+  .m-label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--text-2);
-  }
-
-  /* 3 */
-  .steps {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .steps > * {
-    grid-column: 1 !important;
-    grid-row: auto !important;
-  }
-
-  .tri-cell {
-    padding-top: 16px;
-  }
-
-  .tri-cell.gr,
-  .stack-col {
-    display: none;
-  }
-
-  .pair-c,
-  .pair-a {
-    min-height: 0;
-  }
-
-  .pair-a {
-    padding-top: 0;
-  }
-
-  .pair-a .m-label {
-    display: block;
-    margin-bottom: 14px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-
-  .inline-media {
-    display: grid;
-    margin-top: 24px;
-  }
-
-  /* 4 */
-  .pss {
-    background: none;
-  }
-
-  .pblock,
-  .pblock.v3 {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "band" "prob" "sol" "media" "imp";
-    grid-template-rows: auto;
-  }
-
-  .pband {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .pband .pcell:not(.first) {
-    display: none;
-  }
-
-  .pcell.first {
-    border-right: 1px solid var(--stroke);
-  }
-
-  .pcell.first .eyebrow {
-    visibility: hidden;
-  }
-
-  .p-media,
-  .pblock.v1 .p-media {
-    margin-top: 0;
-    padding: 24px var(--pad) 0;
-  }
-
-  .v1 .p-media .box {
-    height: auto;
-    aspect-ratio: 4 / 5;
-  }
-
-  .p-impact {
-    padding-bottom: 8px;
-  }
-
-  /* 5 */
-  .metrics {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .metric:first-child {
-    grid-column: auto;
-  }
-
-  .metric + .metric {
-    border-left: 0;
-    border-top: 1px solid var(--stroke);
-  }
-
-  .quote {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .quote blockquote {
-    grid-column: 1;
   }
 
   .index a {
@@ -1039,12 +458,5 @@ section {
 
   .index a span {
     font-size: 13px;
-  }
-
-  .viewer-btn.prev,
-  .viewer-btn.next {
-    top: auto;
-    bottom: 24px;
-    transform: none;
   }
 }

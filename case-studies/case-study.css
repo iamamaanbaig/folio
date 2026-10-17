@@ -273,11 +273,6 @@
 .ch-text { grid-column: 1; }
 .ch-approach { grid-column: 3; }
 
-/* divider between challenges runs through the text columns only, never across the strip */
-.ch-text.r2,
-.ch-approach.r2 {
-  border-top: 1px solid var(--frame);
-}
 
 .m-media {
   display: none;

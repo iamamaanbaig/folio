@@ -814,7 +814,7 @@
 /* ---------- product designs ----------
    Shorter than a screen, so the start of the footer shows below it. Screens sit in a horizontal strip
    that runs off the right edge of the page;
-   the arrows move it one screen along, and the squares by the title track the current screen. */
+   drag it with the mouse or use the arrows, and the squares by the title track the current screen. */
 .impact {
   border-bottom: 0;
 }
@@ -907,6 +907,19 @@
   gap: var(--pad);
   padding: clamp(32px, 3.4vw, 56px) var(--pad); /* same inset as the other sections' content */
   transition: transform .85s var(--ease);
+}
+
+/* desktop: the strip can be dragged sideways with the mouse */
+@media (min-width: 900px) {
+  .ds-viewport {
+    cursor: grab;
+    touch-action: pan-y; /* vertical swipes still scroll the page */
+    user-select: none;
+  }
+
+  .ds-viewport.is-dragging {
+    cursor: grabbing;
+  }
 }
 
 .ds-strip .shot {

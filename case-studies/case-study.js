@@ -39,8 +39,9 @@
   });
 
   /* ---------- product designs: a horizontal strip, one screen per step ----------
-     Desktop: while the section fills the screen, each scroll moves the strip one screen along before the
-     page moves on. Phones: the strip is swiped sideways. The squares by the title track the current screen. */
+     Desktop: the arrow buttons, left/right keys or a sideways trackpad swipe move the strip one screen along;
+     page scrolling passes straight through to the footer. Phones: the strip is swiped sideways. The squares
+     by the title track the current screen. */
   const designs = $('.designs');
   const strip = designs && $('.ds-strip', designs);
   const screens = strip ? $$('.shot', strip) : [];
@@ -81,9 +82,11 @@
       dsMark(cur);
     }, { passive: true });
   }
-  // true when the designs section is the current stop and the strip can still move in that direction
+  // true when the designs section is on screen and the strip can still move in that direction
   const dsStep = dir => {
-    if (!strip || Math.abs(designs.getBoundingClientRect().top) > 4) return false;
+    if (!strip) return false;
+    const r = designs.getBoundingClientRect();
+    if (r.top > innerHeight / 2 || r.bottom < innerHeight / 2) return false;
     const next = dsIndex + dir;
     if (next < 0 || next >= screens.length) return false;
     dsShow(next);
@@ -136,7 +139,6 @@
     requestAnimationFrame(step);
   };
   const go = dir => {
-    if (dsStep(dir)) return;
     buildStops();
     const y = scrollY;
     const next = dir > 0 ? stops.find(s => s > y + 4) : [...stops].reverse().find(s => s < y - 4);

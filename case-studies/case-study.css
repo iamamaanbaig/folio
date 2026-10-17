@@ -236,9 +236,9 @@
 }
 
 /* the section title stays pinned while challenges snap underneath */
-/* the title and the CHALLENGE / HOW WE APPROACHED IT row pin together, so the rule under the labels
+/* the title and its column-label row pin together, so the rule under the labels
    is always visible while challenges snap underneath */
-.ch-sticky {
+.pin {
   position: sticky;
   top: 0;
   z-index: 5;
@@ -355,6 +355,128 @@
   height: 1px;
 }
 
+/* ---------- problems & solutions ----------
+   Same pattern as challenges: pinned title + column labels, each solution fills the screen and snaps.
+   Problem | Solution (tinted rail, with its screen) | Impact */
+
+.solutions {
+  --tint: #17181A;
+  margin-top: clamp(48px, 5vw, 80px);
+  border-bottom: 1px solid var(--frame);
+}
+
+.sol-labels span:nth-child(2) {
+  background: var(--tint);
+  padding-top: clamp(14px, 1.4vw, 20px);
+  margin-top: calc(-1 * clamp(14px, 1.4vw, 20px));
+}
+
+.sol-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: calc(100vh - var(--sticky-h));
+}
+
+.sol-row + .sol-row > * {
+  border-top: 1px solid var(--frame);
+}
+
+.sol-problem,
+.sol-solution,
+.sol-impact {
+  padding: clamp(32px, 3.4vw, 56px) var(--pad);
+}
+
+.sol-problem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: clamp(14px, 1.4vw, 22px);
+  align-content: start;
+}
+
+.sol-problem .num {
+  grid-row: 2;
+  font-size: clamp(56px, 5vw, 84px);
+  font-weight: 600;
+  line-height: .8;
+  letter-spacing: -0.04em;
+}
+
+.sol-problem h3 {
+  grid-row: 2;
+  align-self: end;
+}
+
+.sol-problem p {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.sol-problem h3,
+.sol-solution h3 {
+  margin: 0;
+  font-size: var(--t-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.sol-problem p,
+.sol-solution p {
+  margin: clamp(14px, 1.4vw, 20px) 0 0;
+  max-width: 40ch;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.sol-solution {
+  border-left: 1px solid var(--frame);
+  border-right: 1px solid var(--frame);
+  background: var(--tint);
+}
+
+.sol-shot {
+  margin: clamp(24px, 2.4vw, 36px) 0 0;
+}
+
+.sol-shot .shot {
+  margin: 0;
+  aspect-ratio: 16 / 10;
+}
+
+.sol-shot figcaption {
+  margin-top: 12px;
+  font-size: var(--t-label);
+  color: var(--text-2);
+}
+
+.sol-impact ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sol-impact li {
+  position: relative;
+  padding: 0 0 16px 22px;
+  font-size: var(--t-lead);
+  line-height: 1.35;
+  color: var(--text-soft);
+}
+
+.sol-impact li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: 10px;
+  height: 2px;
+  background: #4A86E8;
+}
+
 /* ---------- section index ---------- */
 
 .index {
@@ -439,7 +561,7 @@
     border-top: 1px solid var(--frame);
   }
 
-  .ch-sticky {
+  .pin {
     position: relative;
   }
 
@@ -473,6 +595,37 @@
 
   .ch-approach {
     padding-top: 0;
+  }
+
+  .sol-row {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .sol-labels {
+    display: none;
+  }
+
+  .sol-row + .sol-row > * {
+    border-top: 0;
+  }
+
+  .sol-row + .sol-row {
+    border-top: 1px solid var(--frame);
+  }
+
+  .sol-solution {
+    border: 0;
+  }
+
+  .sol-problem .m-label {
+    grid-column: 1 / -1;
+  }
+
+  .sol-problem,
+  .sol-solution,
+  .sol-impact {
+    padding-bottom: 8px;
   }
 
   .m-label {

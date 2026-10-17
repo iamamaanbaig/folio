@@ -1,4 +1,4 @@
-// Case study (cs1v1.5): one scroll = next section, pinned challenges title with a square per challenge,
+// Case study (cs1v1.5): one scroll = next section, pinned section headers with a square per row,
 // and the section index.
 (() => {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -14,37 +14,39 @@
     requestAnimationFrame(() => { queued = false; onScroll.forEach(fn => fn()); });
   }, { passive: true });
 
-  /* ---------- challenges: pinned title height + one square per challenge ---------- */
-  const sticky = $('.ch-sticky');
-  const rows = $$('.ch-text');
-  const count = $('.count');
-  const setSticky = () => document.documentElement.style.setProperty('--sticky-h', `${sticky ? sticky.offsetHeight : 0}px`);
-  if (sticky) {
-    new ResizeObserver(setSticky).observe(sticky);
-    setSticky();
-  }
-  if (count) {
+  /* ---------- pinned sections (challenges, solutions) ----------
+     Each .snap-sec has a pinned header (.pin) and rows (data-row) that snap under it. The header height is
+     exposed as --sticky-h on the section, and the squares next to its title track the current row. */
+  const pinOf = el => { const sec = el.closest('.snap-sec'); return sec ? $('.pin', sec) : null; };
+  $$('.snap-sec').forEach(sec => {
+    const pin = $('.pin', sec);
+    const rows = $$('[data-row]', sec);
+    const count = $('.count', sec);
+    const setH = () => sec.style.setProperty('--sticky-h', `${pin.offsetHeight}px`);
+    new ResizeObserver(setH).observe(pin);
+    setH();
+    if (!count) return;
     count.innerHTML = rows.map(() => '<i></i>').join('');
     const squares = $$('i', count);
     const mark = () => {
-      const line = (sticky ? sticky.getBoundingClientRect().bottom : 0) + innerHeight * .35;
+      const line = pin.getBoundingClientRect().bottom + innerHeight * .35;
       let cur = 0;
       rows.forEach((r, i) => { if (r.getBoundingClientRect().top < line) cur = i; });
-      squares.forEach((s, i) => s.classList.toggle('on', i === cur));
+      squares.forEach((q, i) => q.classList.toggle('on', i === cur));
     };
     onScroll.push(mark);
     mark();
-  }
+  });
 
   /* ---------- one scroll = next section (desktop) ----------
-     Stops are the elements marked data-stop. Challenges stop just under the pinned title. If a stretch
+     Stops are the elements marked data-stop. Rows stop just under their section's pinned header. If a stretch
      between two stops is taller than the screen, extra stops a screen apart make sure nothing is skipped.
      Trackpad inertia is ignored until the wheel goes quiet, so one flick moves exactly one stop. */
   let stops = [];
   const buildStops = () => {
     const vh = innerHeight;
     const max = document.documentElement.scrollHeight - vh;
-    const offsetFor = el => (el.classList.contains('ch-text') && sticky ? sticky.offsetHeight : 0);
+    const offsetFor = el => (el.hasAttribute('data-row') && pinOf(el) ? pinOf(el).offsetHeight : 0);
     const base = $$('[data-stop]').map(el => Math.round(el.getBoundingClientRect().top + scrollY - offsetFor(el)));
     base.push(max);
     // stops closer than a fifth of the screen collapse into one (e.g. the section top and its first row)

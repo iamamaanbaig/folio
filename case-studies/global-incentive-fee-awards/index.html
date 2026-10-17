@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
-  <link rel="stylesheet" href="../../styles.css?v=strip2">
-  <link rel="stylesheet" href="../case-study.css?v=strip2">
-  <script src="../case-study.js?v=strip2" defer></script>
+  <link rel="stylesheet" href="../../styles.css?v=sol1">
+  <link rel="stylesheet" href="../case-study.css?v=sol1">
+  <script src="../case-study.js?v=sol1" defer></script>
 </head>
 <body>
   <main class="page">
@@ -48,8 +48,8 @@
     </section>
 
     <!-- Project challenges: the title stays pinned while each challenge snaps into place -->
-    <section class="panel challenges" id="challenges" aria-labelledby="challenges-title" data-stop>
-      <div class="ch-sticky">
+    <section class="panel challenges snap-sec" id="challenges" aria-labelledby="challenges-title" data-stop>
+      <div class="ch-sticky pin">
       <header class="sec-head">
         <span class="ghost" aria-hidden="true">Challenges</span>
         <h2 class="sec-title" id="challenges-title">Project challenges <span class="count" aria-hidden="true"></span></h2>
@@ -70,7 +70,7 @@
           <div class="shot" role="img" aria-label="Challenge 2 image (coming soon)"></div>
         </div>
 
-        <div class="ch-text r1" data-stop>
+        <div class="ch-text r1" data-row data-stop>
           <span class="num accent" aria-hidden="true">1</span>
           <h3>Requirements given as solutions</h3>
           <p>We received an initial brief that outlined proposed solutions before the underlying user problems were fully understood.</p>
@@ -81,7 +81,7 @@
           <div class="m-media"><div class="shot" role="img" aria-label="Challenge 1 image (coming soon)"></div><div class="shot" role="img" aria-label="Challenge 1 image (coming soon)"></div></div>
         </div>
 
-        <div class="ch-text r2" data-stop>
+        <div class="ch-text r2" data-row data-stop>
           <span class="num accent" aria-hidden="true">2</span>
           <h3>Limited access to users</h3>
           <p>The stakeholders involved were occupied with other critical organisational matters, making it difficult to schedule time with them.</p>
@@ -94,6 +94,87 @@
       </div>
     </section>
 
+    <!-- Problems & solutions: the title and column labels stay pinned while each solution snaps into place -->
+    <section class="panel solutions snap-sec" id="solutions" aria-labelledby="solutions-title" data-stop>
+      <div class="pin">
+        <header class="sec-head">
+          <span class="ghost" aria-hidden="true">Solutions</span>
+          <h2 class="sec-title" id="solutions-title">Problems &amp; solutions <span class="count" aria-hidden="true"></span></h2>
+        </header>
+        <div class="ch-labels sol-labels" aria-hidden="true">
+          <span>Problem we discovered</span>
+          <span>Solution we designed</span>
+          <span>Impact</span>
+        </div>
+      </div>
+
+      <article class="sol-row" data-row data-stop>
+        <div class="sol-problem">
+          <span class="m-label">Problem</span>
+          <span class="num accent" aria-hidden="true">1</span>
+          <h3>Roadblocks went unnoticed</h3>
+          <p>Errors and blockers sat unseen while editors were busy with other work.</p>
+        </div>
+        <div class="sol-solution">
+          <span class="m-label">Solution</span>
+          <h3>Activity feed with automated alerts</h3>
+          <p>Every change, comment and approval in one stream, with an alert when something stalls.</p>
+          <figure class="sol-shot">
+            <div class="shot" role="img" aria-label="Award activity feed (screen coming soon)"></div>
+            <figcaption>Award activity feed</figcaption>
+          </figure>
+        </div>
+        <div class="sol-impact">
+          <span class="m-label">Impact</span>
+          <ul><li>Better-informed decisions</li><li>Less backtracking to investigate changes</li><li>Improved coordination across stakeholders</li></ul>
+        </div>
+      </article>
+
+      <article class="sol-row" data-row data-stop>
+        <div class="sol-problem">
+          <span class="m-label">Problem</span>
+          <span class="num accent" aria-hidden="true">2</span>
+          <h3>No view of approval status</h3>
+          <p>Finding out where a fund stood meant chasing people for updates.</p>
+        </div>
+        <div class="sol-solution">
+          <span class="m-label">Solution</span>
+          <h3>Process tracker</h3>
+          <p>Every step, owner and due date of a fund’s approval, visible at a glance.</p>
+          <figure class="sol-shot">
+            <div class="shot" role="img" aria-label="Fund realization: process tracker (screen coming soon)"></div>
+            <figcaption>Fund realization: process tracker</figcaption>
+          </figure>
+        </div>
+        <div class="sol-impact">
+          <span class="m-label">Impact</span>
+          <ul><li>Fewer status-check meetings</li><li>Delays spotted before deadlines</li><li>Clear ownership of every step</li></ul>
+        </div>
+      </article>
+
+      <article class="sol-row" data-row data-stop>
+        <div class="sol-problem">
+          <span class="m-label">Problem</span>
+          <span class="num accent" aria-hidden="true">3</span>
+          <h3>Manual spreadsheet filtering</h3>
+          <p>Finding eligible awards meant filtering large spreadsheets by hand.</p>
+        </div>
+        <div class="sol-solution">
+          <span class="m-label">Solution</span>
+          <h3>Rule-based criteria builder</h3>
+          <p>Saved criteria filter awards automatically and can be reused across funds.</p>
+          <figure class="sol-shot">
+            <div class="shot" role="img" aria-label="Award criteria builder (screen coming soon)"></div>
+            <figcaption>Award criteria builder</figcaption>
+          </figure>
+        </div>
+        <div class="sol-impact">
+          <span class="m-label">Impact</span>
+          <ul><li>Hours of manual filtering saved</li><li>Fewer errors in award selection</li><li>Criteria reusable across funds</li></ul>
+        </div>
+      </article>
+    </section>
+
     <!-- Next section: to be designed -->
     <div class="page-end" data-stop></div>
   </main>
@@ -103,6 +184,7 @@
     <a href="#overview"><span>01</span> Overview</a>
     <a href="#problem"><span>02</span> Problem</a>
     <a href="#challenges"><span>03</span> Challenges</a>
+    <a href="#solutions"><span>04</span> Solutions</a>
   </nav>
 </body>
 </html>

@@ -815,3 +815,67 @@
 .solutions {
   border-bottom: 0;
 }
+
+/* ---------- fit every snap stop on shorter desktop screens ----------
+   Each solution fits the screen below the pinned title: the screen container takes whatever height is
+   left after the text, instead of a fixed aspect ratio that overflowed on laptop-height windows. */
+@media (min-width: 900px) {
+  .sol-row {
+    grid-template-rows: auto minmax(160px, 1fr);
+  }
+
+  .sol-shot {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding-bottom: clamp(56px, 9vh, 96px); /* room for the floating menu */
+  }
+
+  .sol-shot .shot,
+  .v1 .sol-shot .shot,
+  .v2 .sol-shot .shot,
+  .v3 .sol-shot .shot {
+    flex: 1 1 auto;
+    min-height: 140px;
+    aspect-ratio: auto;
+  }
+}
+
+/* short windows: tighten the closing section so it fits one screen */
+@media (min-width: 900px) and (max-height: 820px) {
+  .impact-lead {
+    padding-bottom: clamp(24px, 4vh, 40px);
+  }
+
+  .outcome {
+    padding-top: clamp(20px, 3.5vh, 32px);
+    padding-bottom: clamp(24px, 4vh, 40px);
+  }
+
+  .tick {
+    margin-bottom: 16px;
+  }
+
+  .impact-end {
+    padding-top: 20px;
+    padding-bottom: 72px;
+  }
+}
+
+/* short windows: the image strip shrinks so both challenges fit exactly under the pinned title,
+   which keeps Challenge 2 → Solutions a single snap */
+@media (min-width: 900px) {
+  .ch-media { container-type: inline-size; }
+  .ch-media .shot {
+    aspect-ratio: auto;
+    height: min(calc((100cqw - 2 * clamp(16px, 1.6vw, 24px)) / 1.55),
+      calc((200vh - 2 * var(--sticky-h, 0px) - 2 * clamp(32px, 3.4vw, 56px) - 3 * clamp(16px, 1.6vw, 24px)) / 4));
+  }
+}
+
+/* very short windows (small laptops with the browser bar showing) */
+@media (min-width: 900px) and (max-height: 680px) {
+  .sol-row { grid-template-rows: auto minmax(120px, 1fr); }
+  .sol-shot .shot, .v1 .sol-shot .shot, .v2 .sol-shot .shot, .v3 .sol-shot .shot { min-height: 96px; }
+  .impact-end { padding-top: 16px; padding-bottom: 56px; }
+}

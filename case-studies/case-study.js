@@ -38,6 +38,60 @@
     mark();
   });
 
+  /* ---------- product designs: a horizontal strip, one screen per step ----------
+     Desktop: while the section fills the screen, each scroll moves the strip one screen along before the
+     page moves on. Phones: the strip is swiped sideways. The squares by the title track the current screen. */
+  const designs = $('.designs');
+  const strip = designs && $('.ds-strip', designs);
+  const screens = strip ? $$('.shot', strip) : [];
+  let dsIndex = 0;
+  let dsSquares = [];
+  const dsArrows = designs ? $$('.ds-arrow', designs) : [];
+  const dsMark = i => {
+    dsIndex = i;
+    dsSquares.forEach((q, k) => q.classList.toggle('on', k === i));
+    dsArrows.forEach(a => { a.disabled = a.dataset.dir < 0 ? i === 0 : i === screens.length - 1; });
+  };
+  // the last screen stops at the right frame, so the strip never ends on an empty stretch
+  const dsShow = i => {
+    const pad = screens[0].offsetLeft;
+    const room = designs.clientWidth - 2 * pad;
+    const end = screens[screens.length - 1];
+    const max = end.offsetLeft + end.offsetWidth - pad - room;
+    strip.style.transform = `translateX(${-Math.min(screens[i].offsetLeft - pad, max)}px)`;
+    dsMark(i);
+  };
+  if (strip) {
+    const count = $('.count', designs);
+    count.innerHTML = screens.map(() => '<i></i>').join('');
+    dsSquares = $$('i', count);
+    dsMark(0);
+    addEventListener('resize', () => { if (desktop()) dsShow(dsIndex); else strip.style.transform = ''; });
+    const viewport = strip.parentElement;
+    dsArrows.forEach(a => a.addEventListener('click', () => {
+      const next = Math.min(screens.length - 1, Math.max(0, dsIndex + Number(a.dataset.dir)));
+      if (desktop()) dsShow(next);
+      else viewport.scrollTo({ left: screens[next].offsetLeft - screens[0].offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }));
+    viewport.addEventListener('scroll', () => {
+      if (desktop()) return;
+      const x = viewport.scrollLeft;
+      let cur = 0;
+      screens.forEach((s, i) => { if (s.offsetLeft - screens[0].offsetLeft <= x + s.offsetWidth / 2) cur = i; });
+      dsMark(cur);
+    }, { passive: true });
+  }
+  // true when the designs section is the current stop and the strip can still move in that direction
+  const dsStep = dir => {
+    if (!strip || Math.abs(designs.getBoundingClientRect().top) > 4) return false;
+    const next = dsIndex + dir;
+    if (next < 0 || next >= screens.length) return false;
+    dsShow(next);
+    animating = true;
+    setTimeout(() => { animating = false; }, reduceMotion ? 0 : 850);
+    return true;
+  };
+
   /* ---------- one scroll = next section (desktop) ----------
      Stops are the elements marked data-stop. Challenges stop just under the pinned title. If a stretch
      between two stops is taller than the screen, extra stops a screen apart make sure nothing is skipped.
@@ -82,6 +136,7 @@
     requestAnimationFrame(step);
   };
   const go = dir => {
+    if (dsStep(dir)) return;
     buildStops();
     const y = scrollY;
     const next = dir > 0 ? stops.find(s => s > y + 4) : [...stops].reverse().find(s => s < y - 4);
@@ -94,14 +149,19 @@
     const now = performance.now();
     const quiet = now - lastWheel > 160;
     lastWheel = now;
-    if (animating || !quiet || Math.abs(e.deltaY) < 4) return;
-    go(Math.sign(e.deltaY));
+    const sideways = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+    const d = sideways ? e.deltaX : e.deltaY;
+    if (animating || !quiet || Math.abs(d) < 4) return;
+    if (sideways) dsStep(Math.sign(d));
+    else go(Math.sign(d));
   }, { passive: false });
 
   addEventListener('keydown', e => {
     if (!desktop() || e.target.closest('input, textarea, select, [contenteditable]')) return;
     const down = ['PageDown', 'ArrowDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey);
     const up = ['PageUp', 'ArrowUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
+    const side = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (side) { if (!animating && dsStep(side)) e.preventDefault(); return; }
     if (!down && !up) return;
     e.preventDefault();
     if (!animating) go(down ? 1 : -1);
@@ -115,6 +175,8 @@
     const track = () => {
       let cur = 0;
       targets.forEach((t, i) => { if (t.getBoundingClientRect().top < innerHeight * .4) cur = i; });
+      // the last section can't scroll to the top of the screen on phones; at the page end it is current
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = targets.length - 1;
       links.forEach((a, i) => a.setAttribute('aria-current', i === cur));
     };
     onScroll.push(track);

@@ -583,11 +583,6 @@
   text-wrap: pretty;
 }
 
-.impact-end {
-  margin-top: auto;
-  padding: clamp(28px, 3vw, 44px) var(--pad) clamp(80px, 8vw, 112px);
-}
-
 .to-top {
   font-size: var(--t-label);
   font-weight: 600;
@@ -814,4 +809,311 @@
 .challenges,
 .solutions {
   border-bottom: 0;
+}
+
+/* ---------- product designs ----------
+   Last section, one screen. Screens sit in a horizontal strip that runs off the right edge of the page;
+   each scroll moves the strip one screen along, and the squares by the title track the current screen. */
+.impact {
+  border-bottom: 0;
+}
+
+.designs {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-top: clamp(48px, 5vw, 80px);
+  border-bottom: 1px solid var(--frame);
+}
+
+.designs .sec-head {
+  justify-content: space-between;
+}
+
+/* previous / next arrows: they tell you the strip moves sideways, and move it one screen per click */
+.ds-arrows {
+  position: relative;
+  display: flex;
+  gap: 8px;
+}
+
+.ds-arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--stroke);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .2s, border-color .2s, opacity .2s;
+}
+
+.ds-arrow svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.ds-arrow:hover:not(:disabled) {
+  background: #1E1F22; /* the section menu's highlight */
+}
+
+.ds-arrow:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.ds-arrow:disabled {
+  opacity: .3;
+  cursor: default;
+}
+
+/* the arrows sit at the right end of the header, centred on the title line */
+.ds-head-end {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2vw, 32px);
+  margin-bottom: -11px;
+}
+
+/* the viewport runs from the left frame to the right edge of the window, so the next screen peeks in */
+.ds-viewport {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: flex-start;
+  margin-right: calc(-1 * var(--gutter) - 1px);
+  padding-bottom: clamp(48px, 6vw, 72px);
+  /* the rule under the header, drawn here so the title sits exactly where it does in the other sections;
+     it stops at the right frame even though the strip runs on to the window edge */
+  background: linear-gradient(var(--frame), var(--frame)) 0 0 / calc(100% - var(--gutter) - 1px) 1px no-repeat;
+  overflow: hidden;
+}
+
+/* phones only: the arrows under the strip */
+.ds-end {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ds-strip {
+  --ds-w: calc((100vw - 2 * var(--gutter)) * 2 / 3 - 2 * var(--pad)); /* two of the three columns */
+  display: flex;
+  gap: calc(2 * var(--pad));
+  padding: clamp(32px, 3.4vw, 56px) var(--pad) var(--pad); /* same top inset as the other sections' content */
+  transition: transform .85s var(--ease);
+}
+
+.ds-strip .shot {
+  flex: 0 0 var(--ds-w);
+  margin: 0;
+  aspect-ratio: 16 / 9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-strip { transition: none; }
+}
+
+@media (max-width: 899px) {
+  .designs {
+    min-height: 0;
+  }
+
+  /* phones: swipe the strip sideways, one screen at a time */
+  .ds-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .ds-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ds-strip {
+    --ds-w: 82vw;
+    gap: 12px;
+    width: max-content;
+  }
+
+  .ds-strip .shot {
+    scroll-snap-align: start;
+    scroll-margin-left: var(--pad);
+  }
+
+  .ds-viewport {
+    display: block;
+    padding-bottom: 0;
+  }
+
+  .ds-strip {
+    padding-bottom: var(--pad);
+  }
+
+  /* phones: the arrows move under the strip, beside Back to top, clear of the floating menu */
+  .ds-head-end {
+    display: none;
+  }
+
+  .ds-end {
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px var(--pad) clamp(40px, 10vw, 56px);
+  }
+}
+
+/* ---------- site footer ----------
+   Links on the left; two other projects across the remaining two columns; copyright underneath. */
+.site-foot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* one screen, so the last snap lands on the footer's top like every other section */
+  margin-top: clamp(48px, 5vw, 80px);
+  border: 1px solid var(--frame);
+  border-bottom: 0;
+}
+
+.sf-main {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--frame);
+}
+
+.sf-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(24px, 2.4vw, 36px);
+  padding: clamp(32px, 3.4vw, 56px) var(--pad);
+}
+
+.sf-links a,
+.sf-head {
+  font-size: var(--t-section);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.sf-links a {
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.sf-links a:hover,
+.sf-links a:focus-visible {
+  color: var(--text);
+}
+
+.sf-links a:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+}
+
+.sf-links .to-top span {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform .3s var(--ease);
+}
+
+.sf-links .to-top:hover span {
+  transform: translateY(-3px);
+}
+
+/* the two projects share one heading, so the grid spans both columns; the line between the two columns
+   runs the full height of the footer, as the column lines do elsewhere */
+.sf-projects {
+  grid-column: 2 / span 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
+  background: linear-gradient(var(--frame), var(--frame)) 50% 0 / 1px 100% no-repeat;
+}
+
+.sf-head {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: clamp(32px, 3.4vw, 56px) var(--pad) clamp(28px, 2.8vw, 44px);
+  color: var(--text);
+}
+
+.op-card {
+  padding: 0 var(--pad) clamp(40px, 4vw, 64px);
+}
+
+.sf-projects {
+  border-left: 1px solid var(--frame);
+}
+
+.op-card .shot {
+  margin: 0 0 clamp(20px, 2vw, 28px);
+  aspect-ratio: 16 / 9; /* same shape as the product design screens */
+}
+
+.op-card h3 {
+  margin: 0;
+  font-size: var(--t-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.op-card p {
+  margin: var(--gap-detail) 0 0;
+  max-width: 40ch;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.sf-copy {
+  margin: 0;
+  padding: clamp(28px, 2.8vw, 40px) var(--pad) clamp(88px, 8vw, 112px); /* clear of the floating menu */
+  font-size: var(--t-label);
+  color: var(--text-2);
+}
+
+.designs {
+  border-bottom: 0;
+}
+
+@media (max-width: 899px) {
+  .site-foot {
+    min-height: 0;
+  }
+
+  .sf-main,
+  .sf-projects {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sf-projects {
+    grid-column: auto;
+    border-left: 0;
+    border-top: 1px solid var(--frame);
+  }
+
+  .sf-projects {
+    background: none;
+  }
+
+  .sf-links {
+    padding: 48px var(--pad);
+  }
+
+  .sf-head {
+    padding-top: 48px;
+  }
 }

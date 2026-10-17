@@ -785,3 +785,33 @@
     font-size: 13px;
   }
 }
+
+/* ---------- one continuous frame ----------
+   The outer frame lines run the full length of the page, through the gaps between sections, so the
+   sections read as one structure rather than separate boxes. Each section is closed off by the next
+   section's top rule, so there are no doubled horizontal lines in the gaps. */
+.page {
+  position: relative;
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  border-left: 1px solid var(--frame);
+  border-right: 1px solid var(--frame);
+  pointer-events: none;
+}
+
+.hero-shot {
+  position: relative;
+  z-index: 1;
+}
+
+.challenges,
+.solutions {
+  border-bottom: 0;
+}

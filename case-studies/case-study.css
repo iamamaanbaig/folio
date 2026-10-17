@@ -236,7 +236,9 @@
 }
 
 /* the section title stays pinned while challenges snap underneath */
-.sec-head.sticky {
+/* the title and the CHALLENGE / HOW WE APPROACHED IT row pin together, so the rule under the labels
+   is always visible while challenges snap underneath */
+.ch-sticky {
   position: sticky;
   top: 0;
   z-index: 5;
@@ -437,7 +439,7 @@
     border-top: 1px solid var(--frame);
   }
 
-  .sec-head.sticky {
+  .ch-sticky {
     position: relative;
   }
 

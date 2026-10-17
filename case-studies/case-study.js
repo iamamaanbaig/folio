@@ -15,7 +15,7 @@
   }, { passive: true });
 
   /* ---------- challenges: pinned title height + one square per challenge ---------- */
-  const sticky = $('.sec-head.sticky');
+  const sticky = $('.ch-sticky');
   const rows = $$('.ch-text');
   const count = $('.count');
   const setSticky = () => document.documentElement.style.setProperty('--sticky-h', `${sticky ? sticky.offsetHeight : 0}px`);

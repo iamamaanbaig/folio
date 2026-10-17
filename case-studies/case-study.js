@@ -16,7 +16,7 @@
 
   /* ---------- challenges: pinned title height + one square per challenge ---------- */
   const sticky = $('.sec-head.sticky');
-  const rows = $$('.ch-row');
+  const rows = $$('.ch-text');
   const count = $('.count');
   const setSticky = () => document.documentElement.style.setProperty('--sticky-h', `${sticky ? sticky.offsetHeight : 0}px`);
   if (sticky) {
@@ -37,14 +37,14 @@
   }
 
   /* ---------- one scroll = next section (desktop) ----------
-     Stops are the elements marked data-stop. Challenge rows stop just under the pinned title. If a stretch
+     Stops are the elements marked data-stop. Challenges stop just under the pinned title. If a stretch
      between two stops is taller than the screen, extra stops a screen apart make sure nothing is skipped.
      Trackpad inertia is ignored until the wheel goes quiet, so one flick moves exactly one stop. */
   let stops = [];
   const buildStops = () => {
     const vh = innerHeight;
     const max = document.documentElement.scrollHeight - vh;
-    const offsetFor = el => (el.classList.contains('ch-row') && sticky ? sticky.offsetHeight : 0);
+    const offsetFor = el => (el.classList.contains('ch-text') && sticky ? sticky.offsetHeight : 0);
     const base = $$('[data-stop]').map(el => Math.round(el.getBoundingClientRect().top + scrollY - offsetFor(el)));
     base.push(max);
     // stops closer than a fifth of the screen collapse into one (e.g. the section top and its first row)

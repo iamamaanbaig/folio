@@ -258,15 +258,27 @@
   color: var(--text-2);
 }
 
-/* each challenge fills the screen below the pinned title */
-.ch-row {
+/* Text columns: each challenge fills the screen below the pinned title and snaps into place.
+   Centre column: one continuous image strip spanning both challenges, scrolling with the page. */
+.ch-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  min-height: calc(100vh - var(--sticky-h));
+  grid-auto-rows: minmax(calc(100vh - var(--sticky-h)), auto);
 }
 
-.ch-row + .ch-row {
+.ch-text.r1, .ch-approach.r1 { grid-row: 1; }
+.ch-text.r2, .ch-approach.r2 { grid-row: 2; }
+.ch-text { grid-column: 1; }
+.ch-approach { grid-column: 3; }
+
+/* divider between challenges runs through the text columns only, never across the strip */
+.ch-text.r2,
+.ch-approach.r2 {
   border-top: 1px solid var(--frame);
+}
+
+.m-media {
+  display: none;
 }
 
 .ch-text,
@@ -318,8 +330,11 @@
   text-wrap: pretty;
 }
 
-/* images sit in the centre column and scroll with their challenge */
+/* the strip spans both challenge rows with one even gap, so it reads as a single continuous column
+   (images never regroup to the top of the screen at each snap) */
 .ch-media {
+  grid-column: 2;
+  grid-row: 1 / span 2;
   display: grid;
   align-content: start;
   gap: clamp(16px, 1.6vw, 24px);
@@ -412,7 +427,7 @@
   .facts,
   .cards,
   .ch-labels,
-  .ch-row {
+  .ch-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -430,18 +445,28 @@
     display: none;
   }
 
-  .ch-row {
-    min-height: 0;
+  .ch-grid {
+    grid-auto-rows: auto;
   }
 
+  .ch-grid > * {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  /* phones: each challenge shows its own images inline instead of the shared strip */
   .ch-media {
-    order: 3;
-    padding: 0 0 24px;
-    border: 0;
+    display: none;
   }
 
-  .shot {
-    margin: 0 var(--pad);
+  .m-media {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .m-media .shot {
+    margin: 0;
   }
 
   .ch-approach {

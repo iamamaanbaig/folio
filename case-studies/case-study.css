@@ -14,6 +14,7 @@
   --t-lead: clamp(18px, 1.5vw, 22px);
   --t-body: clamp(16px, 1.25vw, 18px);
   --t-label: 13px;
+  --gap-detail: clamp(16px, 1.6vw, 24px); /* headline to its detail text */
   --text-soft: #D9DADD; /* long white passages, a step below headings */
 }
 
@@ -238,7 +239,7 @@
 /* the section title stays pinned while challenges snap underneath */
 /* the title and the CHALLENGE / HOW WE APPROACHED IT row pin together, so the rule under the labels
    is always visible while challenges snap underneath */
-.ch-sticky {
+.pin {
   position: sticky;
   top: 0;
   z-index: 5;
@@ -255,7 +256,7 @@
   padding: 0 var(--pad) clamp(14px, 1.4vw, 20px);
   font-size: var(--t-label);
   font-weight: 600;
-  letter-spacing: .12em;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -311,7 +312,8 @@
 
 .ch-text p {
   grid-column: 1 / -1;
-  margin: clamp(18px, 1.8vw, 26px) 0 0;
+  margin: var(--gap-detail) 0 0;
+  max-width: 40ch;
   font-size: var(--t-body);
   line-height: 1.5;
   color: var(--text-2);
@@ -348,6 +350,169 @@
 
 .page-end {
   height: 1px;
+}
+
+/* ---------- problems & solutions ----------
+   Pinned title + squares; each solution fills the screen and snaps. Layout per solution follows the
+   reference: (1) screen under the solution, impact beside it; (2) impact under the solution, tall screen
+   on the right; (3) impact top right, wide screen across solution + impact. Each column keeps its label. */
+
+.solutions {
+  margin-top: clamp(48px, 5vw, 80px);
+  border-bottom: 1px solid var(--frame);
+}
+
+.sol-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
+  min-height: calc(100vh - var(--sticky-h));
+  border-top: 1px solid var(--frame);
+}
+
+.sol-row.v1 { grid-template-areas: "prob sol ." "prob shot imp"; }
+.sol-row.v2 { grid-template-areas: "prob sol shot" "prob imp shot"; }
+.sol-row.v3 { grid-template-areas: "prob sol imp" "prob shot shot"; }
+
+.sol-problem { grid-area: prob; }
+.sol-solution { grid-area: sol; }
+.sol-impact { grid-area: imp; }
+.sol-shot { grid-area: shot; }
+
+.sol-label {
+  display: block;
+  margin-bottom: clamp(16px, 1.6vw, 22px);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.sol-problem .sol-label {
+  grid-column: 1 / -1;
+}
+
+.sol-problem,
+.sol-solution,
+.sol-impact {
+  padding: clamp(32px, 3.4vw, 56px) var(--pad) 0;
+}
+
+.sol-problem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto 1fr;
+  column-gap: clamp(14px, 1.4vw, 22px);
+  align-content: start;
+  border-right: 1px solid var(--frame);
+}
+
+.sol-problem .num {
+  grid-row: 2;
+  font-size: clamp(56px, 5vw, 84px);
+  font-weight: 600;
+  line-height: .8;
+  letter-spacing: -0.04em;
+}
+
+.sol-problem h3 {
+  grid-row: 2;
+  align-self: end;
+}
+
+.sol-problem p {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.sol-problem h3,
+.sol-solution h3 {
+  margin: 0;
+  font-size: var(--t-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.sol-problem p,
+.sol-solution p {
+  margin: var(--gap-detail) 0 0;
+  max-width: 40ch;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.v1 .sol-impact {
+  padding-top: clamp(24px, 2.4vw, 36px);
+}
+
+.sol-impact ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sol-impact li {
+  position: relative;
+  padding: 0 0 14px 22px;
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  color: var(--text-soft);
+}
+
+.sol-impact li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: 10px;
+  height: 2px;
+  background: #4A86E8;
+}
+
+.sol-shot {
+  margin: 0;
+  padding: clamp(24px, 2.4vw, 36px) var(--pad) clamp(64px, 7vw, 96px); /* room for the floating menu */
+}
+
+.sol-shot .shot {
+  margin: 0;
+}
+
+.v1 .sol-shot .shot { aspect-ratio: 1.15 / 1; }
+.v2 .sol-shot { padding-top: clamp(32px, 3.4vw, 56px); }
+.v2 .sol-shot .shot { aspect-ratio: 3 / 4; }
+.v3 .sol-shot .shot { aspect-ratio: 2.4 / 1; }
+
+.sol-shot figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+  font-size: var(--t-label);
+  color: var(--text-2);
+}
+
+.thumbs {
+  display: flex;
+  gap: 8px;
+}
+
+.thumbs i {
+  width: 24px;
+  height: 24px;
+  background: rgba(247, 248, 250, .2);
+}
+
+.thumbs i.on {
+  background: var(--surface);
+  outline: 1px solid var(--text);
+  outline-offset: 3px;
 }
 
 /* ---------- section index ---------- */
@@ -434,7 +599,7 @@
     border-top: 1px solid var(--frame);
   }
 
-  .ch-sticky {
+  .pin {
     position: relative;
   }
 
@@ -470,12 +635,38 @@
     padding-top: 0;
   }
 
+  .sol-row.v1,
+  .sol-row.v2,
+  .sol-row.v3 {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "prob" "sol" "shot" "imp";
+    min-height: 0;
+  }
+
+  .sol-shot .shot,
+  .v2 .sol-shot .shot {
+    aspect-ratio: 16 / 10;
+  }
+
+  .sol-shot,
+  .v2 .sol-shot {
+    padding: 20px var(--pad) 0;
+  }
+
+  .sol-problem {
+    border-right: 0;
+  }
+
+  .sol-impact {
+    padding-bottom: 24px;
+  }
+
   .m-label {
     display: block;
     margin-bottom: 12px;
     font-size: var(--t-label);
     font-weight: 600;
-    letter-spacing: .12em;
+    letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--text-2);
   }

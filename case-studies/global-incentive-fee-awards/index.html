@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
-  <link rel="stylesheet" href="../../styles.css?v=strip3">
-  <link rel="stylesheet" href="../case-study.css?v=strip3">
-  <script src="../case-study.js?v=strip3" defer></script>
+  <link rel="stylesheet" href="../../styles.css?v=sol2">
+  <link rel="stylesheet" href="../case-study.css?v=sol2">
+  <script src="../case-study.js?v=sol2" defer></script>
 </head>
 <body>
   <main class="page">
@@ -48,8 +48,8 @@
     </section>
 
     <!-- Project challenges: the title stays pinned while each challenge snaps into place -->
-    <section class="panel challenges" id="challenges" aria-labelledby="challenges-title" data-stop>
-      <div class="ch-sticky">
+    <section class="panel challenges snap-sec" id="challenges" aria-labelledby="challenges-title" data-stop>
+      <div class="ch-sticky pin">
       <header class="sec-head">
         <span class="ghost" aria-hidden="true">Challenges</span>
         <h2 class="sec-title" id="challenges-title">Project challenges <span class="count" aria-hidden="true"></span></h2>
@@ -70,7 +70,7 @@
           <div class="shot" role="img" aria-label="Challenge 2 image (coming soon)"></div>
         </div>
 
-        <div class="ch-text r1" data-stop>
+        <div class="ch-text r1" data-row data-stop>
           <span class="num accent" aria-hidden="true">1</span>
           <h3>Requirements given as solutions</h3>
           <p>We received an initial brief that outlined proposed solutions before the underlying user problems were fully understood.</p>
@@ -81,7 +81,7 @@
           <div class="m-media"><div class="shot" role="img" aria-label="Challenge 1 image (coming soon)"></div><div class="shot" role="img" aria-label="Challenge 1 image (coming soon)"></div></div>
         </div>
 
-        <div class="ch-text r2" data-stop>
+        <div class="ch-text r2" data-row data-stop>
           <span class="num accent" aria-hidden="true">2</span>
           <h3>Limited access to users</h3>
           <p>The stakeholders involved were occupied with other critical organisational matters, making it difficult to schedule time with them.</p>
@@ -94,6 +94,82 @@
       </div>
     </section>
 
+    <!-- Problems & solutions: the title and column labels stay pinned while each solution snaps into place -->
+    <section class="panel solutions snap-sec" id="solutions" aria-labelledby="solutions-title" data-stop>
+      <div class="pin">
+        <header class="sec-head">
+          <span class="ghost" aria-hidden="true">Solutions</span>
+          <h2 class="sec-title" id="solutions-title">Problems we discovered &amp; solutions we designed <span class="count" aria-hidden="true"></span></h2>
+        </header>
+      </div>
+
+      <article class="sol-row v1" data-row data-stop>
+        <div class="sol-problem">
+          <span class="sol-label">Problem</span>
+          <span class="num accent" aria-hidden="true">1</span>
+          <h3>Errors and roadblocks went unnoticed</h3>
+          <p>Editors only found errors and roadblocks when they had time to check GIFA.</p>
+        </div>
+        <div class="sol-solution">
+          <span class="sol-label">Solution designed</span>
+          <h3>Clear process view with automated alerts</h3>
+          <p>Every step of a fund’s process in one view, with alerts the moment something needs attention.</p>
+        </div>
+        <div class="sol-impact">
+          <span class="sol-label">Impact</span>
+          <ul><li>Improved process visibility</li><li>Early issue detection</li><li>Faster corrective action</li></ul>
+        </div>
+        <figure class="sol-shot">
+          <div class="shot" role="img" aria-label="GIFA fund realization screen (screen coming soon)"></div>
+          <figcaption><span>GIFA fund realization screen</span><span class="thumbs" aria-hidden="true"><i class="on"></i><i></i><i></i></span></figcaption>
+        </figure>
+      </article>
+
+      <article class="sol-row v2" data-row data-stop>
+        <div class="sol-problem">
+          <span class="sol-label">Problem</span>
+          <span class="num accent" aria-hidden="true">2</span>
+          <h3>Changes and decisions lacked visibility</h3>
+          <p>Stakeholders couldn’t see each other’s overlapping actions, leading to data discrepancies and time-consuming reconciliation.</p>
+        </div>
+        <div class="sol-solution">
+          <span class="sol-label">Solution designed</span>
+          <h3>Activity log</h3>
+          <p>Records every data change and the decision behind it, so everyone is on the same page.</p>
+        </div>
+        <div class="sol-impact">
+          <span class="sol-label">Impact</span>
+          <ul><li>Greater transparency</li><li>Less reconciliation</li><li>Better-informed decisions</li></ul>
+        </div>
+        <figure class="sol-shot">
+          <div class="shot" role="img" aria-label="Award activity log (screen coming soon)"></div>
+          <figcaption><span>Award activity log</span><span class="thumbs" aria-hidden="true"><i class="on"></i><i></i><i></i></span></figcaption>
+        </figure>
+      </article>
+
+      <article class="sol-row v3" data-row data-stop>
+        <div class="sol-problem">
+          <span class="sol-label">Problem</span>
+          <span class="num accent" aria-hidden="true">3</span>
+          <h3>Approvers manually reviewed hundreds of awards</h3>
+          <p>Approvers combed through hundreds of awards by hand to find the ones that matched their criteria.</p>
+        </div>
+        <div class="sol-solution">
+          <span class="sol-label">Solution designed</span>
+          <h3>Criteria-based award filtering</h3>
+          <p>Predefined criteria automatically flag the awards that match.</p>
+        </div>
+        <div class="sol-impact">
+          <span class="sol-label">Impact</span>
+          <ul><li>Less unnecessary review</li><li>Time spent only on relevant awards</li><li>More precise reviews</li></ul>
+        </div>
+        <figure class="sol-shot">
+          <div class="shot" role="img" aria-label="Award criteria builder (screen coming soon)"></div>
+          <figcaption><span>Award criteria builder</span><span class="thumbs" aria-hidden="true"><i class="on"></i><i></i><i></i></span></figcaption>
+        </figure>
+      </article>
+    </section>
+
     <!-- Next section: to be designed -->
     <div class="page-end" data-stop></div>
   </main>
@@ -103,6 +179,7 @@
     <a href="#overview"><span>01</span> Overview</a>
     <a href="#problem"><span>02</span> Problem</a>
     <a href="#challenges"><span>03</span> Challenges</a>
+    <a href="#solutions"><span>04</span> Solutions</a>
   </nav>
 </body>
 </html>

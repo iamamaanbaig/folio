@@ -6,7 +6,17 @@
   --frame: var(--stroke);
   --ghost-2: #1D1F22;
   --sticky-h: 0px;
+
+  /* Type scale: one size per role */
+  --t-display: clamp(40px, 5vw, 84px);
+  --t-heading: clamp(24px, 2.2vw, 32px);
+  --t-section: clamp(18px, 1.5vw, 22px);
+  --t-lead: clamp(18px, 1.5vw, 22px);
+  --t-body: clamp(16px, 1.25vw, 18px);
+  --t-label: 13px;
+  --text-soft: #D9DADD; /* long white passages, a step below headings */
 }
+
 
 .page {
   padding: 0 var(--gutter);
@@ -17,8 +27,8 @@
 .lede {
   margin: 0;
   max-width: 46ch;
-  font-size: clamp(17px, 1.4vw, 22px);
-  line-height: 1.5;
+  font-size: var(--t-lead);
+  line-height: 1.4;
   color: var(--text-2);
   text-wrap: pretty;
 }
@@ -77,10 +87,10 @@
   align-items: center;
   gap: 14px;
   margin: 0;
-  font-size: clamp(20px, 1.8vw, 28px);
+  font-size: var(--t-section);
   font-weight: 600;
   line-height: 1;
-  letter-spacing: .01em;
+  letter-spacing: .05em;
   text-transform: uppercase;
 }
 
@@ -130,8 +140,8 @@
 
 .hero h1 {
   margin: 0 0 clamp(14px, 1.4vw, 22px);
-  font-size: clamp(40px, 5vw, 84px);
-  font-weight: 600;
+  font-size: var(--t-display);
+  font-weight: 650;
   line-height: 1.02;
   letter-spacing: -0.025em;
   text-wrap: balance;
@@ -157,9 +167,9 @@
 }
 
 .facts dt {
-  font-size: 12px;
+  font-size: var(--t-label);
   font-weight: 600;
-  letter-spacing: .12em;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -167,9 +177,9 @@
 .facts dd {
   margin: 10px 0 0;
   max-width: 30ch;
-  font-size: clamp(15px, 1.15vw, 18px);
+  font-size: var(--t-body);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 /* ---------- the problem ---------- */
@@ -204,17 +214,17 @@
   width: max-content;
   max-width: 100%;
   margin: 0 0 clamp(12px, 1.2vw, 18px);
-  font-size: clamp(24px, 2.3vw, 38px);
+  font-size: var(--t-heading);
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.15;
   letter-spacing: -0.02em;
 }
 
 .card p {
   margin: 0;
   max-width: 46ch;
-  font-size: clamp(15px, 1.15vw, 18px);
-  line-height: 1.55;
+  font-size: var(--t-body);
+  line-height: 1.5;
   color: var(--text-2);
 }
 
@@ -241,7 +251,7 @@
 
 .ch-labels span {
   padding: 0 var(--pad) clamp(14px, 1.4vw, 20px);
-  font-size: 13px;
+  font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -274,7 +284,7 @@
 .ch-text .num {
   grid-row: 1;
   font-size: clamp(56px, 5vw, 84px);
-  font-weight: 500;
+  font-weight: 600;
   line-height: .8;
   letter-spacing: -0.04em;
 }
@@ -283,9 +293,9 @@
   grid-row: 1;
   align-self: end;
   margin: 0;
-  font-size: clamp(22px, 2vw, 32px);
+  font-size: var(--t-heading);
   font-weight: 600;
-  line-height: 1.12;
+  line-height: 1.15;
   letter-spacing: -0.018em;
   text-wrap: balance;
 }
@@ -293,7 +303,7 @@
 .ch-text p {
   grid-column: 1 / -1;
   margin: clamp(18px, 1.8vw, 26px) 0 0;
-  font-size: clamp(16px, 1.25vw, 19px);
+  font-size: var(--t-body);
   line-height: 1.5;
   color: var(--text-2);
   text-wrap: pretty;
@@ -301,9 +311,10 @@
 
 .ch-approach p {
   margin: 0;
-  font-size: clamp(17px, 1.4vw, 22px);
-  line-height: 1.45;
+  font-size: var(--t-lead);
+  line-height: 1.4;
   letter-spacing: -0.01em;
+  color: var(--text-soft);
   text-wrap: pretty;
 }
 
@@ -440,7 +451,7 @@
   .m-label {
     display: block;
     margin-bottom: 12px;
-    font-size: 13px;
+    font-size: var(--t-label);
     font-weight: 600;
     letter-spacing: .12em;
     text-transform: uppercase;

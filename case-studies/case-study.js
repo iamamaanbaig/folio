@@ -127,4 +127,11 @@
       history.replaceState(null, '', a.getAttribute('href'));
     }));
   }
+
+  /* ---------- back to top ---------- */
+  $$('.to-top').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    if (desktop()) glide(0);
+    else scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }));
 })();

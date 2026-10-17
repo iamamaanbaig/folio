@@ -515,6 +515,94 @@
   outline-offset: 3px;
 }
 
+/* ---------- project impact ----------
+   Closing section, one screen: a lead sentence, then three outcomes side by side. No figures. */
+
+.impact {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-top: clamp(48px, 5vw, 80px);
+  border-bottom: 1px solid var(--frame);
+}
+
+.impact-lead {
+  margin: 0;
+  padding: clamp(20px, 2vw, 32px) var(--pad) clamp(40px, 4.4vw, 72px);
+  max-width: 34ch;
+  font-size: var(--t-heading);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text-2);
+  text-wrap: balance;
+}
+
+.impact-lead strong {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--frame);
+  border-bottom: 1px solid var(--frame);
+}
+
+.outcome {
+  padding: clamp(28px, 3vw, 48px) var(--pad) clamp(36px, 4vw, 64px);
+}
+
+.outcome + .outcome {
+  border-left: 1px solid var(--frame);
+}
+
+.tick {
+  display: block;
+  width: 24px;
+  height: 3px;
+  margin-bottom: clamp(20px, 2vw, 28px);
+  background: var(--accent);
+}
+
+.outcome h3 {
+  margin: 0;
+  font-size: var(--t-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+}
+
+.outcome p {
+  margin: var(--gap-detail) 0 0;
+  max-width: 40ch;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.impact-end {
+  margin-top: auto;
+  padding: clamp(28px, 3vw, 44px) var(--pad) clamp(80px, 8vw, 112px);
+}
+
+.to-top {
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.to-top:hover,
+.to-top:focus-visible {
+  color: var(--text);
+}
+
 /* ---------- section index ---------- */
 
 .index {
@@ -659,6 +747,19 @@
 
   .sol-impact {
     padding-bottom: 24px;
+  }
+
+  .impact {
+    min-height: 0;
+  }
+
+  .outcomes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .outcome + .outcome {
+    border-left: 0;
+    border-top: 1px solid var(--frame);
   }
 
   .m-label {

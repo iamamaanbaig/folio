@@ -215,6 +215,54 @@
   background: var(--surface);
 }
 
+/* Three laptops composed in the container. Sizes follow the page width, so the outer edges of the side
+   laptops always sit exactly on the left and right frame lines. The centre laptop is in front and larger;
+   the side ones are smaller and set back. All three are cut off by the bottom of the container.
+   The numbers come from the image files: each laptop body is 1567px wide (1008px tall to the cut), starting
+   83px in on the centre and left images and 3px in on the right one, 43px from the top. */
+.hero-shot {
+  --F: calc(100vw - 2 * var(--gutter)); /* frame width */
+  --bc: calc(var(--F) * .52);            /* centre laptop body width */
+  --bs: calc(var(--bc) * .73);           /* side laptop body width */
+  --t: 7%;                               /* centre laptop top */
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-comp {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-comp img {
+  position: absolute;
+  display: block;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hc-center {
+  z-index: 2;
+  left: calc(50% - var(--bc) / 2 - var(--bc) * 83 / 1567);
+  top: calc(var(--t) - var(--bc) * 43 / 1567);
+  width: calc(var(--bc) * 1733 / 1567);
+}
+
+.hc-left,
+.hc-right {
+  top: calc(var(--t) + var(--bc) * 1008 / 1567 * .27 - var(--bs) * 43 / 1567);
+  width: calc(var(--bs) * 1653 / 1567);
+}
+
+.hc-left {
+  left: calc(var(--gutter) - var(--bs) * 83 / 1567);
+}
+
+.hc-right {
+  left: calc(100% - var(--gutter) - var(--bs) - var(--bs) * 3 / 1567);
+}
+
 .hero-body {
   padding: clamp(28px, 3.2vw, 52px) var(--pad) clamp(28px, 3vw, 48px);
   border-left: 1px solid var(--frame);
@@ -745,9 +793,10 @@
     min-height: 0;
   }
 
+  /* phones: the container is just tall enough to show most of the centre laptop */
   .hero-shot {
     flex: none;
-    height: 44vw;
+    height: calc(var(--bc) * 1008 / 1567 * .92);
     min-height: 0;
   }
 

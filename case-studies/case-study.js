@@ -166,6 +166,59 @@
     return true;
   };
 
+  /* ---------- image viewer ----------
+     Any .zoom button opens the viewer; the arrows (and left/right keys) step through the visible images in
+     the same gallery, Esc or the close button shuts it and returns focus to the image. */
+  const lb = $('.lightbox');
+  let lbList = [];
+  let lbAt = 0;
+  let lbFrom = null;
+  const lbOpen = () => lb && !lb.hidden;
+  const lbShow = i => {
+    lbAt = (i + lbList.length) % lbList.length;
+    const fig = lbList[lbAt];
+    const img = $('img', fig);
+    const pic = $('.lb-img', lb);
+    pic.src = img.currentSrc || img.src;
+    pic.alt = img.alt;
+    pic.style.animation = 'none';
+    void pic.offsetWidth; // restart the fade for each image
+    pic.style.animation = '';
+    $('.lb-title', lb).textContent = $('figcaption', fig).textContent;
+    $('.lb-count', lb).textContent = `${lbAt + 1} / ${lbList.length}`;
+  };
+  const lbClose = () => {
+    lb.hidden = true;
+    document.documentElement.classList.remove('lb-open');
+    if (lbFrom) lbFrom.focus();
+  };
+  if (lb) {
+    $$('.zoom').forEach(btn => btn.addEventListener('click', () => {
+      lbList = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null);
+      lbFrom = btn;
+      lb.hidden = false;
+      document.documentElement.classList.add('lb-open');
+      lbShow(lbList.indexOf(btn.closest('.ch-fig')));
+      $('.lb-close', lb).focus();
+    }));
+    $('.lb-prev', lb).addEventListener('click', () => lbShow(lbAt - 1));
+    $('.lb-next', lb).addEventListener('click', () => lbShow(lbAt + 1));
+    $('.lb-close', lb).addEventListener('click', lbClose);
+    // a click on the backdrop (not the image or a button) closes it
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.matches('.lb-stage, .lb-frame, .lb-bar')) lbClose(); });
+    lb.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { e.preventDefault(); lbClose(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); lbShow(lbAt - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); lbShow(lbAt + 1); }
+      else if (e.key === 'Tab') { // keep focus inside the viewer
+        const f = $$('button', lb);
+        const i = f.indexOf(document.activeElement);
+        e.preventDefault();
+        f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+    });
+  }
+
   /* ---------- one scroll = next section (desktop) ----------
      Stops are the elements marked data-stop. Challenges stop just under the pinned title. If a stretch
      between two stops is taller than the screen, extra stops a screen apart make sure nothing is skipped.
@@ -217,7 +270,7 @@
   };
 
   addEventListener('wheel', e => {
-    if (!desktop() || e.ctrlKey) return;
+    if (!desktop() || e.ctrlKey || lbOpen()) return;
     e.preventDefault();
     const now = performance.now();
     const quiet = now - lastWheel > 160;
@@ -230,7 +283,7 @@
   }, { passive: false });
 
   addEventListener('keydown', e => {
-    if (!desktop() || e.target.closest('input, textarea, select, [contenteditable]')) return;
+    if (!desktop() || lbOpen() || e.target.closest('input, textarea, select, [contenteditable]')) return;
     const down = ['PageDown', 'ArrowDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey);
     const up = ['PageUp', 'ArrowUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
     const side = { ArrowRight: 1, ArrowLeft: -1 }[e.key];

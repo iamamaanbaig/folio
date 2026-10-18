@@ -1259,3 +1259,193 @@
     padding-top: 48px;
   }
 }
+
+/* ---------- challenge images ----------
+   Each image sits whole inside its container (nothing is cropped). The label sits inside the container,
+   top left, so the containers keep their size and the challenges still fit the screen. Hover or focus shows
+   a zoom button; clicking opens the image viewer. */
+.ch-fig {
+  position: relative;
+  margin: 0 clamp(16px, 1.6vw, 24px);
+}
+
+.ch-fig figcaption {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 56px;
+  z-index: 1;
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.3;
+  color: #5F6267; /* dark grey on the light container (6:1 contrast) */
+  pointer-events: none;
+}
+
+.zoom {
+  --ip: clamp(10px, 1vw, 16px); /* inset around the image; the top leaves room for the label */
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.55;
+  padding: 0;
+  border: 0;
+  background: var(--surface);
+  cursor: zoom-in;
+}
+
+/* placed absolutely so a tall image can never stretch its container */
+.zoom img {
+  position: absolute;
+  top: 40px;
+  left: var(--ip);
+  display: block;
+  width: calc(100% - 2 * var(--ip));
+  height: calc(100% - 40px - var(--ip));
+  object-fit: contain;
+}
+
+.zoom-ic {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(18, 19, 21, .82);
+  color: var(--text);
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity .2s, transform .2s var(--ease);
+}
+
+.zoom-ic svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.zoom:hover .zoom-ic,
+.zoom:focus-visible .zoom-ic {
+  opacity: 1;
+  transform: none;
+}
+
+.zoom:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+/* touch screens have no hover, so the zoom button always shows */
+@media (hover: none) {
+  .zoom-ic {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- image viewer ----------
+   Full-window viewer over a near-solid page background: the label and position on top, the image as large
+   as fits, previous / next arrows either side (the same buttons as the Product designs strip). */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: rgba(18, 19, 21, .96);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  animation: lb-in .25s var(--ease);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+@keyframes lb-in {
+  from { opacity: 0; }
+}
+
+.lb-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(12px, 1.6vw, 24px) calc(var(--gutter) + var(--pad));
+}
+
+.lb-label {
+  margin: 0;
+  font-size: var(--t-label);
+  color: var(--text);
+}
+
+.lb-count {
+  margin-left: 10px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-stage {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(12px, 2vw, 32px);
+  min-height: 0;
+  padding: 0 calc(var(--gutter) + var(--pad)) clamp(24px, 3vw, 48px);
+}
+
+.lb-frame {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+}
+
+.lb-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  padding: clamp(12px, 1.6vw, 24px);
+  background: var(--surface);
+  object-fit: contain;
+  animation: lb-in .3s var(--ease);
+}
+
+html.lb-open {
+  overflow: hidden;
+}
+
+@media (max-width: 899px) {
+  .ch-fig {
+    margin: 0;
+  }
+
+  /* phones: arrows sit under the image so it can use the full width */
+  .lb-stage {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    padding: 0 var(--pad) 32px;
+  }
+
+  .lb-frame {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .lb-prev {
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  .lb-next {
+    grid-row: 2;
+    justify-self: end;
+  }
+}

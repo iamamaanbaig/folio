@@ -167,39 +167,70 @@
   };
 
   /* ---------- image viewer ----------
-     Any .zoom button opens the viewer; the arrows (and left/right keys) step through the visible images in
-     the same gallery, Esc or the close button shuts it and returns focus to the image. */
+     Opens from a challenge image (stepping through the challenge images on screen) or from a solution's
+     screen (stepping through that solution's screens). Arrows and left/right keys step, Esc or the close
+     button shuts it and returns focus to where it was opened. */
   const lb = $('.lightbox');
-  let lbList = [];
+  let lbList = []; // { src, alt, label }
   let lbAt = 0;
   let lbFrom = null;
+  let lbDone = null; // called with the last image shown, when the viewer closes
   const lbOpen = () => lb && !lb.hidden;
   const lbShow = i => {
     lbAt = (i + lbList.length) % lbList.length;
-    const fig = lbList[lbAt];
-    const img = $('img', fig);
+    const item = lbList[lbAt];
     const pic = $('.lb-img', lb);
-    pic.src = img.currentSrc || img.src;
-    pic.alt = img.alt;
+    pic.src = item.src;
+    pic.alt = item.alt;
     pic.style.animation = 'none';
     void pic.offsetWidth; // restart the fade for each image
     pic.style.animation = '';
-    $('.lb-title', lb).textContent = $('figcaption', fig).textContent;
+    $('.lb-title', lb).textContent = item.label;
     $('.lb-count', lb).textContent = `${lbAt + 1} / ${lbList.length}`;
+  };
+  const lbStart = (items, at, from, done) => {
+    lbList = items;
+    lbFrom = from;
+    lbDone = done || null;
+    lb.hidden = false;
+    document.documentElement.classList.add('lb-open');
+    lbShow(at);
+    $('.lb-close', lb).focus();
   };
   const lbClose = () => {
     lb.hidden = true;
     document.documentElement.classList.remove('lb-open');
+    if (lbDone) lbDone(lbAt);
     if (lbFrom) lbFrom.focus();
   };
+  const itemOf = (img, label) => ({ src: img.currentSrc || img.src, alt: img.alt, label });
+
+  /* ---------- solution screens: thumbnails switch the screen, the label follows ---------- */
+  $$('.sol-shot').forEach(fig => {
+    const view = $('.sol-view', fig);
+    if (!view) return;
+    const imgs = $$('img', view);
+    const thumbs = $$('.thumb', fig);
+    const cap = $('.sol-cap', fig);
+    let at = 0;
+    const set = i => {
+      at = i;
+      imgs.forEach((im, k) => im.classList.toggle('on', k === i));
+      thumbs.forEach((t, k) => { t.classList.toggle('on', k === i); t.setAttribute('aria-pressed', k === i); });
+      cap.textContent = imgs[i].dataset.label;
+      view.setAttribute('aria-label', `Enlarge: ${imgs[i].dataset.label}`);
+    };
+    thumbs.forEach((t, k) => t.addEventListener('click', () => set(k)));
+    if (lb) view.addEventListener('click', () => {
+      imgs.forEach(im => { im.loading = 'eager'; });
+      lbStart(imgs.map(im => itemOf(im, im.dataset.label)), at, view, set);
+    });
+  });
+
   if (lb) {
     $$('.zoom').forEach(btn => btn.addEventListener('click', () => {
-      lbList = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null);
-      lbFrom = btn;
-      lb.hidden = false;
-      document.documentElement.classList.add('lb-open');
-      lbShow(lbList.indexOf(btn.closest('.ch-fig')));
-      $('.lb-close', lb).focus();
+      const figs = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null);
+      lbStart(figs.map(f => itemOf($('img', f), $('figcaption', f).textContent)), figs.indexOf(btn.closest('.ch-fig')), btn);
     }));
     $('.lb-prev', lb).addEventListener('click', () => lbShow(lbAt - 1));
     $('.lb-next', lb).addEventListener('click', () => lbShow(lbAt + 1));

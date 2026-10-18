@@ -633,15 +633,70 @@
   gap: 8px;
 }
 
-.thumbs i {
+/* thumbnails of the screens in a solution; the current one is outlined, the others dimmed */
+.thumb {
+  display: block;
   width: 24px;
   height: 24px;
-  background: rgba(247, 248, 250, .2);
+  padding: 0;
+  border: 0;
+  background: var(--surface);
+  cursor: pointer;
+  opacity: .45;
+  transition: opacity .2s;
 }
 
-.thumbs i.on {
-  background: var(--surface);
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb:hover,
+.thumb.on {
+  opacity: 1;
+}
+
+.thumb.on {
   outline: 1px solid var(--text);
+  outline-offset: 3px;
+}
+
+.thumb:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+/* the screens of a solution, stacked; the current one fades in, shown whole inside its container */
+.sol-view {
+  --ip: clamp(10px, 1vw, 16px);
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  cursor: zoom-in;
+}
+
+.sol-view img {
+  position: absolute;
+  top: var(--ip);
+  left: var(--ip);
+  display: block;
+  width: calc(100% - 2 * var(--ip));
+  height: calc(100% - 2 * var(--ip));
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .35s var(--ease);
+}
+
+.sol-view img.on {
+  opacity: 1;
+}
+
+.sol-view:focus-visible {
+  outline: 2px solid var(--text);
   outline-offset: 3px;
 }
 
@@ -1307,6 +1362,7 @@
 
 .zoom-ic {
   position: absolute;
+  z-index: 1;
   top: 10px;
   right: 10px;
   display: grid;
@@ -1329,7 +1385,9 @@
 }
 
 .zoom:hover .zoom-ic,
-.zoom:focus-visible .zoom-ic {
+.zoom:focus-visible .zoom-ic,
+.sol-view:hover .zoom-ic,
+.sol-view:focus-visible .zoom-ic {
   opacity: 1;
   transform: none;
 }

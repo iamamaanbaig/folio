@@ -695,6 +695,32 @@
   opacity: 1;
 }
 
+/* Device screens that are cut off in the image itself run to the container's edge on the cut sides, so the
+   cut lines up with the container instead of floating inside it. --cut (image height / height to the cut)
+   pushes the soft shadow under the cut out of view. */
+.sol-view {
+  overflow: hidden;
+}
+
+.sol-view img[data-bleed] {
+  height: calc((100% - var(--ip)) * var(--cut));
+}
+
+.sol-view img[data-bleed="rb"] {   /* cut on the right and bottom */
+  width: calc(100% - var(--ip));
+  object-position: right bottom;
+}
+
+.sol-view img[data-bleed="lb"] {   /* cut on the left and bottom */
+  left: 0;
+  width: calc(100% - var(--ip));
+  object-position: left bottom;
+}
+
+.sol-view img[data-bleed="b"] {    /* cut at the bottom */
+  object-position: center bottom;
+}
+
 .sol-view:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 3px;
@@ -912,9 +938,17 @@
     min-height: 0;
   }
 
-  .sol-shot .shot,
-  .v2 .sol-shot .shot {
+  .sol-shot .shot {
     aspect-ratio: 16 / 10;
+  }
+
+  /* each container takes the shape of its screens, so they show as large as the width allows */
+  .v2 .sol-shot .shot {
+    aspect-ratio: 3 / 4;
+  }
+
+  .v3 .sol-shot .shot {
+    aspect-ratio: 2 / 1;
   }
 
   .sol-shot,

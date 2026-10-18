@@ -45,7 +45,7 @@
      title track the screen(s) at rest on the left. */
   const designs = $('.designs');
   const strip = designs && $('.ds-strip', designs);
-  const screens = strip ? $$('.shot', strip) : [];
+  const screens = strip ? $$('.ds-fig', strip) : [];
   const dsArrows = designs ? $$('.ds-arrow', designs) : [];
   let dsSquares = [];
   let dsIndex = 0;
@@ -104,7 +104,10 @@
     // drag with the mouse (or a finger on a wide tablet): the strip follows the pointer 1:1, stretches a
     // little past either end, and on release settles on the nearest screen, or the next one after a flick
     let drag = null;
+    let dragged = false;
+    viewport.addEventListener('click', e => { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
     viewport.addEventListener('pointerdown', e => {
+      dragged = false;
       if (!desktop() || e.button !== 0) return;
       drag = { id: e.pointerId, x0: e.clientX, base: dsX, x: e.clientX, t: performance.now(), v: 0, moved: false };
       strip.style.transition = 'none';
@@ -136,6 +139,7 @@
       strip.style.transition = '';
       viewport.classList.remove('is-dragging');
       if (!moved) return;
+      dragged = true; // the click that ends a drag must not open the viewer
       const at = dsStops();
       const pos = -dsX;
       let i = 0;
@@ -167,8 +171,8 @@
   };
 
   /* ---------- image viewer ----------
-     Opens from a challenge image (stepping through the challenge images on screen) or from a solution's
-     screen (stepping through that solution's screens). Arrows and left/right keys step, Esc or the close
+     Opens from a challenge image (stepping through the challenge images on screen), a solution's screen
+     (stepping through that solution's screens) or a product design (stepping through all six). Arrows and left/right keys step, Esc or the close
      button shuts it and returns focus to where it was opened. */
   const lb = $('.lightbox');
   let lbList = []; // { src, alt, label }
@@ -228,6 +232,14 @@
   });
 
   if (lb) {
+    // product designs: a click (not a drag) opens the screen; closing the viewer leaves the strip on the last one seen
+    const dsViews = $$('.ds-view');
+    dsViews.forEach((v, i) => v.addEventListener('click', () => {
+      lbStart(dsViews.map(d => itemOf($('img', d), d.closest('.ds-fig').querySelector('figcaption').textContent)), i, v, k => {
+        if (desktop()) dsShow(k);
+        else strip.parentElement.scrollTo({ left: screens[k].offsetLeft - screens[0].offsetLeft });
+      });
+    }));
     $$('.zoom').forEach(btn => btn.addEventListener('click', () => {
       const figs = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null);
       lbStart(figs.map(f => itemOf($('img', f), $('figcaption', f).textContent)), figs.indexOf(btn.closest('.ch-fig')), btn);

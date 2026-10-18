@@ -20,3 +20,10 @@ as needed, keeping the intent of the reference.
 - Font: Inter.
 - Structure: `index.html` (home: hero → case-study list → contact),
   `case-studies/<slug>/index.html` per case study, shared `styles.css`.
+
+## Pages
+- Home page: `index.html` (not designed yet; currently redirects to the
+  first case study).
+- "Global Incentive Fee Awards case study":
+  `case-studies/global-incentive-fee-awards/index.html`. A case study page,
+  not the home page. Its images live in `GIFAcasestudyimages/`.

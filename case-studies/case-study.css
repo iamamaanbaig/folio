@@ -1999,3 +1999,37 @@ div.sol-view {
 .lightbox.lb-single .lb-count {
   display: none;
 }
+
+/* solution's supporting screen: its label sits above the frame (as on the problem image), and on desktop
+   the frame gets shorter when the screen is short, so it never runs into the title and text above it */
+.dz-side figcaption {
+  position: static;
+  margin-bottom: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--text-2);
+}
+
+.dz-side .zoom img {
+  top: var(--ip);
+  height: calc(100% - 2 * var(--ip));
+}
+
+@media (min-width: 900px) {
+  .one-screen .dz-side {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+  }
+
+  .one-screen .dz-side figcaption {
+    flex: none;
+  }
+
+  .one-screen .dz-side .zoom {
+    flex: 0 1 auto;
+    min-height: 0;
+  }
+}

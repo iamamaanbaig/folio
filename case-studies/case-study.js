@@ -252,8 +252,10 @@
           k => s.goTo(s.screens.indexOf(views[k].closest('.ds-fig'))));
       }));
     });
-    $$('.zoom').filter(b => $('img', b)).forEach(btn => btn.addEventListener('click', () => {
-      const figs = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null && $('img', f));
+    // only image buttons (an image directly inside), so a video's still never counts as an image
+    const zoomImg = el => $(':scope > img', el);
+    $$('.zoom').filter(zoomImg).forEach(btn => btn.addEventListener('click', () => {
+      const figs = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null && $('.zoom', f) && zoomImg($('.zoom', f)));
       lbStart(figs.map(f => itemOf($('img', f), $('figcaption', f).textContent)), figs.indexOf(btn.closest('.ch-fig')), btn);
     }));
     $('.lb-prev', lb).addEventListener('click', () => lbShow(lbAt - 1));

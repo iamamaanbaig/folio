@@ -1964,3 +1964,38 @@ div.sol-view {
   outline: 2px solid var(--text);
   outline-offset: 3px;
 }
+
+/* wide image (problem): its label sits outside, above the frame on the left, styled like the other labels
+   above images; the image is centred in the frame with an even inset all round */
+.wide-shot .ch-fig {
+  display: flex;
+  flex-direction: column;
+}
+
+.wide-shot .ch-fig figcaption {
+  position: static;
+  margin-bottom: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--text-2);
+}
+
+.wide-shot .zoom img {
+  top: var(--ip);
+  height: calc(100% - 2 * var(--ip));
+}
+
+@media (min-width: 900px) {
+  .one-screen .wide-shot .zoom {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+  }
+}
+
+/* image viewer opened on a section's only image: no arrows, no count */
+.lightbox.lb-single .lb-prev,
+.lightbox.lb-single .lb-next,
+.lightbox.lb-single .lb-count {
+  display: none;
+}

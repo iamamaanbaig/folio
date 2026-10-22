@@ -204,6 +204,8 @@
   };
   const lbStart = (items, at, from, done) => {
     lbList = items;
+    // a single image has nothing to step to: no previous / next arrows and no "1 / 1" count
+    lb.classList.toggle('lb-single', items.length < 2);
     lbFrom = from;
     lbDone = done || null;
     lb.hidden = false;
@@ -261,10 +263,10 @@
     lb.addEventListener('click', e => { if (e.target === lb || e.target.matches('.lb-stage, .lb-frame, .lb-bar')) lbClose(); });
     lb.addEventListener('keydown', e => {
       if (e.key === 'Escape') { e.preventDefault(); lbClose(); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); lbShow(lbAt - 1); }
-      else if (e.key === 'ArrowRight') { e.preventDefault(); lbShow(lbAt + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); if (lbList.length > 1) lbShow(lbAt - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); if (lbList.length > 1) lbShow(lbAt + 1); }
       else if (e.key === 'Tab') { // keep focus inside the viewer
-        const f = $$('button', lb);
+        const f = $$('button', lb).filter(b => b.offsetParent !== null); // only the buttons on show
         const i = f.indexOf(document.activeElement);
         e.preventDefault();
         f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();

@@ -273,7 +273,7 @@
   margin: 0 0 clamp(14px, 1.4vw, 22px);
   font-size: var(--t-display);
   font-weight: 650;
-  line-height: 1.02;
+  line-height: 1.1; /* room between lines when the title wraps, still tight enough to read as one block */
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
@@ -1789,12 +1789,6 @@ div.sol-view {
   }
 }
 
-/* a headline sized by script to fill its column (see .fit in case-study.js); one line on desktop */
-.hero h1.fit {
-  white-space: nowrap;
-  text-wrap: nowrap;
-}
-
 /* sections that fit exactly one screen, so one scroll moves straight to the next section (no extra stop):
    the image takes whatever height is left */
 @media (min-width: 900px) {
@@ -1840,12 +1834,6 @@ div.sol-view {
   }
 }
 
-@media (max-width: 899px) {
-  .hero h1.fit span {
-    display: block;
-    width: max-content;
-  }
-}
 
 /* solution: a divider between the left column and the main screen, on the same column line as the
    dividers in the other sections, running from the section's top rule to its bottom */

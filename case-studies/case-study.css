@@ -1882,3 +1882,18 @@ div.sol-view {
     display: none;
   }
 }
+
+/* a video in an image container: shown whole at 16:9, centred inside the light frame with the same inset
+   images get, however the frame is shaped */
+.zoom.video {
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+.zoom.video iframe {
+  display: block;
+  width: min(calc(100cqw - 2 * var(--ip)), calc((100cqh - 2 * var(--ip)) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  border: 0;
+}

@@ -2355,3 +2355,19 @@ div.sol-view {
     aspect-ratio: auto;
   }
 }
+
+/* overview facts: Team and Client. Team takes two of the three columns, so the divider sits on the same
+   column line as the dividers in the other sections */
+.facts {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.facts > div:first-child dd {
+  max-width: 46ch;
+}
+
+@media (max-width: 899px) {
+  .facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

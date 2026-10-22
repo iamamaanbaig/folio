@@ -1781,3 +1781,61 @@ div.sol-view {
     aspect-ratio: 1.55;
   }
 }
+
+/* a headline sized by script to fill its column (see .fit in case-study.js); one line on desktop */
+.hero h1.fit {
+  white-space: nowrap;
+  text-wrap: nowrap;
+}
+
+/* sections that fit exactly one screen, so one scroll moves straight to the next section (no extra stop):
+   the image takes whatever height is left */
+@media (min-width: 900px) {
+  .one-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 0;
+  }
+
+  .one-screen .wide-shot {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-bottom: clamp(64px, 7vw, 96px); /* room for the floating menu */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .one-screen .wide-shot .ch-fig {
+    flex: 1 1 auto;
+    display: flex;
+  }
+
+  .one-screen .wide-shot .zoom {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .one-screen .dz-grid {
+    flex: 1 1 auto;
+    min-height: 0;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .one-screen .dz-main {
+    display: flex;
+    min-height: 0;
+  }
+
+  .one-screen .dz-main .zoom {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+}
+
+@media (max-width: 899px) {
+  .hero h1.fit span {
+    display: block;
+    width: max-content;
+  }
+}

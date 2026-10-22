@@ -369,6 +369,27 @@
     }));
   }
 
+  /* ---------- headline that fills the width ----------
+     A .fit headline is sized so its widest line runs exactly from the left to the right edge of its column.
+     Desktop: one line. Phones: each span is its own line. Re-fitted on resize and once the font has loaded. */
+  const fits = $$('.fit');
+  const fitAll = () => fits.forEach(h => {
+    h.style.fontSize = '';
+    const range = document.createRange();
+    range.selectNodeContents(h);
+    for (let i = 0; i < 3; i++) { // a few passes absorb rounding and letter-spacing
+      const size = parseFloat(getComputedStyle(h).fontSize);
+      const w = range.getBoundingClientRect().width;
+      if (!w) return;
+      h.style.fontSize = `${size * h.clientWidth / w}px`;
+    }
+  });
+  if (fits.length) {
+    fitAll();
+    addEventListener('resize', fitAll);
+    if (document.fonts) document.fonts.ready.then(fitAll);
+  }
+
   /* ---------- back to top ---------- */
   $$('.to-top').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();

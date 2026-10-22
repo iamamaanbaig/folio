@@ -2339,3 +2339,18 @@ div.sol-view {
     min-height: 0;
   }
 }
+
+@media (min-width: 900px) {
+  /* problem rows with a picture across two columns: the frame fills the height left in the row (one
+     screen under the pinned title), so a row never runs past the screen; the picture sits whole inside */
+  .vw .sol-shot {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vw .sol-shot .shot {
+    flex: 1 1 0;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+}

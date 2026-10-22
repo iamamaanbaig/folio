@@ -2268,3 +2268,47 @@ div.sol-view {
 .stat-num {
   font-size: clamp(48px, 4.4vw, 72px);
 }
+
+/* a key phrase in a problem description, highlighted the same way as in the leads */
+.sol-desc strong {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* prototype frame: the Figma prototype fills the frame (inside the usual inset) once loaded; until then,
+   a button in the middle of the light frame loads it */
+.zoom.proto .yt,
+.zoom.proto iframe {
+  position: absolute;
+  inset: var(--ip);
+  width: calc(100% - 2 * var(--ip));
+  height: calc(100% - 2 * var(--ip));
+  border: 0;
+}
+
+.yt.proto-start {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
+  background: transparent;
+  color: #5F6267;
+}
+
+.proto-start .yt-play {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  background: #121315;
+}
+
+.proto-start:hover .yt-play,
+.proto-start:focus-visible .yt-play {
+  transform: scale(1.06);
+}
+
+.proto-label {
+  font-size: var(--t-label);
+  font-weight: 500;
+}

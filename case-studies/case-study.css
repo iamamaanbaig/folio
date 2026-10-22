@@ -1655,7 +1655,8 @@ html.lb-open {
   aspect-ratio: 1.15 / 1;
 }
 
-/* designed solution: the idea across two columns, then the main screen beside a supporting one */
+/* designed solution: left column holds the idea (top) and a supporting screen (bottom);
+   the main screen fills the two right columns, from the top of the title to the bottom of that screen */
 .design {
   margin-top: clamp(48px, 5vw, 80px);
 }
@@ -1663,13 +1664,15 @@ html.lb-open {
 .dz-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
   gap: clamp(28px, 2.8vw, 44px) calc(2 * var(--pad));
   padding: clamp(32px, 3.4vw, 56px) var(--pad) clamp(64px, 7vw, 96px); /* room for the floating menu */
   border-top: 1px solid var(--frame);
 }
 
 .dz-text {
-  grid-column: 1 / span 2;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .dz-text h3 {
@@ -1683,10 +1686,10 @@ html.lb-open {
 
 .dz-text p {
   margin: var(--gap-detail) 0 0;
-  max-width: 52ch;
-  font-size: var(--t-body);
-  line-height: 1.5;
-  color: var(--text-2);
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-soft);
   text-wrap: pretty;
 }
 
@@ -1695,7 +1698,8 @@ html.lb-open {
 }
 
 .dz-main {
-  grid-column: 1 / span 2;
+  grid-column: 2 / span 2;
+  grid-row: 1 / span 2;
 }
 
 .dz-main .zoom {
@@ -1703,7 +1707,9 @@ html.lb-open {
 }
 
 .dz-side {
-  align-self: start;
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
 }
 
 .dz-side .zoom {
@@ -1736,6 +1742,7 @@ html.lb-open {
 
   .dz-grid > * {
     grid-column: 1;
+    grid-row: auto;
   }
 }
 
@@ -1831,6 +1838,19 @@ div.sol-view {
     aspect-ratio: auto;
     height: 100%;
   }
+
+  /* on short screens the supporting screen gives up height rather than run into the text above it */
+  .one-screen .dz-side {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+  }
+
+  .one-screen .dz-side .zoom {
+    max-height: 100%;
+  }
 }
 
 @media (max-width: 899px) {
@@ -1840,7 +1860,7 @@ div.sol-view {
   }
 }
 
-/* solution: a divider between the main screen and the supporting one, on the same column line as the
+/* solution: a divider between the left column and the main screen, on the same column line as the
    dividers in the other sections, running from the section's top rule to its bottom */
 .dz-grid {
   position: relative;
@@ -1851,7 +1871,7 @@ div.sol-view {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(100% * 2 / 3);
+  left: calc(100% / 3);
   width: 1px;
   background: var(--frame);
   pointer-events: none;

@@ -2235,3 +2235,81 @@ div.sol-view {
   height: calc(100% - var(--ip));
   object-position: center bottom;
 }
+
+/* iteration with a device screen: the frame runs to the bottom of the section (no space under it), and the
+   screen spans the frame's full width, cut off by the frame's bottom edge as the laptop itself is */
+.it-main.flush {
+  padding-bottom: 0;
+}
+
+.it-main.flush .zoom.bleed-b {
+  overflow: hidden;
+}
+
+/* full width, sitting on the frame's bottom edge; on a short screen it keeps the inset at the top and
+   loses a little from its (already cut) bottom instead */
+.it-main.flush .zoom.bleed-b img {
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-height: calc(100% - var(--ip));
+  object-fit: cover;
+  object-position: center top;
+}
+
+@media (max-width: 899px) {
+  /* phones: the frame takes the screen's own shape (plus the inset above it), so nothing is cropped */
+  .it-main.flush .it-shot .zoom {
+    aspect-ratio: auto;
+    height: calc((100vw - 2 * var(--gutter) - 2 * var(--pad)) * 957 / 1793 + clamp(10px, 1vw, 16px));
+  }
+}
+
+@media (min-width: 900px) {
+  /* the frame takes the screen's shape (plus the inset above it) and sits at the bottom of the column, so
+     any spare height goes above the frame, between the text and the image, not inside it. On a short screen
+     the frame is capped at the height that's left, and the image loses a little of its cut bottom */
+  .it-main.flush .it-shot {
+    flex: 1 1 0; /* exactly the height that's left under the text, so the frame's cap below applies */
+    align-items: flex-end;
+  }
+
+  .it-main.flush .it-shot .zoom {
+    height: auto;
+    aspect-ratio: 1793 / 990;
+    max-height: 100%;
+  }
+}
+
+/* iteration 1 screen: 40px of the light frame above it and at its sides (16px on phones); still flush with
+   the frame's bottom edge. The frame's height follows: the screen's height at that width, plus the top
+   padding */
+.it-main.flush .it-shot {
+  --fp: 40px;
+  container-type: inline-size;
+}
+
+.it-main.flush .zoom.bleed-b img {
+  left: var(--fp);
+  width: calc(100% - 2 * var(--fp));
+  max-height: calc(100% - var(--fp));
+}
+
+@media (min-width: 900px) {
+  .it-main.flush .it-shot .zoom {
+    aspect-ratio: auto;
+    height: calc((100cqw - 2 * var(--fp)) * 957 / 1793 + var(--fp));
+  }
+}
+
+@media (max-width: 899px) {
+  .it-main.flush .it-shot {
+    --fp: 16px;
+  }
+
+  .it-main.flush .it-shot .zoom {
+    height: calc((100cqw - 2 * var(--fp)) * 957 / 1793 + var(--fp));
+  }
+}

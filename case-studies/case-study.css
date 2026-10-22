@@ -1858,22 +1858,6 @@ div.sol-view {
   }
 }
 
-/* a video in an image container: shown whole at 16:9, centred inside the light frame with the same inset
-   images get, however the frame is shaped */
-.zoom.video {
-  container-type: size;
-  display: grid;
-  place-items: center;
-}
-
-.zoom.video iframe,
-.zoom.video .yt {
-  display: block;
-  width: min(calc(100cqw - 2 * var(--ip)), calc((100cqh - 2 * var(--ip)) * 16 / 9));
-  aspect-ratio: 16 / 9;
-  border: 0;
-}
-
 /* Two laptops composed in the hero (fee management): the redesign in front and larger, its left edge on
    the left frame line; the older screen behind, smaller and set back, its right edge on the right frame
    line. Both are cut off by the bottom of the container, like the GIFA laptops. The laptop bodies fill
@@ -1900,57 +1884,6 @@ div.sol-view {
 .evaluation .ds-view img {
   padding: clamp(10px, 1vw, 16px);
   object-fit: contain;
-}
-
-/* the video's still: black behind, the still filling the frame, a play button in the middle */
-.yt {
-  position: relative;
-  padding: 0;
-  background: #000;
-  cursor: pointer;
-}
-
-.yt img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* the still is 4:3 with black bars; cover crops them away */
-}
-
-.yt-play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 72px;
-  height: 72px;
-  border: 1px solid rgba(255, 255, 255, .25);
-  border-radius: 50%;
-  background: rgba(18, 19, 21, .72);
-  transform: translate(-50%, -50%);
-  transition: background .2s, transform .3s var(--ease);
-}
-
-.yt-play::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 52%;
-  border-left: 18px solid #fff;
-  border-top: 11px solid transparent;
-  border-bottom: 11px solid transparent;
-  transform: translate(-40%, -50%);
-}
-
-.yt:hover .yt-play,
-.yt:focus-visible .yt-play {
-  background: #2A60D0;
-  transform: translate(-50%, -50%) scale(1.06);
-}
-
-.yt:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 3px;
 }
 
 /* wide image (problem): its label sits outside, above the frame on the left, styled like the other labels

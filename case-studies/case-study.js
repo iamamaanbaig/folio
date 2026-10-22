@@ -373,22 +373,6 @@
     }));
   }
 
-  /* ---------- video: a still until it is played ----------
-     A .yt button shows the video's still and a play button. Clicking it swaps in the player (YouTube or
-     Loom) and starts it. Until then the page's own scrolling works over the video too: a live YouTube frame would
-     take the mouse wheel and the one-scroll-per-section stepping would stop working over it. */
-  $$('.yt').forEach(btn => btn.addEventListener('click', () => {
-    const f = document.createElement('iframe');
-    // a YouTube id (data-yt), or any other player's embed address (data-embed, e.g. Loom)
-    f.src = btn.dataset.embed || `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?rel=0&autoplay=1`;
-    f.title = btn.dataset.title;
-    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    f.referrerPolicy = 'strict-origin-when-cross-origin';
-    f.allowFullscreen = true;
-    btn.replaceWith(f);
-    f.focus();
-  }));
-
   /* ---------- back to top ---------- */
   $$('.to-top').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();

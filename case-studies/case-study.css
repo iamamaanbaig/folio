@@ -2021,3 +2021,250 @@ div.sol-view {
     min-height: 0;
   }
 }
+
+/* ---------- creating automation ---------- */
+
+/* user problems intro: how the problems were found, above the problem rows */
+.up-intro {
+  padding: clamp(32px, 3.4vw, 56px) var(--pad);
+  border-top: 1px solid var(--frame);
+}
+
+.up-intro ul,
+.bullets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* same list style as the impact bullets on GIFA */
+.up-intro li,
+.bullets li {
+  position: relative;
+  padding: 0 0 14px 22px;
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  color: var(--text-soft);
+}
+
+.up-intro li::before,
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: 10px;
+  height: 2px;
+  background: #4A86E8;
+}
+
+/* a problem with its picture across the two right columns */
+.sol-row.vw {
+  grid-template-areas: "prob shot shot";
+  grid-template-rows: 1fr;
+}
+
+.vw .sol-shot {
+  padding-top: clamp(32px, 3.4vw, 56px);
+}
+
+.vw .sol-shot .shot {
+  aspect-ratio: 1.55;
+}
+
+/* a problem description in more than one paragraph */
+.sol-problem .sol-desc {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.sol-desc p + p {
+  margin-top: 12px;
+}
+
+@media (max-width: 899px) {
+  .sol-row.vw {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "prob" "shot";
+    min-height: 0;
+  }
+
+  .vw .sol-shot {
+    padding: 20px var(--pad) 32px;
+  }
+}
+
+/* longer observations: body size, so a column of them stays readable */
+.bullets.small li {
+  font-size: var(--t-body);
+  line-height: 1.5;
+  padding-bottom: 12px;
+}
+
+.bullets.small li::before {
+  top: .7em;
+}
+
+/* design iterations: the idea and the screen across two columns; findings in the third, one cell each,
+   divided by rules */
+.iter {
+  margin-top: clamp(48px, 5vw, 80px);
+}
+
+.it-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--frame);
+}
+
+.it-main {
+  grid-column: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 2.4vw, 36px);
+  padding: clamp(32px, 3.4vw, 56px) var(--pad) clamp(64px, 7vw, 96px); /* room for the floating menu */
+  border-right: 1px solid var(--frame);
+}
+
+.it-text p {
+  margin: 0;
+  max-width: 52ch;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.it-text p + p {
+  margin-top: 12px;
+}
+
+.it-shot {
+  margin: 0;
+}
+
+.it-shot .zoom {
+  aspect-ratio: 1.6;
+}
+
+.it-cell {
+  padding: clamp(32px, 3.4vw, 56px) var(--pad);
+}
+
+.it-cell + .it-cell {
+  border-top: 1px solid var(--frame);
+}
+
+@media (min-width: 900px) {
+  /* one screen per iteration: the screen takes the height that is left */
+  .iter.one-screen .it-grid {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .iter .it-shot {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  .iter .it-shot .zoom {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+}
+
+@media (max-width: 899px) {
+  .it-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .it-main {
+    grid-column: 1;
+    padding-bottom: 32px;
+    border-right: 0;
+  }
+
+  .it-cell,
+  .it-cell + .it-cell {
+    border-top: 1px solid var(--frame);
+  }
+}
+
+/* short desktop screens: tighter findings cells, so iteration 1's results and observations fit the screen */
+@media (min-width: 900px) and (max-height: 800px) {
+  .it-cell {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+}
+
+/* prototype: the section is one screen, and its frame fills everything below the title */
+.prototype {
+  margin-top: clamp(48px, 5vw, 80px);
+}
+
+/* test results: who was tested, then each result as a large figure with a line under it. Blue for a good
+   result, amber for one that needs work */
+:root {
+  --warn: linear-gradient(180deg, #F5C04A 0%, #E8920F 100%);
+}
+
+.tested {
+  margin: 0;
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  color: var(--text-2);
+}
+
+.tested strong {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.tested .persona-ic {
+  margin-right: .5em;
+}
+
+.stats {
+  display: grid;
+  gap: clamp(24px, 2.4vw, 40px);
+  margin-top: clamp(28px, 2.8vw, 44px);
+}
+
+.stat-num {
+  display: block;
+  width: max-content;
+  font-size: clamp(56px, 5vw, 84px);
+  font-weight: 600;
+  line-height: .9;
+  letter-spacing: -0.04em;
+  background: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.stat.warn .stat-num {
+  background: var(--warn);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.stat-text {
+  display: block;
+  margin-top: 12px;
+  max-width: 26ch;
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  color: var(--text-soft);
+}
+
+/* the figures side by side, so a results column with observations under it still fits one screen */
+.stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--pad);
+}
+
+.stat-num {
+  font-size: clamp(48px, 4.4vw, 72px);
+}

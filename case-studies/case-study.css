@@ -2275,40 +2275,12 @@ div.sol-view {
   color: var(--text);
 }
 
-/* prototype frame: the Figma prototype fills the frame (inside the usual inset) once loaded; until then,
-   a button in the middle of the light frame loads it */
-.zoom.proto .yt,
-.zoom.proto iframe {
+/* a live embedded window (a Loom video, a Figma prototype) filling its frame edge to edge */
+.zoom.live iframe {
   position: absolute;
-  inset: var(--ip);
-  width: calc(100% - 2 * var(--ip));
-  height: calc(100% - 2 * var(--ip));
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
   border: 0;
-}
-
-.yt.proto-start {
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 16px;
-  background: transparent;
-  color: #5F6267;
-}
-
-.proto-start .yt-play {
-  position: relative;
-  top: auto;
-  left: auto;
-  transform: none;
-  background: #121315;
-}
-
-.proto-start:hover .yt-play,
-.proto-start:focus-visible .yt-play {
-  transform: scale(1.06);
-}
-
-.proto-label {
-  font-size: var(--t-label);
-  font-weight: 500;
 }

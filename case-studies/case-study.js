@@ -43,132 +43,142 @@
      use the arrow buttons, left/right keys or a sideways trackpad swipe to move it one screen along; page
      scrolling passes straight through to the footer. Phones: the strip is swiped sideways. The squares by the
      title track the screen(s) at rest on the left. */
-  const designs = $('.designs');
-  const strip = designs && $('.ds-strip', designs);
-  const screens = strip ? $$('.ds-fig', strip) : [];
-  const dsArrows = designs ? $$('.ds-arrow', designs) : [];
-  let dsSquares = [];
-  let dsIndex = 0;
-  let dsX = 0; // current offset of the strip, in px (0 or negative)
-  // where each screen comes to rest; the strip never travels past the point where the last screen meets the
-  // right frame, so the last few screens can share that resting place
-  const dsStops = () => {
-    const pad = screens[0].offsetLeft;
-    const end = screens[screens.length - 1];
-    const max = end.offsetLeft + end.offsetWidth - pad - (designs.clientWidth - 2 * pad);
-    return screens.map(s => Math.max(0, Math.min(s.offsetLeft - pad, max)));
-  };
-  const dsMark = i => {
-    dsIndex = i;
-    const at = desktop() ? dsStops() : null;
-    dsSquares.forEach((q, k) => q.classList.toggle('on', at ? at[k] === at[i] : k === i));
-    dsArrows.forEach(a => { a.disabled = dsNext(Number(a.dataset.dir)) === -1; });
-  };
-  // the next screen in that direction that actually moves the strip, or -1 at the end
-  const dsNext = dir => {
-    if (!desktop()) { const n = dsIndex + dir; return n < 0 || n >= screens.length ? -1 : n; }
-    const at = dsStops();
-    for (let n = dsIndex + dir; n >= 0 && n < screens.length; n += dir) {
-      if (at[n] !== at[dsIndex]) return dir > 0 ? n : at.indexOf(at[n]);
-    }
-    return -1;
-  };
-  const dsShow = i => {
-    const at = dsStops();
-    i = at.indexOf(at[i]);
-    dsX = -at[i];
-    strip.style.transform = `translateX(${dsX}px)`;
-    dsMark(i);
-  };
-  if (strip) {
-    const count = $('.count', designs);
-    count.innerHTML = screens.map(() => '<i></i>').join('');
-    dsSquares = $$('i', count);
-    dsMark(0);
-    addEventListener('resize', () => { if (desktop()) dsShow(dsIndex); else { strip.style.transform = ''; dsX = 0; } });
-    const viewport = strip.parentElement;
-    dsArrows.forEach(a => a.addEventListener('click', () => {
-      const next = dsNext(Number(a.dataset.dir));
-      if (next === -1) return;
-      if (desktop()) dsShow(next);
-      else viewport.scrollTo({ left: screens[next].offsetLeft - screens[0].offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
-    }));
-    viewport.addEventListener('scroll', () => {
-      if (desktop()) return;
-      const x = viewport.scrollLeft;
-      let cur = 0;
-      screens.forEach((s, i) => { if (s.offsetLeft - screens[0].offsetLeft <= x + s.offsetWidth / 2) cur = i; });
-      dsMark(cur);
-    }, { passive: true });
-
-    // drag with the mouse (or a finger on a wide tablet): the strip follows the pointer 1:1, stretches a
-    // little past either end, and on release settles on the nearest screen, or the next one after a flick
-    let drag = null;
-    let dragged = false;
-    viewport.addEventListener('click', e => { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
-    viewport.addEventListener('pointerdown', e => {
-      dragged = false;
-      if (!desktop() || e.button !== 0) return;
-      drag = { id: e.pointerId, x0: e.clientX, base: dsX, x: e.clientX, t: performance.now(), v: 0, moved: false };
-      strip.style.transition = 'none';
-    });
-    viewport.addEventListener('pointermove', e => {
-      if (!drag || e.pointerId !== drag.id) return;
-      const dx = e.clientX - drag.x0;
-      if (!drag.moved && Math.abs(dx) > 4) {
-        drag.moved = true;
-        viewport.setPointerCapture(e.pointerId);
-        viewport.classList.add('is-dragging');
-      }
-      if (!drag.moved) return;
-      const now = performance.now();
-      drag.v = (e.clientX - drag.x) / Math.max(1, now - drag.t);
-      drag.x = e.clientX;
-      drag.t = now;
-      const min = -dsStops()[screens.length - 1];
-      let x = drag.base + dx;
-      if (x > 0) x /= 3;
-      else if (x < min) x = min + (x - min) / 3;
-      dsX = x;
-      strip.style.transform = `translateX(${x}px)`;
-    });
-    const release = e => {
-      if (!drag || e.pointerId !== drag.id) return;
-      const { moved, v } = drag;
-      drag = null;
-      strip.style.transition = '';
-      viewport.classList.remove('is-dragging');
-      if (!moved) return;
-      dragged = true; // the click that ends a drag must not open the viewer
-      const at = dsStops();
-      const pos = -dsX;
-      let i = 0;
-      at.forEach((s, k) => { if (Math.abs(s - pos) < Math.abs(at[i] - pos)) i = k; });
-      // a quick flick carries on to the next resting place in that direction
-      if (Math.abs(v) > .5) {
-        const dir = v < 0 ? 1 : -1;
-        if (dir > 0 && at[i] <= pos) i = at.findIndex(s => s > pos + 1);
-        if (dir < 0 && at[i] >= pos) i = at.map(s => s < pos - 1).lastIndexOf(true);
-        if (i === -1) i = dir > 0 ? screens.length - 1 : 0;
-      }
-      dsShow(i);
+  // every strip on the page (e.g. the existing module evaluation and the product designs) works on its own
+  const strips = $$('.designs').map(designs => {
+    const strip = $('.ds-strip', designs);
+    if (!strip) return null;
+    const screens = $$('.ds-fig', strip);
+    const dsArrows = $$('.ds-arrow', designs);
+    let dsSquares = [];
+    let dsIndex = 0;
+    let dsX = 0; // current offset of the strip, in px (0 or negative)
+    // where each screen comes to rest; the strip never travels past the point where the last screen meets the
+    // right frame, so the last few screens can share that resting place
+    const dsStops = () => {
+      const pad = screens[0].offsetLeft;
+      const end = screens[screens.length - 1];
+      const max = end.offsetLeft + end.offsetWidth - pad - (designs.clientWidth - 2 * pad);
+      return screens.map(s => Math.max(0, Math.min(s.offsetLeft - pad, max)));
     };
-    viewport.addEventListener('pointerup', release);
-    viewport.addEventListener('pointercancel', release);
-    viewport.addEventListener('dragstart', e => e.preventDefault());
-  }
-  // true when the designs section is on screen and the strip can still move in that direction
-  const dsStep = dir => {
-    if (!strip) return false;
-    const r = designs.getBoundingClientRect();
-    if (r.top > innerHeight / 2 || r.bottom < innerHeight / 2) return false;
-    const next = dsNext(dir);
-    if (next === -1) return false;
-    dsShow(next);
-    animating = true;
-    setTimeout(() => { animating = false; }, reduceMotion ? 0 : 850);
-    return true;
-  };
+    const dsMark = i => {
+      dsIndex = i;
+      const at = desktop() ? dsStops() : null;
+      dsSquares.forEach((q, k) => q.classList.toggle('on', at ? at[k] === at[i] : k === i));
+      dsArrows.forEach(a => { a.disabled = dsNext(Number(a.dataset.dir)) === -1; });
+    };
+    // the next screen in that direction that actually moves the strip, or -1 at the end
+    const dsNext = dir => {
+      if (!desktop()) { const n = dsIndex + dir; return n < 0 || n >= screens.length ? -1 : n; }
+      const at = dsStops();
+      for (let n = dsIndex + dir; n >= 0 && n < screens.length; n += dir) {
+        if (at[n] !== at[dsIndex]) return dir > 0 ? n : at.indexOf(at[n]);
+      }
+      return -1;
+    };
+    const dsShow = i => {
+      const at = dsStops();
+      i = at.indexOf(at[i]);
+      dsX = -at[i];
+      strip.style.transform = `translateX(${dsX}px)`;
+      dsMark(i);
+    };
+    if (strip) {
+      const count = $('.count', designs);
+      count.innerHTML = screens.map(() => '<i></i>').join('');
+      dsSquares = $$('i', count);
+      dsMark(0);
+      addEventListener('resize', () => { if (desktop()) dsShow(dsIndex); else { strip.style.transform = ''; dsX = 0; } });
+      const viewport = strip.parentElement;
+      dsArrows.forEach(a => a.addEventListener('click', () => {
+        const next = dsNext(Number(a.dataset.dir));
+        if (next === -1) return;
+        if (desktop()) dsShow(next);
+        else viewport.scrollTo({ left: screens[next].offsetLeft - screens[0].offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }));
+      viewport.addEventListener('scroll', () => {
+        if (desktop()) return;
+        const x = viewport.scrollLeft;
+        let cur = 0;
+        screens.forEach((s, i) => { if (s.offsetLeft - screens[0].offsetLeft <= x + s.offsetWidth / 2) cur = i; });
+        dsMark(cur);
+      }, { passive: true });
+
+      // drag with the mouse (or a finger on a wide tablet): the strip follows the pointer 1:1, stretches a
+      // little past either end, and on release settles on the nearest screen, or the next one after a flick
+      let drag = null;
+      let dragged = false;
+      viewport.addEventListener('click', e => { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
+      viewport.addEventListener('pointerdown', e => {
+        dragged = false;
+        if (!desktop() || e.button !== 0) return;
+        drag = { id: e.pointerId, x0: e.clientX, base: dsX, x: e.clientX, t: performance.now(), v: 0, moved: false };
+        strip.style.transition = 'none';
+      });
+      viewport.addEventListener('pointermove', e => {
+        if (!drag || e.pointerId !== drag.id) return;
+        const dx = e.clientX - drag.x0;
+        if (!drag.moved && Math.abs(dx) > 4) {
+          drag.moved = true;
+          viewport.setPointerCapture(e.pointerId);
+          viewport.classList.add('is-dragging');
+        }
+        if (!drag.moved) return;
+        const now = performance.now();
+        drag.v = (e.clientX - drag.x) / Math.max(1, now - drag.t);
+        drag.x = e.clientX;
+        drag.t = now;
+        const min = -dsStops()[screens.length - 1];
+        let x = drag.base + dx;
+        if (x > 0) x /= 3;
+        else if (x < min) x = min + (x - min) / 3;
+        dsX = x;
+        strip.style.transform = `translateX(${x}px)`;
+      });
+      const release = e => {
+        if (!drag || e.pointerId !== drag.id) return;
+        const { moved, v } = drag;
+        drag = null;
+        strip.style.transition = '';
+        viewport.classList.remove('is-dragging');
+        if (!moved) return;
+        dragged = true; // the click that ends a drag must not open the viewer
+        const at = dsStops();
+        const pos = -dsX;
+        let i = 0;
+        at.forEach((s, k) => { if (Math.abs(s - pos) < Math.abs(at[i] - pos)) i = k; });
+        // a quick flick carries on to the next resting place in that direction
+        if (Math.abs(v) > .5) {
+          const dir = v < 0 ? 1 : -1;
+          if (dir > 0 && at[i] <= pos) i = at.findIndex(s => s > pos + 1);
+          if (dir < 0 && at[i] >= pos) i = at.map(s => s < pos - 1).lastIndexOf(true);
+          if (i === -1) i = dir > 0 ? screens.length - 1 : 0;
+        }
+        dsShow(i);
+      };
+      viewport.addEventListener('pointerup', release);
+      viewport.addEventListener('pointercancel', release);
+      viewport.addEventListener('dragstart', e => e.preventDefault());
+    }
+    // true when the designs section is on screen and the strip can still move in that direction
+    // true when this strip is on screen and can still move in that direction
+    const step = dir => {
+      const r = designs.getBoundingClientRect();
+      if (r.top > innerHeight / 2 || r.bottom < innerHeight / 2) return false;
+      const next = dsNext(dir);
+      if (next === -1) return false;
+      dsShow(next);
+      animating = true;
+      setTimeout(() => { animating = false; }, reduceMotion ? 0 : 850);
+      return true;
+    };
+    // after the viewer closes, the strip rests on the last screen seen
+    const goTo = k => {
+      if (desktop()) dsShow(k);
+      else strip.parentElement.scrollTo({ left: screens[k].offsetLeft - screens[0].offsetLeft });
+    };
+    return { designs, screens, step, goTo };
+  }).filter(Boolean);
+  const dsStep = dir => strips.some(s => s.step(dir));
 
   /* ---------- image viewer ----------
      Opens from a challenge image (stepping through the challenge images on screen), a solution's screen
@@ -212,7 +222,7 @@
   /* ---------- solution screens: thumbnails switch the screen, the label follows ---------- */
   $$('.sol-shot').forEach(fig => {
     const view = $('.sol-view', fig);
-    if (!view) return;
+    if (!view || !$('img', view)) return; // an empty container (image to come) is not interactive
     const imgs = $$('img', view);
     const thumbs = $$('.thumb', fig);
     const cap = $('.sol-cap', fig);
@@ -233,15 +243,15 @@
 
   if (lb) {
     // product designs: a click (not a drag) opens the screen; closing the viewer leaves the strip on the last one seen
-    const dsViews = $$('.ds-view');
-    dsViews.forEach((v, i) => v.addEventListener('click', () => {
-      lbStart(dsViews.map(d => itemOf($('img', d), d.closest('.ds-fig').querySelector('figcaption').textContent)), i, v, k => {
-        if (desktop()) dsShow(k);
-        else strip.parentElement.scrollTo({ left: screens[k].offsetLeft - screens[0].offsetLeft });
-      });
-    }));
-    $$('.zoom').forEach(btn => btn.addEventListener('click', () => {
-      const figs = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null);
+    strips.forEach(s => {
+      const views = $$('.ds-view', s.designs).filter(v => $('img', v));
+      views.forEach((v, i) => v.addEventListener('click', () => {
+        lbStart(views.map(d => itemOf($('img', d), d.closest('.ds-fig').querySelector('figcaption')?.textContent || '')), i, v,
+          k => s.goTo(s.screens.indexOf(views[k].closest('.ds-fig'))));
+      }));
+    });
+    $$('.zoom').filter(b => $('img', b)).forEach(btn => btn.addEventListener('click', () => {
+      const figs = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null && $('img', f));
       lbStart(figs.map(f => itemOf($('img', f), $('figcaption', f).textContent)), figs.indexOf(btn.closest('.ch-fig')), btn);
     }));
     $('.lb-prev', lb).addEventListener('click', () => lbShow(lbAt - 1));

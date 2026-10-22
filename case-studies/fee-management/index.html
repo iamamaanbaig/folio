@@ -4,251 +4,161 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fee Management · Case study</title>
-  <meta name="description" content="How matching the data design to how schools actually work reduced the effort of managing fees in an institute management system.">
+  <meta name="description" content="How cutting the fee templates a classroom needed from nine to one reduced fee management effort by 40 minutes.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
-  <link rel="stylesheet" href="../../styles.css?v=viewer2">
-  <link rel="stylesheet" href="../case-study.css?v=viewer2">
-  <script src="../case-study.js?v=viewer2" defer></script>
+  <link rel="stylesheet" href="../../styles.css?v=fee1">
+  <link rel="stylesheet" href="../case-study.css?v=fee1">
+  <script src="../case-study.js?v=fee1" defer></script>
 </head>
 <body>
   <main class="page">
     <!-- Hero: screen, title, summary and project facts -->
     <section class="hero" id="overview" data-stop>
-      <div class="hero-shot">
-        <!-- three screens, composed: two supporting screens (left, right) behind the fee template screen -->
-        <div class="hero-comp">
-          <img class="hc-left" src="../../FMcasestudyimages/FMheroleft.png" alt="" width="1653" height="1092" loading="eager" decoding="async">
-          <img class="hc-right" src="../../FMcasestudyimages/FMheroright.png" alt="" width="1653" height="1092" loading="eager" decoding="async">
-          <img class="hc-center" src="../../FMcasestudyimages/FMherocenter.png" alt="Fee management: the redesigned fee template screen, in front of two supporting screens" width="1733" height="1092" fetchpriority="high" decoding="async">
-        </div>
-      </div>
+      <div class="hero-shot"></div>
       <div class="hero-body">
-        <h1>Reduced the effort of managing school fees</h1>
-        <p class="lede">By matching the data design of an institute management system to how school administrators actually work, so creating, updating and applying <span class="term" tabindex="0" aria-describedby="tip-template"><span class="accent">fee templates</span><span class="tip" id="tip-template" role="tooltip">A reusable set of fees and amounts that a school applies when charging its students.</span></span> stopped being overwhelming.</p>
+        <h1>Cut fee management effort by 40 minutes</h1>
+        <p class="lede">By reducing the fee templates a single classroom needed from an average of nine to one.</p>
       </div>
       <dl class="facts">
-        <div><dt>Role</dt><dd>Product / User Experience Designer</dd></div>
-        <div><dt>Scope</dt><dd>Vision, user flows, design system and prototypes</dd></div>
-        <div><dt>Product</dt><dd>Institute management system, fee management module</dd></div>
+        <div><dt>Role</dt><dd>Product Designer</dd></div>
+        <div><dt>Team</dt><dd>Founder and CEO, Designer (me), Developers</dd></div>
+        <div><dt>Client</dt><dd>Excel Edge</dd></div>
       </dl>
     </section>
 
-    <!-- The problem -->
+    <!-- The problem: one statement, one picture of it -->
     <section class="panel problem" id="problem" aria-labelledby="problem-title" data-stop>
       <header class="sec-head">
         <span class="ghost" aria-hidden="true">Problem</span>
         <h2 class="sec-title" id="problem-title">The problem</h2>
       </header>
-      <p class="lede">The fee management module made everyday tasks, like <strong>creating, updating and applying fee templates, overwhelming</strong> for the school administrators who did them.</p>
-      <div class="cards">
-        <article class="card">
-          <h3>Template sprawl</h3>
-          <p>Templates multiplied with every payment type, concession and class, leaving administrators with versions of versions to manage.</p>
-        </article>
-        <article class="card">
-          <h3>Repetitive updates</h3>
-          <p>A change to one key piece of fee data meant finding and editing every template it appeared in, by hand.</p>
-        </article>
+      <p class="lede">The fee module needed an average of <strong>nine fee templates for a single classroom</strong>, which made creating, editing and applying fees to classes and students an overwhelming task.</p>
+      <div class="wide-shot">
+        <figure class="ch-fig">
+          <div class="zoom" role="img" aria-label="Nine fee templates for one classroom (image coming soon)"></div>
+        </figure>
       </div>
     </section>
 
-    <!-- Research: the title stays pinned while each question snaps into place -->
-    <section class="panel challenges snap-sec" id="research" aria-labelledby="research-title" data-stop>
-      <div class="ch-sticky pin">
+    <!-- Existing module evaluation: what we found, then the old screens in a strip; drag it or use the arrows -->
+    <section class="panel designs evaluation" id="evaluation" aria-labelledby="evaluation-title" data-stop>
       <header class="sec-head">
-        <span class="ghost" aria-hidden="true">Research</span>
-        <h2 class="sec-title" id="research-title">Understanding the problem <span class="count" aria-hidden="true"></span></h2>
+        <span class="ghost" aria-hidden="true">Evaluation</span>
+        <h2 class="sec-title" id="evaluation-title">Existing module evaluation <span class="count" aria-hidden="true"></span></h2>
+        <div class="ds-head-end">
+          <div class="ds-arrows">
+            <button type="button" class="ds-arrow" data-dir="-1" aria-label="Previous screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4 3 8l4 4"/></svg></button>
+            <button type="button" class="ds-arrow" data-dir="1" aria-label="Next screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+          </div>
+        </div>
       </header>
-      <div class="ch-labels" aria-hidden="true">
-        <span>Question</span>
-        <span></span>
-        <span>What we found</span>
-      </div>
-      </div>
-
-      <div class="ch-grid">
-        <!-- one continuous image strip; it scrolls with the page while the questions snap -->
-        <div class="ch-media" aria-label="Research images">
-          <figure class="ch-fig">
-            <figcaption>Current design</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: Current design">
-              <img src="../../FMcasestudyimages/Current%20design.png" alt="The current fee master template screen: a long table of fee items, amounts and dates" width="2400" height="1300" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+      <p class="lede ds-lede">The existing design applied fees and concessions to a class, and reached students only through their class, so <strong>every payment option needed its own template</strong>.</p>
+      <div class="ds-viewport">
+        <div class="ds-strip">
+          <figure class="ds-fig">
+            <figcaption>Existing module: screen 1</figcaption>
+            <div class="ds-view" role="img" aria-label="Existing module: screen 1 (image coming soon)"></div>
           </figure>
-          <figure class="ch-fig">
-            <figcaption>Current user flow</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: Current user flow">
-              <img src="../../FMcasestudyimages/Current%20user%20flow.png" alt="Current user flows: creating a fee template, then applying it to a class, step by step" width="2400" height="1300" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+          <figure class="ds-fig">
+            <figcaption>Existing module: screen 2</figcaption>
+            <div class="ds-view" role="img" aria-label="Existing module: screen 2 (image coming soon)"></div>
           </figure>
-          <figure class="ch-fig">
-            <figcaption>Current design: ecosystem</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: Current design: ecosystem">
-              <img src="../../FMcasestudyimages/Current%20design%20ecosystem.png" alt="The current design ecosystem: how fees, templates, classes and students connect across the system" width="2400" height="1300" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+          <figure class="ds-fig">
+            <figcaption>Existing module: screen 3</figcaption>
+            <div class="ds-view" role="img" aria-label="Existing module: screen 3 (image coming soon)"></div>
           </figure>
-          <figure class="ch-fig">
-            <figcaption>The solution: data model</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: The solution: data model">
-              <img src="../../FMcasestudyimages/Data%20model%20before%20and%20after.png" alt="Data model before and after: fees went through the class to reach students; now they reach students directly" width="2400" height="1000" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+          <figure class="ds-fig">
+            <figcaption>Existing module: screen 4</figcaption>
+            <div class="ds-view" role="img" aria-label="Existing module: screen 4 (image coming soon)"></div>
           </figure>
-        </div>
-
-        <div class="ch-text r1" data-row data-stop>
-          <span class="num accent" aria-hidden="true">1</span>
-          <h3>How does fee work happen today?</h3>
-          <p>We needed to see the real path administrators took, from creating a fee template to charging a class.</p>
-        </div>
-        <div class="ch-approach r1">
-          <span class="m-label">What we found</span>
-          <p>Mapping the current design and its user flows showed long, repeated steps: every template was built field by field, then applied to each class separately.</p>
-          <div class="m-media">
-          <figure class="ch-fig">
-            <figcaption>Current design</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: Current design">
-              <img src="../../FMcasestudyimages/Current%20design.png" alt="The current fee master template screen: a long table of fee items, amounts and dates" width="2400" height="1300" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
-          </figure>
-          <figure class="ch-fig">
-            <figcaption>Current user flow</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: Current user flow">
-              <img src="../../FMcasestudyimages/Current%20user%20flow.png" alt="Current user flows: creating a fee template, then applying it to a class, step by step" width="2400" height="1300" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
-          </figure>
-          </div>
-        </div>
-
-        <div class="ch-text r2" data-row data-stop>
-          <span class="num accent" aria-hidden="true">2</span>
-          <h3>Why does it feel overwhelming?</h3>
-          <p>The steps alone didn’t explain the effort. We had to find what was forcing administrators to repeat them.</p>
-        </div>
-        <div class="ch-approach r2">
-          <span class="m-label">What we found</span>
-          <p>After talking to the schools’ administration and evaluating the current design ecosystem, we found a mismatch: the data design routed every fee through a class, while administrators think in terms of students.</p>
-          <div class="m-media">
-          <figure class="ch-fig">
-            <figcaption>Current design: ecosystem</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: Current design: ecosystem">
-              <img src="../../FMcasestudyimages/Current%20design%20ecosystem.png" alt="The current design ecosystem: how fees, templates, classes and students connect across the system" width="2400" height="1300" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
-          </figure>
-          <figure class="ch-fig">
-            <figcaption>The solution: data model</figcaption>
-            <button type="button" class="zoom" aria-label="Enlarge: The solution: data model">
-              <img src="../../FMcasestudyimages/Data%20model%20before%20and%20after.png" alt="Data model before and after: fees went through the class to reach students; now they reach students directly" width="2400" height="1000" loading="lazy" decoding="async">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
-          </figure>
-          </div>
         </div>
       </div>
+      <footer class="ds-end">
+        <div class="ds-arrows">
+        <button type="button" class="ds-arrow" data-dir="-1" aria-label="Previous screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4 3 8l4 4"/></svg></button>
+        <button type="button" class="ds-arrow" data-dir="1" aria-label="Next screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+      </div>
+      </footer>
     </section>
 
-    <!-- Problems & solutions: the title stays pinned while each solution snaps into place -->
-    <section class="panel solutions snap-sec" id="solutions" aria-labelledby="solutions-title" data-stop>
+    <!-- User problems: the title stays pinned while each problem snaps into place -->
+    <section class="panel solutions snap-sec" id="user-problems" aria-labelledby="user-problems-title" data-stop>
       <div class="pin">
         <header class="sec-head">
-          <span class="ghost" aria-hidden="true">Solutions</span>
-          <h2 class="sec-title" id="solutions-title">Problem causes &amp; solutions we designed <span class="count" aria-hidden="true"></span></h2>
+          <span class="ghost" aria-hidden="true">Users</span>
+          <h2 class="sec-title" id="user-problems-title">User problems <span class="count" aria-hidden="true"></span></h2>
         </header>
       </div>
 
-      <article class="sol-row v1" data-row data-stop>
+      <article class="sol-row vp" data-row data-stop>
         <div class="sol-problem">
           <span class="sol-label">Problem</span>
           <span class="num accent" aria-hidden="true">1</span>
           <h3>Templates multiplied with every payment option</h3>
-          <p>Administrators had to create more versions of every template as more payment types and concessions were needed.</p>
         </div>
         <div class="sol-solution">
-          <span class="sol-label">Solution designed</span>
-          <h3>Payment plans, separate from templates</h3>
-          <p>Payment types such as partial or lump sum are set up once and paired with any template, instead of being built into new versions of it.</p>
-        </div>
-        <div class="sol-impact">
-          <span class="sol-label">Impact</span>
-          <ul><li>Fewer templates to create</li><li>New payment options without new versions</li><li>A shorter list to search</li></ul>
+          <span class="sol-label">What users faced</span>
+          <p>Users had to create more versions of each template as more payment types and concessions were needed.</p>
         </div>
         <figure class="sol-shot">
-          <figcaption>
-            <span class="sol-cap">Payment plans</span>
-          </figcaption>
-          <button type="button" class="shot sol-view" aria-label="Enlarge: Payment plans">
-            <img class="on" src="../../FMcasestudyimages/Payment%20plans.png" alt="Payment plans: partial and lump sum plans, each with its instalments and the templates it applies to" data-label="Payment plans" width="1512" height="982" loading="lazy" decoding="async">
-            <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-          </button>
+          <figcaption><span class="sol-cap">Templates per payment option</span></figcaption>
+          <div class="shot sol-view" role="img" aria-label="Templates per payment option (image coming soon)"></div>
         </figure>
       </article>
 
-      <article class="sol-row v2" data-row data-stop>
+      <article class="sol-row vp" data-row data-stop>
         <div class="sol-problem">
           <span class="sol-label">Problem</span>
           <span class="num accent" aria-hidden="true">2</span>
           <h3>The same template, copied for every class</h3>
-          <p>Administrators managed separate copies of the same template for as many classes as shared that fee structure.</p>
         </div>
         <div class="sol-solution">
-          <span class="sol-label">Solution designed</span>
-          <h3>Fees applied to students, not classes</h3>
-          <p>One template now reaches students directly, so every class with the same fee structure shares it.</p>
-        </div>
-        <div class="sol-impact">
-          <span class="sol-label">Impact</span>
-          <ul><li>One template per fee structure</li><li>No duplicate copies to keep in sync</li><li>Matches how administrators think</li></ul>
+          <span class="sol-label">What users faced</span>
+          <p>Users managed separate copies of the same template for every class that shared a fee structure.</p>
         </div>
         <figure class="sol-shot">
-          <figcaption>
-            <span class="sol-cap">Fee template</span>
-          </figcaption>
-          <button type="button" class="shot sol-view" aria-label="Enlarge: Fee template">
-            <img class="on" src="../../FMcasestudyimages/Fee%20template.png" alt="A fee template: its fee items and amounts, applied to students across classes" data-label="Fee template" width="1100" height="1460" loading="lazy" decoding="async">
-            <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-          </button>
+          <figcaption><span class="sol-cap">Template copies per class</span></figcaption>
+          <div class="shot sol-view" role="img" aria-label="Template copies per class (image coming soon)"></div>
         </figure>
       </article>
 
-      <article class="sol-row v3" data-row data-stop>
+      <article class="sol-row vp" data-row data-stop>
         <div class="sol-problem">
           <span class="sol-label">Problem</span>
           <span class="num accent" aria-hidden="true">3</span>
-          <h3>Every change meant editing every template</h3>
-          <p>Whenever a key piece of fee data changed, administrators had to edit and update all the templates that used it.</p>
+          <h3>Every change meant editing every copy</h3>
         </div>
         <div class="sol-solution">
-          <span class="sol-label">Solution designed</span>
-          <h3>Change once, updated everywhere</h3>
-          <p>With one template per fee structure, a change is made in one place and reaches every student it applies to.</p>
-        </div>
-        <div class="sol-impact">
-          <span class="sol-label">Impact</span>
-          <ul><li>Fewer steps to update fees</li><li>No missed copies</li><li>Fees stay consistent</li></ul>
+          <span class="sol-label">What users faced</span>
+          <p>Whenever a key piece of fee data changed, users had to edit and update every copy that used it.</p>
         </div>
         <figure class="sol-shot">
-          <figcaption>
-            <span class="sol-cap">New user flow</span>
-            <span class="thumbs" role="group" aria-label="Flows">
-              <button type="button" class="thumb on" aria-label="Show New user flow" aria-pressed="true"><img src="../../FMcasestudyimages/New%20user%20flow.png" alt="" loading="lazy" decoding="async"></button>
-              <button type="button" class="thumb" aria-label="Show Current user flow" aria-pressed="false"><img src="../../FMcasestudyimages/Current%20user%20flow.png" alt="" loading="lazy" decoding="async"></button>
-            </span>
-          </figcaption>
-          <button type="button" class="shot sol-view" aria-label="Enlarge: New user flow">
-            <img class="on" src="../../FMcasestudyimages/New%20user%20flow.png" alt="New user flows: creating a template and applying it to students, in fewer steps than before" data-label="New user flow" width="2400" height="1000" loading="lazy" decoding="async">
-            <img src="../../FMcasestudyimages/Current%20user%20flow.png" alt="Current user flows, for comparison: creating a fee template, then applying it to a class, step by step" data-label="Current user flow" width="2400" height="1300" loading="lazy" decoding="async">
-            <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-          </button>
+          <figcaption><span class="sol-cap">Editing every copy</span></figcaption>
+          <div class="shot sol-view" role="img" aria-label="Editing every copy (image coming soon)"></div>
         </figure>
       </article>
+    </section>
+
+    <!-- Designed solution: the solution in a sentence, the main screen and one supporting screen -->
+    <section class="panel design" id="design" aria-labelledby="design-title" data-stop>
+      <header class="sec-head">
+        <span class="ghost" aria-hidden="true">Solution</span>
+        <h2 class="sec-title" id="design-title">Designed solution</h2>
+      </header>
+      <div class="dz-grid">
+        <div class="dz-text">
+          <h3>One template, all fee and payment options</h3>
+          <p>A single template now holds every fee, payment option and concession for a fee structure, and applies to students directly, not through their class.</p>
+        </div>
+        <figure class="ch-fig dz-main">
+            <div class="zoom" role="img" aria-label="One template: all fee and payment options (image coming soon)"></div>
+          </figure>
+        <figure class="ch-fig dz-side">
+            <div class="zoom" role="img" aria-label="Payment options (image coming soon)"></div>
+          </figure>
+      </div>
     </section>
 
     <!-- Project impact: the overall outcome, one screen -->
@@ -257,22 +167,27 @@
         <span class="ghost" aria-hidden="true">Impact</span>
         <h2 class="sec-title" id="impact-title">Project impact</h2>
       </header>
-      <p class="impact-lead">Matching the data design to how schools actually work <strong>reduced the effort of managing fees</strong> and elevated the experience for the administrators who use it.</p>
-      <div class="outcomes">
+      <p class="impact-lead">One template now does the work of nine, so fees are faster to set up and <strong>always stay consistent</strong>.</p>
+      <div class="outcomes four">
         <article class="outcome">
           <span class="tick" aria-hidden="true"></span>
-          <h3>Fewer templates</h3>
-          <p>One template per fee structure, instead of a copy for every class, payment type and concession.</p>
+          <h3>40 minutes saved</h3>
+          <p>Less time spent creating, editing and applying fees.</p>
         </article>
         <article class="outcome">
           <span class="tick" aria-hidden="true"></span>
-          <h3>Shorter flows</h3>
-          <p>Creating a template and applying it to students takes fewer steps than before.</p>
+          <h3>9 templates to 1</h3>
+          <p>A classroom needs one fee template, not one for every payment option.</p>
         </article>
         <article class="outcome">
           <span class="tick" aria-hidden="true"></span>
-          <h3>Changes in one place</h3>
-          <p>Updating key fee data no longer means hunting down and editing every template by hand.</p>
+          <h3>Changes made only once</h3>
+          <p>Fee data is updated in one template, not in every copy.</p>
+        </article>
+        <article class="outcome">
+          <span class="tick" aria-hidden="true"></span>
+          <h3>No missed copies</h3>
+          <p>With no duplicates, no template is ever left out of date.</p>
         </article>
       </div>
     </section>
@@ -292,48 +207,41 @@
       <div class="ds-viewport">
         <div class="ds-strip">
           <figure class="ds-fig">
-            <figcaption>Fee template form</figcaption>
-            <button type="button" class="ds-view" aria-label="Enlarge: Fee template form">
-              <img src="../../FMcasestudyimages/Screen%20fee%20template%20form.png" alt="Fee template form: the template’s details, fee items and amounts" width="1512" height="982" loading="lazy" decoding="async" draggable="false">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+            <div class="ds-view" role="img" aria-label="Product design, screen 1 (image coming soon)"></div>
           </figure>
           <figure class="ds-fig">
-            <figcaption>Payment plans</figcaption>
-            <button type="button" class="ds-view" aria-label="Enlarge: Payment plans">
-              <img src="../../FMcasestudyimages/Screen%20payment%20plans.png" alt="Payment plans: partial and lump sum plans side by side, with their terms" width="1512" height="982" loading="lazy" decoding="async" draggable="false">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+            <div class="ds-view" role="img" aria-label="Product design, screen 2 (image coming soon)"></div>
           </figure>
           <figure class="ds-fig">
-            <figcaption>Fee form</figcaption>
-            <button type="button" class="ds-view" aria-label="Enlarge: Fee form">
-              <img src="../../FMcasestudyimages/Screen%20fee%20form.png" alt="Fee form: a fee’s category, dates and description" width="1512" height="982" loading="lazy" decoding="async" draggable="false">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+            <div class="ds-view" role="img" aria-label="Product design, screen 3 (image coming soon)"></div>
           </figure>
           <figure class="ds-fig">
-            <figcaption>Fee details</figcaption>
-            <button type="button" class="ds-view" aria-label="Enlarge: Fee details">
-              <img src="../../FMcasestudyimages/Screen%20fee%20details.png" alt="Fee details: totals collected and due, upcoming payments and recent transactions" width="1512" height="982" loading="lazy" decoding="async" draggable="false">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+            <div class="ds-view" role="img" aria-label="Product design, screen 4 (image coming soon)"></div>
           </figure>
           <figure class="ds-fig">
-            <figcaption>Design system</figcaption>
-            <button type="button" class="ds-view" aria-label="Enlarge: Design system">
-              <img src="../../FMcasestudyimages/Design%20system.png" alt="The design system: colours, type, inputs, tables and components" width="1512" height="982" loading="lazy" decoding="async" draggable="false">
-              <span class="zoom-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14M7 5v4M5 7h4"/></svg></span>
-            </button>
+            <div class="ds-view" role="img" aria-label="Product design, screen 5 (image coming soon)"></div>
           </figure>
         </div>
       </div>
       <footer class="ds-end">
         <div class="ds-arrows">
-        <button type="button" class="ds-arrow" data-dir="-1" aria-label="Previous screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4 3 8l4 4"/></svg></button>
-        <button type="button" class="ds-arrow" data-dir="1" aria-label="Next screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
-      </div>
+            <button type="button" class="ds-arrow" data-dir="-1" aria-label="Previous screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4 3 8l4 4"/></svg></button>
+            <button type="button" class="ds-arrow" data-dir="1" aria-label="Next screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+          </div>
       </footer>
+    </section>
+
+    <!-- Other deliverables: one wide frame; shorter than a screen, so the start of the footer shows below it -->
+    <section class="panel deliverables" id="deliverables" aria-labelledby="deliverables-title" data-stop>
+      <header class="sec-head">
+        <span class="ghost" aria-hidden="true">Deliverables</span>
+        <h2 class="sec-title" id="deliverables-title">Other deliverables</h2>
+      </header>
+      <div class="wide-shot">
+        <figure class="ch-fig">
+          <div class="zoom" role="img" aria-label="Other deliverables (image coming soon)"></div>
+        </figure>
+      </div>
     </section>
 
     <!-- Site footer: links, other projects, copyright -->
@@ -379,10 +287,12 @@
   <nav class="index" aria-label="Case study sections">
     <a href="#overview"><span>01</span> Overview</a>
     <a href="#problem"><span>02</span> Problem</a>
-    <a href="#research"><span>03</span> Research</a>
-    <a href="#solutions"><span>04</span> Solutions</a>
-    <a href="#impact"><span>05</span> Impact</a>
-    <a href="#designs"><span>06</span> Designs</a>
+    <a href="#evaluation"><span>03</span> Evaluation</a>
+    <a href="#user-problems"><span>04</span> User problems</a>
+    <a href="#design"><span>05</span> Design</a>
+    <a href="#impact"><span>06</span> Impact</a>
+    <a href="#designs"><span>07</span> Designs</a>
+    <a href="#deliverables"><span>08</span> Deliverables</a>
   </nav>
 </body>
 </html>

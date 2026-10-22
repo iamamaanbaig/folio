@@ -1592,3 +1592,192 @@ html.lb-open {
   }
 }
 
+
+/* ---------- layouts added for the fee management case study ----------
+   Built only from the tokens and parts above, so the two case studies read as one system. */
+
+/* one wide image under a section's lead, closed off by a rule above it (as the problem cards are) */
+.wide-shot {
+  padding: clamp(32px, 3.4vw, 56px) var(--pad);
+  border-top: 1px solid var(--frame);
+}
+
+.wide-shot .ch-fig {
+  margin: 0;
+}
+
+.wide-shot .zoom {
+  aspect-ratio: 2.6;
+}
+
+/* a strip of screens with a lead above it: the rule moves from the strip to under the header */
+.evaluation {
+  border-bottom: 0;
+}
+
+.evaluation .sec-head {
+  border-bottom: 1px solid var(--frame);
+}
+
+.evaluation .ds-viewport {
+  background: none;
+}
+
+.ds-lede {
+  max-width: calc(46ch + 2 * var(--pad));
+  padding: clamp(32px, 3.4vw, 56px) var(--pad) 0;
+}
+
+.evaluation .ds-strip {
+  padding-top: clamp(28px, 2.8vw, 44px);
+}
+
+/* a problem on its own: problem | what users faced | picture, side by side */
+.sol-row.vp {
+  grid-template-areas: "prob sol shot";
+  grid-template-rows: 1fr;
+}
+
+.vp .sol-solution p {
+  margin: 0;
+  max-width: 30ch;
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-soft);
+}
+
+.vp .sol-shot {
+  padding-top: clamp(32px, 3.4vw, 56px);
+}
+
+.vp .sol-shot .shot {
+  aspect-ratio: 1.15 / 1;
+}
+
+/* designed solution: the idea across two columns, then the main screen beside a supporting one */
+.design {
+  margin-top: clamp(48px, 5vw, 80px);
+}
+
+.dz-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 2.8vw, 44px) calc(2 * var(--pad));
+  padding: clamp(32px, 3.4vw, 56px) var(--pad) clamp(64px, 7vw, 96px); /* room for the floating menu */
+  border-top: 1px solid var(--frame);
+}
+
+.dz-text {
+  grid-column: 1 / span 2;
+}
+
+.dz-text h3 {
+  margin: 0;
+  font-size: var(--t-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.dz-text p {
+  margin: var(--gap-detail) 0 0;
+  max-width: 52ch;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.dz-grid .ch-fig {
+  margin: 0;
+}
+
+.dz-main {
+  grid-column: 1 / span 2;
+}
+
+.dz-main .zoom {
+  aspect-ratio: 1800 / 1080;
+}
+
+.dz-side {
+  align-self: start;
+}
+
+.dz-side .zoom {
+  aspect-ratio: 1200 / 860;
+}
+
+@media (max-width: 899px) {
+  .wide-shot .zoom {
+    aspect-ratio: 1.55;
+  }
+
+  .sol-row.vp {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "prob" "sol" "shot";
+    min-height: 0;
+  }
+
+  .vp .sol-solution {
+    padding-top: 20px;
+  }
+
+  .vp .sol-shot {
+    padding: 20px var(--pad) 32px;
+  }
+
+  .dz-grid {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 40px;
+  }
+
+  .dz-grid > * {
+    grid-column: 1;
+  }
+}
+
+/* an empty container, waiting for its image, is not clickable */
+div.zoom,
+div.sol-view {
+  cursor: default;
+}
+
+/* four outcomes in a 2 × 2 grid: a rule between the columns and between the rows */
+.outcomes.four {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.outcomes.four .outcome:nth-child(odd) {
+  border-left: 0;
+}
+
+.outcomes.four .outcome:nth-child(n + 3) {
+  border-top: 1px solid var(--frame);
+}
+
+@media (max-width: 899px) {
+  .outcomes.four {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* other deliverables: one wide frame, kept shorter than the screen so the footer starts to show below it
+   (as the product designs do on the GIFA page) */
+.deliverables {
+  margin-top: clamp(48px, 5vw, 80px);
+}
+
+.deliverables .zoom {
+  aspect-ratio: auto;
+  height: clamp(240px, calc(100vh - 480px), 48vw);
+}
+
+@media (max-width: 899px) {
+  .deliverables .zoom {
+    height: auto;
+    aspect-ratio: 1.55;
+  }
+}

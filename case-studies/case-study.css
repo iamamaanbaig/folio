@@ -2356,10 +2356,9 @@ div.sol-view {
   }
 }
 
-/* overview facts: Team and Client. Team takes two of the three columns, so the divider sits on the same
-   column line as the dividers in the other sections */
+/* overview facts: Team and Client, in two equal columns */
 .facts {
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .facts > div:first-child dd {

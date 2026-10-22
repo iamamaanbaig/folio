@@ -1839,3 +1839,26 @@ div.sol-view {
     width: max-content;
   }
 }
+
+/* solution: a divider between the main screen and the supporting one, on the same column line as the
+   dividers in the other sections, running from the section's top rule to its bottom */
+.dz-grid {
+  position: relative;
+}
+
+.dz-grid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(100% * 2 / 3);
+  width: 1px;
+  background: var(--frame);
+  pointer-events: none;
+}
+
+@media (max-width: 899px) {
+  .dz-grid::before {
+    display: none;
+  }
+}

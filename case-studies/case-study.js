@@ -256,7 +256,9 @@
     const zoomImg = el => $(':scope > img', el);
     $$('.zoom').filter(zoomImg).forEach(btn => btn.addEventListener('click', () => {
       const figs = $$('.ch-fig', btn.closest('section')).filter(f => f.offsetParent !== null && $('.zoom', f) && zoomImg($('.zoom', f)));
-      lbStart(figs.map(f => itemOf($('img', f), $('figcaption', f).textContent)), figs.indexOf(btn.closest('.ch-fig')), btn);
+      // the image's label: its caption, or else the button's own label
+      const label = f => $('figcaption', f)?.textContent || $('.zoom', f).getAttribute('aria-label').replace(/^Enlarge: /, '');
+      lbStart(figs.map(f => itemOf($('img', f), label(f))), figs.indexOf(btn.closest('.ch-fig')), btn);
     }));
     $('.lb-prev', lb).addEventListener('click', () => lbShow(lbAt - 1));
     $('.lb-next', lb).addEventListener('click', () => lbShow(lbAt + 1));

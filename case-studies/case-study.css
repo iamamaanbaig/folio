@@ -2217,3 +2217,21 @@ div.sol-view {
   height: 100%;
   border: 0;
 }
+
+/* One laptop in the hero (creating automation): centred, cut off by the bottom of the container. The laptop
+   body fills its image file edge to edge (1793 wide). */
+.hs-center {
+  z-index: 2;
+  left: 50%;
+  top: var(--t);
+  width: calc(var(--F) * .6);
+  transform: translateX(-50%);
+}
+
+/* an image of a device cut off at the bottom: no label inside the frame, so the image sits in the usual
+   inset at the top and sides and runs to the frame's bottom edge, where its cut lines up with the frame */
+.zoom.bleed-b img {
+  top: var(--ip);
+  height: calc(100% - var(--ip));
+  object-position: center bottom;
+}

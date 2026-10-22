@@ -2313,3 +2313,29 @@ div.sol-view {
     height: calc((100cqw - 2 * var(--fp)) * 957 / 1793 + var(--fp));
   }
 }
+
+/* iteration 1's label: above the frame on the left, outside it, as on the other labelled images */
+.it-shot figcaption {
+  position: static;
+  margin-bottom: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--text-2);
+}
+
+@media (min-width: 900px) {
+  .it-main.flush .it-shot {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+  }
+
+  .it-main.flush .it-shot figcaption {
+    flex: none;
+  }
+
+  .it-main.flush .it-shot .zoom {
+    flex: 0 1 auto;
+    min-height: 0;
+  }
+}

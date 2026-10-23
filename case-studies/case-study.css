@@ -1319,7 +1319,10 @@
 }
 
 .op-card {
+  display: block;
   padding: 0 var(--pad) clamp(40px, 4vw, 64px);
+  color: inherit;
+  text-decoration: none;
 }
 
 .sf-projects {
@@ -1327,9 +1330,49 @@
 }
 
 .op-card .shot {
+  position: relative;
+  overflow: hidden;
   margin: 0 0 clamp(20px, 2vw, 28px);
   aspect-ratio: 16 / 9; /* same shape as the product design screens */
 }
+
+/* the project's opening screen: its laptop, centred and cut off by the bottom, as on the home preview;
+   on hover it rises a little and the arrow lifts towards the corner */
+.op-card .shot img {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: 80%;
+  height: auto;
+  transform: translateX(-50%);
+  transition: transform .5s var(--ease);
+}
+
+.op-card .op-gifa img { width: 88%; } /* this shot has more margin round its laptop */
+.op-card:hover .shot img,
+.op-card:focus-visible .shot img { transform: translate(-50%, -4%); }
+
+.op-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.op-arrow {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: .25em;
+  fill: none;
+  stroke: var(--text-2);
+  stroke-width: 1.5;
+  transition: transform .3s var(--ease), stroke .2s;
+}
+
+.op-card:hover .op-arrow,
+.op-card:focus-visible .op-arrow { stroke: var(--text); transform: translate(2px, -2px); }
+.op-card:focus-visible { outline: 2px solid var(--text); outline-offset: -2px; }
 
 .op-card h3 {
   margin: 0;

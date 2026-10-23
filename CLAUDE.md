@@ -54,6 +54,9 @@ as needed, keeping the intent of the reference.
   shared `case-studies/case-study.css`. On case studies it opens the first
   screen, then floats: hidden while scrolling down, shown when scrolling up,
   when the pointer reaches the top edge, or on keyboard focus (`case-study.js`).
+- Case-study footers: "Other projects" shows the other two case studies, each
+  a link with its opening screen (the same shot as the home preview), title,
+  description and arrow.
 - Contact page: `contact/index.html` with `contact/contact.css` and
   `contact/contact.js`.
 - "Global Incentive Fee Awards case study":

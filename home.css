@@ -102,3 +102,22 @@
 @media (prefers-reduced-motion: reduce) {
   .cs-preview, .cs-preview img { transition: none !important; }
 }
+
+/* fit: on wide screens the first screen always fits the window. Sizes follow --u, one hundredth of the width
+   or 1.6 hundredths of the height, whichever is smaller (they agree at 16:10), so short windows scale down
+   instead of scrolling. Phones scroll, so they keep the shared sizes. */
+@media (min-width: 900px) {
+  .home-screen {
+    --u: min(1vw, 1.6vh);
+    --t-heading: clamp(20px, calc(var(--u) * 2.2), 32px);
+    --t-body: clamp(14px, calc(var(--u) * 1.25), 18px);
+    --gap-detail: clamp(10px, calc(var(--u) * 1.6), 24px);
+  }
+  .site-head { min-height: clamp(60px, calc(var(--u) * 7), 112px); }
+  .work .sec-head { min-height: clamp(72px, calc(var(--u) * 10), 160px); padding-bottom: clamp(12px, calc(var(--u) * 1.8), 28px); }
+  .work .ghost { font-size: clamp(52px, calc(var(--u) * 8.4), 140px); }
+  .cs-card { padding: clamp(18px, calc(var(--u) * 3), 48px) var(--pad) clamp(22px, calc(var(--u) * 3.6), 56px); }
+  .cs-arrow { top: clamp(18px, calc(var(--u) * 3), 48px); }
+  .statement { padding: clamp(18px, calc(var(--u) * 3.4), 56px) var(--pad) clamp(22px, calc(var(--u) * 3.6), 56px); }
+  .statement h1 { font-size: clamp(28px, calc(var(--u) * 5.2), 92px); }
+}

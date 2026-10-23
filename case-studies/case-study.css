@@ -348,7 +348,7 @@
   font-size: var(--t-heading);
   font-weight: 600;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.018em;
 }
 
 .card p {
@@ -2379,6 +2379,7 @@ div.sol-view {
   padding: 0;
   border: 0;
   background: transparent;
+  font: inherit; /* buttons don't take the page font on their own, so the chip would fall back to Arial */
   cursor: pointer;
 }
 

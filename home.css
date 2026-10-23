@@ -1,0 +1,104 @@
+/* Home page. Built on the tokens in styles.css and the shared parts in case-studies/case-study.css
+   (section header, labels, frame lines), so it reads as one system with the case studies. */
+.home-screen { position: relative; display: flex; flex-direction: column; min-height: 100vh; overflow: clip; }
+
+/* the signature: as wide as the frame lines, at its own proportions, its middle on the middle of the window.
+   A CSS background, so the browser offers no "save image" or drag; a light WebP, not the original file.
+   Its left edge fades in, so the glow, cut off at the image's edge, leaves no seam. */
+.home-screen::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50vh; z-index: -1; transform: translateY(-50%);
+  aspect-ratio: 1453 / 1310; background: url(assets/home-bg.webp) center / 100% 100% no-repeat; pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%); mask-image: linear-gradient(90deg, transparent, #000 6%);
+}
+
+/* header: name on the left, two links on the right, closed off by a rule */
+.site-head {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: clamp(88px, 7vw, 112px); padding: 0 var(--pad);
+  border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); border-bottom: 1px solid var(--frame);
+}
+.logo { font-size: var(--t-section); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--text); text-decoration: none; }
+.logo span { color: var(--accent-solid); }
+.site-nav { display: flex; gap: clamp(24px, 2.4vw, 40px); }
+.site-nav a { font-size: var(--t-label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-2); text-decoration: none; }
+.site-nav a[aria-current="page"] { color: var(--text); }
+
+/* case studies: the same header style as every case study section, then three columns */
+.work .sec-head { border-bottom: 1px solid var(--frame); }
+.work { border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); }
+.cs-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--frame);
+  background: rgba(18, 19, 21, .5); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); } /* frosted: the signature softens behind the cards */
+.cs-card { position: relative; display: flex; flex-direction: column; padding: clamp(28px, 3vw, 48px) var(--pad) clamp(36px, 3.6vw, 56px); color: inherit; text-decoration: none; transition: background .25s; }
+.cs-card + .cs-card { border-left: 1px solid var(--frame); }
+.cs-card h3 { margin: 0; padding-right: 40px; font-size: var(--t-heading); font-weight: 600; line-height: 1.15; letter-spacing: -0.018em; text-wrap: balance; }
+.cs-card p { margin: var(--gap-detail) 0 0; max-width: 40ch; font-size: var(--t-body); line-height: 1.5; color: var(--text-2); }
+/* a bare arrow beside the heading's first line says the card opens; it lifts towards the corner on hover */
+.cs-arrow { position: absolute; top: clamp(28px, 3vw, 48px); right: var(--pad); display: grid; place-items: center; width: 24px; height: calc(var(--t-heading) * 1.15); color: var(--text-2); transition: color .2s; }
+.cs-arrow svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .3s var(--ease); }
+.cs-card:hover { background: rgba(255, 255, 255, .04); }
+.cs-card:hover .cs-arrow { color: var(--text); }
+.cs-card:hover .cs-arrow svg { transform: translate(2px, -2px); }
+
+/* statement: bottom of the first screen, the role beside its last line */
+.statement { order: 1; margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: var(--pad);
+  padding: clamp(32px, 3.4vw, 56px) var(--pad) clamp(36px, 3.6vw, 56px); border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); }
+.statement h1 { position: relative; margin: 0; font-size: clamp(36px, 5.2vw, 92px); font-weight: 500; line-height: 1.04; letter-spacing: -0.02em; text-transform: uppercase; }
+.statement h1 > span { display: block; white-space: nowrap; }
+.px { font-family: "Tinos", "Times New Roman", serif; font-weight: 400; letter-spacing: 0; filter: url(#pixelate); }
+.statement .accent { padding-right: .04em; }
+/* readability: a soft patch of the page colour behind the headline and the role, blurring the signature where
+   it passes behind the words; its edges fade out, so it reads as the light dimming, not as a box */
+.statement h1::before, .role::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  background: rgba(18, 19, 21, .62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent); mask-image: radial-gradient(closest-side, #000 55%, transparent);
+}
+.statement h1::before { inset: -45% -16% -40% -12%; }
+.role::before { inset: -160% -30%; -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent); mask-image: radial-gradient(closest-side, #000 30%, transparent); }
+.role { position: relative; margin: 0 0 .55em; font-size: var(--t-lead); color: var(--text); white-space: nowrap; }
+
+@media (max-width: 899px) {
+  .cs-list { grid-template-columns: 1fr; }
+  .cs-card + .cs-card { border-left: 0; border-top: 1px solid var(--frame); }
+  /* phones: the statement opens the page (its place in the markup), framed like a section of its own */
+  .statement { order: 0; margin-top: 0; flex-direction: column; align-items: flex-start;
+    padding-top: clamp(40px, 12vw, 64px); padding-bottom: clamp(40px, 12vw, 64px); border-bottom: 1px solid var(--frame); }
+  .role { margin: 0; }
+  .statement h1 > span { white-space: normal; } /* phones: the long line wraps */
+  .px { filter: url(#pixelate-sm); }
+  /* phones: the signature stays on the screen while the statement and cards scroll over it; the end of the cards
+     carries it away. Sticky inside the first screen, so CSS alone does it. */
+  .home-screen::before { position: sticky; top: 0; left: auto; right: auto; transform: none; flex: none;
+    height: 100svh; margin-bottom: -100svh; aspect-ratio: auto; background-size: 100% auto; background-position: center 64px; }
+}
+
+/* hover preview (pointer screens): the hovered card turns light and opens into a panel below it with the
+   case study's opening screen and a way in. Touch screens keep plain links. Built by home.js. */
+.cs-preview { display: none; }
+@media (hover: hover) and (min-width: 900px) {
+  .cs-preview {
+    display: block; position: absolute; left: 0; right: 0; top: var(--pv-top, 50%); bottom: 0; z-index: 2;
+    background: var(--surface); overflow: hidden; color: inherit;
+    clip-path: inset(0 0 100% 0); transition: clip-path .5s var(--ease); pointer-events: none;
+  }
+  .home-screen.previewing .cs-preview { clip-path: inset(0); pointer-events: auto; }
+  .cs-preview img {
+    position: absolute; left: 50%; top: 11%; width: min(58%, calc((100% - 22%) * 1.7)); height: auto;
+    transform: translate(-50%, 28px); opacity: 0; transition: opacity .35s, transform .6s var(--ease);
+  }
+  .cs-preview img:nth-child(2) { width: min(64%, calc((100% - 22%) * 1.87)); } /* this shot has more margin round its laptop */
+  .cs-preview img.on { opacity: 1; transform: translate(-50%, 0); transition-delay: .08s; }
+  /* the way in: a blue square in the corner, the accent's one big moment on the page */
+  .pv-go { position: absolute; right: 0; bottom: 0; display: grid; place-items: center; width: clamp(64px, 5.6vw, 88px); aspect-ratio: 1; background: var(--accent); color: #fff; }
+  .pv-go svg { width: 42%; height: 42%; fill: none; stroke: currentColor; stroke-width: 1.4; transition: transform .35s var(--ease); }
+  .cs-preview:hover .pv-go svg { transform: translate(3px, -3px); }
+
+  .cs-card, .cs-card h3, .cs-card p { transition: background .25s, color .25s; }
+  .cs-card.active { background: var(--surface); }
+  .cs-card.active h3 { color: var(--bg); }
+  .cs-card.active p { color: #5B5D62; }
+  .cs-card.active .cs-arrow { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-preview, .cs-preview img { transition: none !important; }
+}

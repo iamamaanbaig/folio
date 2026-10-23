@@ -13,10 +13,15 @@
   field.addEventListener('input', sync); addEventListener('resize', sync); sync();
   // Enter sends, Shift+Enter starts a new line
   field.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && field.value.trim()) { e.preventDefault(); form.requestSubmit(); } });
+  // the address is kept scrambled (each character XOR a short key), never as plain text in the page or
+  // this file, so address-harvesting bots that scan pages don't find it; it's put together only on send
+  const address = () => [110, 114, 104, 106, 106, 114, 100, 101, 101, 114, 108, 108, 71, 116, 104, 106, 110, 127, 43, 104, 104, 126]
+    .map((c, i) => String.fromCharCode(c ^ [7, 19, 5, 11][i % 4])).join('');
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const to = form.dataset.to, body = field.value.trim();
-    if (!to || !body) return;
+    const body = field.value.trim();
+    if (!body) return;
+    const to = address();
     location.href = `mailto:${to}?subject=${encodeURIComponent('Hello from your portfolio')}&body=${encodeURIComponent(body)}`;
   });
 })();

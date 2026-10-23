@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact · Amaan Baig</title>
+  <meta name="description" content="Have something complicated? Let’s talk. Write to Amaan Baig, UX &amp; Product Designer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
+  <link rel="stylesheet" href="../styles.css?v=contact1">
+  <link rel="stylesheet" href="../case-studies/case-study.css?v=contact1">
+  <link rel="stylesheet" href="../home.css?v=contact1">
+  <link rel="stylesheet" href="contact.css?v=contact1">
+</head>
+<body>
+  <main class="page">
+    <!-- the home page's screen and header, so both pages share one header and one fit -->
+    <div class="home-screen contact-screen">
+      <header class="site-head">
+        <a class="logo" href="../">Amaan Baig<span>.</span></a>
+        <nav class="site-nav" aria-label="Main"><a href="../">Home</a><a href="./" aria-current="page">Contact</a></nav>
+      </header>
+
+      <section class="contact" aria-labelledby="contact-title">
+        <!-- the pixel @: a 16×16 grid in the accent gradient -->
+        <svg class="at" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <defs><linearGradient id="at-fill" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="16"><stop offset="0" stop-color="#6BABFF"/><stop offset="1" stop-color="#0051FF"/></linearGradient></defs>
+          <g fill="url(#at-fill)"><rect x="0" y="0" width="2" height="1.04"/><rect x="4" y="0" width="8" height="1.04"/><rect x="14" y="0" width="2" height="1.04"/><rect x="0" y="1" width="1" height="1.04"/><rect x="2" y="1" width="12" height="1.04"/><rect x="15" y="1" width="1" height="1.04"/><rect x="1" y="2" width="14" height="1.04"/><rect x="0" y="3" width="16" height="1.04"/><rect x="0" y="4" width="5" height="1.04"/><rect x="9" y="4" width="2" height="1.04"/><rect x="13" y="4" width="3" height="1.04"/><rect x="0" y="5" width="4" height="1.04"/><rect x="6" y="5" width="3" height="1.04"/><rect x="12" y="5" width="4" height="1.04"/><rect x="0" y="6" width="3" height="1.04"/><rect x="5" y="6" width="4" height="1.04"/><rect x="11" y="6" width="5" height="1.04"/><rect x="0" y="7" width="3" height="1.04"/><rect x="5" y="7" width="4" height="1.04"/><rect x="11" y="7" width="5" height="1.04"/><rect x="0" y="8" width="3" height="1.04"/><rect x="5" y="8" width="4" height="1.04"/><rect x="11" y="8" width="5" height="1.04"/><rect x="0" y="9" width="3" height="1.04"/><rect x="5" y="9" width="4" height="1.04"/><rect x="11" y="9" width="5" height="1.04"/><rect x="0" y="10" width="4" height="1.04"/><rect x="6" y="10" width="3" height="1.04"/><rect x="11" y="10" width="5" height="1.04"/><rect x="0" y="11" width="5" height="1.04"/><rect x="9" y="11" width="2" height="1.04"/><rect x="13" y="11" width="3" height="1.04"/><rect x="0" y="12" width="16" height="1.04"/><rect x="1" y="13" width="14" height="1.04"/><rect x="0" y="14" width="1" height="1.04"/><rect x="2" y="14" width="12" height="1.04"/><rect x="15" y="14" width="1" height="1.04"/><rect x="0" y="15" width="2" height="1.04"/><rect x="4" y="15" width="8" height="1.04"/><rect x="14" y="15" width="2" height="1.04"/></g>
+        </svg>
+
+        <form class="msg" id="msg" data-to="">
+          <h1 class="contact-title" id="contact-title"><label for="msg-text">Have something complicated? Let’s talk</label></h1>
+          <div class="msg-field">
+            <textarea id="msg-text" name="message" rows="1" placeholder="Type your message" required></textarea>
+            <button class="msg-send" type="submit" aria-label="Send message">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
+            </button>
+          </div>
+          <p class="msg-or">Or connect on <a class="chip" href="#" rel="noopener" target="_blank">LinkedIn<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg></a></p>
+        </form>
+      </section>
+
+      <footer class="contact-foot"><p>© 2026 Amaan Baig</p></footer>
+    </div>
+  </main>
+  <script src="contact.js?v=contact1" defer></script>
+</body>
+</html>

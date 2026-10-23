@@ -40,6 +40,9 @@ as needed, keeping the intent of the reference.
   GIFA, Fee management, Creating Automation, then a placeholder (`.soon`,
   not a link, no preview) for the fourth case study. The card in focus keeps
   full strength and the others fade to 35%.
+  Over a case-study card or its preview, the pointer becomes a dark pill:
+  the pixel arrow (`cursor.png`, turned to point up-right) and "View case
+  study" in PP Mondwest (`.cs-cursor`, home.js; mouse only).
 - Site header (name, Home, Contact) on every page; its styles live in the
   shared `case-studies/case-study.css`. On case studies it opens the first
   screen, then floats: hidden while scrolling down, shown when scrolling up,

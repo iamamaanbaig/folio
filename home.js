@@ -37,6 +37,29 @@
     c.addEventListener('focus', () => open(i));
     c.addEventListener('blur', close);
   });
+  // the cursor over a case study: a dark pill, the pixel arrow and "View case study", following the pointer
+  const cur = document.createElement('div');
+  cur.className = 'cs-cursor'; cur.setAttribute('aria-hidden', 'true');
+  cur.innerHTML = '<img src="cursor.png" alt="" width="30" height="32"><span>View case study</span>';
+  document.body.append(cur);
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let x = 0, y = 0, cx = 0, cy = 0, raf = 0;
+  const follow = () => {
+    cx += (x - cx) * (still ? 1 : .35); cy += (y - cy) * (still ? 1 : .35);
+    cur.style.transform = `translate(${cx}px, ${cy}px)`;
+    raf = Math.abs(x - cx) + Math.abs(y - cy) > .1 ? requestAnimationFrame(follow) : 0;
+  };
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    x = e.clientX; y = e.clientY;
+    if (!cur.classList.contains('on')) { cx = x; cy = y; }
+    if (!raf) raf = requestAnimationFrame(follow);
+  }, { passive: true });
+  [...cards, pv].forEach(el => {
+    el.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { cx = x = e.clientX; cy = y = e.clientY; follow(); cur.classList.add('on'); } });
+    el.addEventListener('pointerleave', () => cur.classList.remove('on'));
+  });
+
   [list, pv].forEach(el => {
     el.addEventListener('pointerenter', () => clearTimeout(t));
     el.addEventListener('pointerleave', close);

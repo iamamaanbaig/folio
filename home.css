@@ -100,8 +100,25 @@
   .cs-card.active p { color: #5B5D62; }
   .cs-card.active .cs-arrow { opacity: 0; }
 }
+/* the cursor over a case study (home.js): the pointer becomes a dark pill with the pixel arrow and
+   "View case study" in PP Mondwest; the arrow sits where the pointer is */
+.cs-cursor { display: none; }
+@media (hover: hover) and (min-width: 900px) {
+  .cs-card[href], .cs-preview { cursor: none; }
+  .cs-cursor {
+    display: flex; align-items: center; gap: 10px; position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none;
+    padding: 9px 20px 9px 12px; margin: -24px 0 0 -26px; border-radius: 999px; background: #111214;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .06), 0 8px 24px rgba(0, 0, 0, .35);
+    font-family: "PP Mondwest", "Inter", sans-serif; font-size: 20px; line-height: 1; color: var(--accent-solid); white-space: nowrap;
+    opacity: 0; scale: .6; transform-origin: 26px 24px; transition: opacity .2s, scale .3s var(--ease);
+  }
+  .cs-cursor.on { opacity: 1; scale: 1; }
+  /* the pixel arrow points up and right, the way the site's arrows do */
+  .cs-cursor img { width: 30px; height: 32px; image-rendering: pixelated; rotate: 45deg; }
+}
 @media (prefers-reduced-motion: reduce) {
   .cs-preview, .cs-preview img { transition: none !important; }
+  .cs-cursor { transition: none; scale: 1; }
 }
 
 /* fit: on wide screens the first screen always fits the window. Sizes follow --u, one hundredth of the width

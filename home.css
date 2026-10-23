@@ -4,8 +4,9 @@
 
 /* the signature: as wide as the frame lines, at its own proportions, its middle on the middle of the window.
    A CSS background, so the browser offers no "save image" or drag; a light WebP, not the original file.
-   Its left edge fades in, so the glow, cut off at the image's edge, leaves no seam. */
-.home-screen::before {
+   Its left edge fades in, so the glow, cut off at the image's edge, leaves no seam.
+   Everything that belongs to it is under .has-bg: drop that class from .home-screen to hide it. */
+.has-bg::before {
   content: ""; position: absolute; left: 0; right: 0; top: 50vh; z-index: -1; transform: translateY(-50%);
   aspect-ratio: 1453 / 1310; background: url(assets/home-bg.webp) center / 100% 100% no-repeat; pointer-events: none;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%); mask-image: linear-gradient(90deg, transparent, #000 6%);
@@ -26,8 +27,8 @@
 /* case studies: the same header style as every case study section, then three columns */
 .work .sec-head { border-bottom: 1px solid var(--frame); }
 .work { border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); }
-.cs-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--frame);
-  background: rgba(18, 19, 21, .5); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); } /* frosted: the signature softens behind the cards */
+.cs-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--frame); }
+.has-bg .cs-list { background: rgba(18, 19, 21, .5); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); } /* frosted: the signature softens behind the cards */
 .cs-card { position: relative; display: flex; flex-direction: column; padding: clamp(28px, 3vw, 48px) var(--pad) clamp(36px, 3.6vw, 56px); color: inherit; text-decoration: none; transition: background .25s; }
 .cs-card + .cs-card { border-left: 1px solid var(--frame); }
 .cs-card h3 { margin: 0; padding-right: 40px; font-size: var(--t-heading); font-weight: 600; line-height: 1.15; letter-spacing: -0.018em; text-wrap: balance; }
@@ -48,13 +49,13 @@
 .statement .accent { padding-right: .04em; }
 /* readability: a soft patch of the page colour behind the headline and the role, blurring the signature where
    it passes behind the words; its edges fade out, so it reads as the light dimming, not as a box */
-.statement h1::before, .role::before {
+.has-bg .statement h1::before, .has-bg .role::before {
   content: ""; position: absolute; z-index: -1; pointer-events: none;
   background: rgba(18, 19, 21, .62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent); mask-image: radial-gradient(closest-side, #000 55%, transparent);
 }
-.statement h1::before { inset: -45% -16% -40% -12%; }
-.role::before { inset: -160% -30%; -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent); mask-image: radial-gradient(closest-side, #000 30%, transparent); }
+.has-bg .statement h1::before { inset: -45% -16% -40% -12%; }
+.has-bg .role::before { inset: -160% -30%; -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent); mask-image: radial-gradient(closest-side, #000 30%, transparent); }
 .role { position: relative; margin: 0 0 .55em; font-size: var(--t-lead); color: var(--text); white-space: nowrap; }
 
 @media (max-width: 899px) {
@@ -68,7 +69,7 @@
   .px { filter: url(#pixelate-sm); }
   /* phones: the signature stays on the screen while the statement and cards scroll over it; the end of the cards
      carries it away. Sticky inside the first screen, so CSS alone does it. */
-  .home-screen::before { position: sticky; top: 0; left: auto; right: auto; transform: none; flex: none;
+  .has-bg::before { position: sticky; top: 0; left: auto; right: auto; transform: none; flex: none;
     height: 100svh; margin-bottom: -100svh; aspect-ratio: auto; background-size: 100% auto; background-position: center 64px; }
 }
 

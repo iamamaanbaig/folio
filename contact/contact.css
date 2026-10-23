@@ -10,6 +10,9 @@
 .msg { width: min(100%, calc(var(--col) * 2)); margin-top: clamp(40px, calc(var(--u, 1vw) * 6), 112px); }
 .contact-title { margin: 0; font-size: var(--t-heading); font-weight: 400; line-height: 1.25; letter-spacing: -0.01em; color: var(--text-soft); }
 .contact-title label { cursor: text; }
+/* the line steps aside once the visitor starts writing: the message takes the stage */
+.contact-title { transition: opacity .3s, transform .4s var(--ease); }
+.msg.has-text .contact-title { opacity: 0; transform: translateY(-6px); }
 
 /* the field: big type on a single rule; the rule turns blue while you write */
 .msg-field { position: relative; display: flex; align-items: flex-end; margin-top: clamp(24px, calc(var(--u, 1vw) * 4), 64px);
@@ -38,9 +41,9 @@
 .msg-send:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent-solid); outline-offset: 3px; }
 
 .msg-or { display: flex; align-items: center; gap: 12px; margin: clamp(24px, calc(var(--u, 1vw) * 3), 40px) 0 0; font-size: var(--t-body); color: var(--text-2); }
-.chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px 8px 14px; background: var(--accent); color: #fff; font-weight: 500; text-decoration: none; }
-.chip svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform .3s var(--ease); }
-.chip:hover svg { transform: translate(2px, -2px); }
+/* LinkedIn: a pill in LinkedIn's own blue, so it reads as theirs at a glance */
+.chip { display: inline-flex; align-items: center; padding: .42em 1em; border-radius: 999px; background: #0A66C2; color: #fff; font-weight: 400; line-height: 1.2; text-decoration: none; transition: background .2s; }
+.chip:hover { background: #004182; }
 
 .contact-foot { padding: clamp(20px, calc(var(--u, 1vw) * 2.4), 36px) var(--pad); border: 1px solid var(--frame); border-bottom: 0; }
 .contact-foot p { margin: 0; font-size: var(--t-label); color: var(--text-2); }

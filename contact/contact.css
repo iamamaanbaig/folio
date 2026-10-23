@@ -14,24 +14,26 @@
 .contact-title { transition: opacity .3s, transform .4s var(--ease); }
 .msg.has-text .contact-title { opacity: 0; transform: translateY(-6px); }
 
-/* the field: big type on a single rule; the rule turns blue while you write */
-.msg-field { position: relative; display: flex; align-items: flex-end; margin-top: clamp(24px, calc(var(--u, 1vw) * 4), 64px);
+/* the field: the prompt in big type on a single rule; the rule turns blue while you write. It keeps the
+   prompt's height, so nothing moves when the message, at reading size, replaces it */
+.msg-field { --ph: clamp(34px, calc(var(--u, 1vw) * 4.6), 80px);
+  position: relative; display: flex; align-items: flex-end; min-height: calc(var(--ph) * 1.37); margin-top: clamp(24px, calc(var(--u, 1vw) * 4), 64px);
   border-bottom: 1px solid #2E2F33; transition: border-color .25s; }
 .msg-field:focus-within { border-bottom-color: var(--accent-solid); }
 .msg-field textarea {
   flex: 1; min-width: 0; display: block; margin: 0; padding: 0 0 .22em; border: 0; outline: 0; resize: none; overflow: hidden;
-  background: none; color: var(--text); font: inherit; font-size: clamp(34px, calc(var(--u, 1vw) * 4.6), 80px); font-weight: 400;
+  background: none; color: var(--text); font: inherit; font-size: var(--ph); font-weight: 400;
   line-height: 1.15; letter-spacing: -0.025em; caret-color: var(--accent-solid);
   max-height: 8.5em;
 }
-/* past one line the message steps down to reading size, and scrolls after a few lines, so the page holds */
-.msg.long .msg-field textarea { font-size: clamp(20px, calc(var(--u, 1vw) * 1.9), 30px); line-height: 1.45; letter-spacing: -0.01em; max-height: 7.5em; overflow-y: auto; }
-.msg.has-text .msg-field textarea { padding-right: calc(clamp(48px, calc(var(--u, 1vw) * 4.4), 72px) + 16px); }
+/* the message itself is body text; after four lines it scrolls, so the page holds */
+.msg.has-text .msg-field textarea { padding-bottom: .9em; font-size: var(--t-body); line-height: 1.5; letter-spacing: normal; max-height: 6.9em; overflow-y: auto; }
+.msg.has-text .msg-field textarea { padding-right: calc(clamp(40px, calc(var(--u, 1vw) * 3.2), 52px) + 16px); }
 .msg-field textarea::placeholder { color: #3A3B40; opacity: 1; }
 
 /* send: the blue square from the case-study preview; it appears once there's something to send */
 .msg-send {
-  position: absolute; right: 0; bottom: 12px; display: grid; place-items: center; width: clamp(48px, calc(var(--u, 1vw) * 4.4), 72px); aspect-ratio: 1;
+  position: absolute; right: 0; bottom: 12px; display: grid; place-items: center; width: clamp(40px, calc(var(--u, 1vw) * 3.2), 52px); aspect-ratio: 1;
   border: 0; padding: 0; background: var(--accent); color: #fff; cursor: pointer;
   opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity .25s, transform .35s var(--ease);
 }
@@ -51,7 +53,6 @@
 @media (max-width: 899px) {
   .contact { padding-top: 48px; padding-bottom: 56px; }
   .msg { width: 100%; margin-top: 56px; }
-  .msg-field textarea { font-size: 34px; }
-  .msg.long .msg-field textarea { font-size: 20px; }
+  .msg-field { --ph: 34px; }
   .msg-send { bottom: 8px; }
 }

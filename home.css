@@ -12,17 +12,7 @@
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%); mask-image: linear-gradient(90deg, transparent, #000 6%);
 }
 
-/* header: name on the left, two links on the right, closed off by a rule */
-.site-head {
-  display: flex; align-items: center; justify-content: space-between;
-  min-height: clamp(88px, 7vw, 112px); padding: 0 var(--pad);
-  border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); border-bottom: 1px solid var(--frame);
-}
-.logo { font-size: var(--t-section); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-.logo span { color: var(--accent-solid); }
-.site-nav { display: flex; gap: clamp(24px, 2.4vw, 40px); }
-.site-nav a { font-size: var(--t-label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-2); text-decoration: none; }
-.site-nav a[aria-current="page"] { color: var(--text); }
+/* the site header's styles are shared: case-studies/case-study.css */
 
 /* case studies: the same header style as every case study section, then three columns */
 .work .sec-head { border-bottom: 1px solid var(--frame); }
@@ -117,7 +107,6 @@
     --t-body: clamp(14px, calc(var(--u) * 1.25), 18px);
     --gap-detail: clamp(10px, calc(var(--u) * 1.6), 24px);
   }
-  .site-head { min-height: clamp(60px, calc(var(--u) * 7), 112px); }
   .work .sec-head { min-height: clamp(72px, calc(var(--u) * 10), 160px); padding-bottom: clamp(12px, calc(var(--u) * 1.8), 28px); }
   .work .ghost { font-size: clamp(52px, calc(var(--u) * 8.4), 140px); }
   .cs-card { padding: clamp(18px, calc(var(--u) * 3), 48px) var(--pad) clamp(22px, calc(var(--u) * 3.6), 56px); }

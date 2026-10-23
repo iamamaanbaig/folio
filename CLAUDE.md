@@ -37,6 +37,12 @@ as needed, keeping the intent of the reference.
   work on wide screens). `home.js` adds the card hover preview (pointer
   screens only): the card turns light and opens into a panel with the case
   study's opening screen (`data-shot` on each card).
+- Site header (name, Home, Contact) on every page; its styles live in the
+  shared `case-studies/case-study.css`. On case studies it opens the first
+  screen, then floats: hidden while scrolling down, shown when scrolling up,
+  when the pointer reaches the top edge, or on keyboard focus (`case-study.js`).
+- Contact page: `contact/index.html` with `contact/contact.css` and
+  `contact/contact.js`.
 - "Global Incentive Fee Awards case study":
   `case-studies/global-incentive-fee-awards/index.html`. A case study page,
   not the home page. Its images live in `GIFAcasestudyimages/`.

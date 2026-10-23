@@ -2407,3 +2407,53 @@ div.sol-view {
   outline: 2px solid var(--text);
   outline-offset: 3px;
 }
+
+/* ---------- site header ----------
+   Shared by every page: name on the left, Home and Contact on the right, closed off by a rule. On wide
+   screens it follows the smaller of width and height, like the home page, so first screens fit. */
+.site-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: clamp(88px, 7vw, 112px);
+  padding: 0 var(--pad);
+  border-left: 1px solid var(--frame);
+  border-right: 1px solid var(--frame);
+  border-bottom: 1px solid var(--frame);
+}
+
+@media (min-width: 900px) {
+  .site-head { min-height: clamp(60px, min(7vw, 11.2vh), 112px); }
+}
+
+.logo { font-size: var(--t-section); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--text); text-decoration: none; }
+.logo span { color: var(--accent-solid); }
+.site-nav { display: flex; gap: clamp(24px, 2.4vw, 40px); }
+.site-nav a { font-size: var(--t-label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-2); text-decoration: none; transition: color .2s; }
+.site-nav a:hover,
+.site-nav a[aria-current="page"] { color: var(--text); }
+.site-nav a:focus-visible,
+.logo:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; }
+
+/* case studies: the header opens the first screen; once it has scrolled away it floats (case-study.js),
+   hidden while you read down, back when you scroll up or point at the top edge. The slot keeps its place,
+   so nothing moves when it lifts out; floating, it's a slimmer bar, so it covers less of the section. */
+.head-slot { flex: none; }
+
+.head-slot.floating .site-head {
+  position: fixed;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  z-index: 40;
+  min-height: 64px;
+  background: var(--bg);
+  transform: translateY(-101%);
+  transition: transform .45s var(--ease);
+}
+
+.head-slot.floating.shown .site-head { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .head-slot.floating .site-head { transition: none; }
+}

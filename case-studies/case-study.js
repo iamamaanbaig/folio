@@ -399,3 +399,27 @@
     else scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
   }));
 })();
+
+/* Site header: in place at the top of the page. Once it has scrolled away it floats: hidden while you read
+   down, back when you scroll up, when the pointer reaches the top edge, or when a link in it takes focus. */
+(() => {
+  const slot = document.querySelector('.head-slot'); if (!slot) return;
+  const head = slot.querySelector('.site-head');
+  let lastY = scrollY, byPointer = false;
+  const floating = () => slot.classList.contains('floating');
+  const show = on => slot.classList.toggle('shown', on);
+  addEventListener('scroll', () => {
+    const y = scrollY, h = slot.offsetHeight;
+    if (y <= h) { slot.classList.remove('floating', 'shown'); slot.style.height = ''; byPointer = false; lastY = y; return; }
+    if (!floating()) { slot.style.height = h + 'px'; slot.classList.add('floating'); }
+    const dy = y - lastY;
+    if (Math.abs(dy) > 4) { if (!head.contains(document.activeElement)) { show(dy < 0); byPointer = false; } lastY = y; }
+  }, { passive: true });
+  // the pointer at the top edge brings it down; moving away below it puts it back
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse' || !floating()) return;
+    if (e.clientY < 24 && !slot.classList.contains('shown')) { show(true); byPointer = true; }
+    else if (byPointer && e.clientY > head.offsetHeight + 24) { show(false); byPointer = false; }
+  }, { passive: true });
+  head.addEventListener('focusin', () => show(true));
+})();

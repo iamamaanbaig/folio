@@ -17,7 +17,9 @@ as needed, keeping the intent of the reference.
 ## Fixed decisions (change only when told)
 - Background `#121315`, stroke `#202123`.
 - Fixed background: 6-column vertical grid lines, 2.75vw side gutters.
-- Font: Inter.
+- Font: Inter. One accent: the home statement's "complicated software" line in
+  PP Mondwest (`assets/fonts/pp-mondwest-regular.woff2`, made from the
+  uploaded `ppmondwest-regular.otf`).
 - Structure: `index.html` (home: hero → case-study list → contact),
   `case-studies/<slug>/index.html` per case study, shared `styles.css`.
 

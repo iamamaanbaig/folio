@@ -7,30 +7,13 @@
   <meta name="description" content="Amaan Baig, UX &amp; Product Designer. I make complicated software feel obvious.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Tinos&display=swap">
-  <link rel="stylesheet" href="styles.css?v=home5">
-  <link rel="stylesheet" href="case-studies/case-study.css?v=home5">
-  <link rel="stylesheet" href="home.css?v=home5">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
+  <link rel="preload" href="assets/fonts/pp-mondwest-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=home6">
+  <link rel="stylesheet" href="case-studies/case-study.css?v=home6">
+  <link rel="stylesheet" href="home.css?v=home6">
 </head>
 <body>
-  <!-- chunky-pixel look for the serif line: sample the letters every 4px, then grow each sample into a 4px block -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <filter id="pixelate" x="0" y="0" width="1" height="1">
-      <feFlood x="1" y="1" width="1" height="1"/>
-      <feComposite width="4" height="4"/>
-      <feTile result="grid"/>
-      <feComposite in="SourceGraphic" in2="grid" operator="in"/>
-      <feMorphology operator="dilate" radius="2"/>
-    </filter>
-    <!-- phones: finer, 2px pixels, so the smaller line stays readable -->
-    <filter id="pixelate-sm" x="0" y="0" width="1" height="1">
-      <feFlood x="0" y="0" width="1" height="1"/>
-      <feComposite width="2" height="2"/>
-      <feTile result="grid"/>
-      <feComposite in="SourceGraphic" in2="grid" operator="in"/>
-      <feMorphology operator="dilate" radius="1"/>
-    </filter>
-  </svg>
   <main class="page">
     <!-- the signature background is hidden for now: add has-bg to bring it back -->
     <div class="home-screen">
@@ -71,6 +54,6 @@
 
     </div>
   </main>
-  <script src="home.js?v=home5" defer></script>
+  <script src="home.js?v=home6" defer></script>
 </body>
 </html>

@@ -45,7 +45,11 @@
   padding: clamp(32px, 3.4vw, 56px) var(--pad) clamp(36px, 3.6vw, 56px); border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); }
 .statement h1 { position: relative; margin: 0; font-size: clamp(36px, 5.2vw, 92px); font-weight: 500; line-height: 1.04; letter-spacing: -0.02em; text-transform: uppercase; }
 .statement h1 > span { display: block; white-space: nowrap; }
-.px { font-family: "Tinos", "Times New Roman", serif; font-weight: 400; letter-spacing: 0; filter: url(#pixelate); }
+/* the pixel line: PP Mondwest, sized so its capitals stand as tall as Inter's (cap heights .727 and .640),
+   on the same line spacing as the other two lines */
+@font-face { font-family: "PP Mondwest"; src: url(assets/fonts/pp-mondwest-regular.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+.px { font-family: "PP Mondwest", "Inter", sans-serif; font-weight: 400; font-size: 1.136em; line-height: .915; letter-spacing: 0;
+  position: relative; top: .06em; } /* its taller ascent sits it high; this evens the gaps above and below it */
 .statement .accent { padding-right: .04em; }
 /* readability: a soft patch of the page colour behind the headline and the role, blurring the signature where
    it passes behind the words; its edges fade out, so it reads as the light dimming, not as a box */
@@ -66,7 +70,6 @@
     padding-top: clamp(40px, 12vw, 64px); padding-bottom: clamp(40px, 12vw, 64px); border-bottom: 1px solid var(--frame); }
   .role { margin: 0; }
   .statement h1 > span { white-space: normal; } /* phones: the long line wraps */
-  .px { filter: url(#pixelate-sm); }
   /* phones: the signature stays on the screen while the statement and cards scroll over it; the end of the cards
      carries it away. Sticky inside the first screen, so CSS alone does it. */
   .has-bg::before { position: sticky; top: 0; left: auto; right: auto; transform: none; flex: none;

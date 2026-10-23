@@ -5,7 +5,9 @@
   --text-2: #A1A2A4;
   --surface: #F7F8FA;
   --ghost: #1B1C1F;
-  --accent: linear-gradient(180deg, #5A98F2 0%, #2A60D0 100%);
+  --accent: linear-gradient(180deg, #6BABFF 0%, #0051FF 100%); /* light at the top, deep at the bottom */
+  --accent-solid: #367FFF; /* the gradient's midpoint, for small solid marks (squares, dashes) */
+  --accent-deep: #0051FF;  /* the gradient's deep end, for hover fills */
 
   --columns: 4;
   --gutter: 2.75vw;

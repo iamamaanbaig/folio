@@ -375,6 +375,23 @@
     }));
   }
 
+  /* ---------- live windows (YouTube, Loom, Figma) under a cover ----------
+     A live embedded window takes the mouse wheel, which would stop the one-scroll-per-section stepping over
+     it. So each one sits under a clear cover: scrolling over it moves the page as everywhere else, and the
+     first click lifts the cover so the window can be used. Once the window is scrolled off screen, the
+     cover comes back. */
+  $$('.zoom.live').forEach(z => {
+    const frame = $('iframe', z);
+    const cover = document.createElement('button');
+    cover.type = 'button';
+    cover.className = 'live-cover';
+    cover.setAttribute('aria-label', `Interact with ${frame.title}`);
+    cover.innerHTML = '<span class="live-chip" aria-hidden="true">Click to interact</span>';
+    z.append(cover);
+    cover.addEventListener('click', () => { cover.hidden = true; frame.focus(); });
+    new IntersectionObserver(([e]) => { if (!e.isIntersecting) cover.hidden = false; }).observe(z);
+  });
+
   /* ---------- back to top ---------- */
   $$('.to-top').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();

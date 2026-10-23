@@ -39,7 +39,14 @@ as needed, keeping the intent of the reference.
   study's opening screen (`data-shot` on each card). Four cards in a row:
   GIFA, Fee management, Creating Automation, then a placeholder (`.soon`,
   not a link, no preview) for the fourth case study. The card in focus keeps
-  full strength and the others fade to 35%.
+  full strength and the others fade to 35%. At rest a card shows only its
+  title (lead size, medium) and arrow; the description (body size) appears
+  when the card is in focus (pointer screens; phones always show it). The
+  preview panel has no corner button: the card's arrow and the cursor lead in.
+  "Selected case studies" is a quiet grey sentence-case label on the home
+  page only (no ghost word); case studies keep their uppercase section
+  titles. The statement is lighter (weight 400) and smaller, with open
+  space above it.
   Over a case-study card or its preview, the pointer becomes a dark pill:
   the pixel arrow (`cursor.png`, turned to point up-right) and "View case
   study" in PP Mondwest (`.cs-cursor`, home.js; mouse only).

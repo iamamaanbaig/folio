@@ -4,11 +4,10 @@
   const screen = document.querySelector('.home-screen'), list = document.querySelector('.cs-list');
   const cards = [...list.querySelectorAll('.cs-card[data-shot]')]; // the placeholder has no screen yet
 
-  // the panel: one screenshot per card, and the blue way in
+  // the panel: one screenshot per card
   const pv = document.createElement('a');
   pv.className = 'cs-preview'; pv.tabIndex = -1; pv.setAttribute('aria-hidden', 'true');
-  pv.innerHTML = cards.map(c => `<img src="${c.dataset.shot}" alt="" loading="lazy" decoding="async">`).join('') +
-    '<span class="pv-go"><svg viewBox="0 0 16 16"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg></span>';
+  pv.innerHTML = cards.map(c => `<img src="${c.dataset.shot}" alt="" loading="lazy" decoding="async">`).join('');
   screen.append(pv);
   const imgs = [...pv.querySelectorAll('img')];
 

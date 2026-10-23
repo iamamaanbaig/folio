@@ -36,7 +36,10 @@ as needed, keeping the intent of the reference.
   The statement comes first in the markup (shown first on phones, below the
   work on wide screens). `home.js` adds the card hover preview (pointer
   screens only): the card turns light and opens into a panel with the case
-  study's opening screen (`data-shot` on each card).
+  study's opening screen (`data-shot` on each card). Four cards in a row:
+  GIFA, Fee management, Creating Automation, then a placeholder (`.soon`,
+  not a link, no preview) for the fourth case study. The card in focus keeps
+  full strength and the others fade to 35%.
 - Site header (name, Home, Contact) on every page; its styles live in the
   shared `case-studies/case-study.css`. On case studies it opens the first
   screen, then floats: hidden while scrolling down, shown when scrolling up,

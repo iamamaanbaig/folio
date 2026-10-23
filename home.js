@@ -2,7 +2,7 @@
 (() => {
   if (!matchMedia('(hover: hover)').matches) return;
   const screen = document.querySelector('.home-screen'), list = document.querySelector('.cs-list');
-  const cards = [...list.querySelectorAll('.cs-card')];
+  const cards = [...list.querySelectorAll('.cs-card[data-shot]')]; // the placeholder has no screen yet
 
   // the panel: one screenshot per card, and the blue way in
   const pv = document.createElement('a');

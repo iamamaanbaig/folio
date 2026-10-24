@@ -29,8 +29,8 @@ as needed, keeping the intent of the reference.
   Its styles are in `home.css`, on top of `styles.css` and the shared
   `case-studies/case-study.css`.
   Behind the first screen (`has-bg` on `.home-screen` shows it, with the
-  frosted cards and readability patches; drop the class to hide them): the signature, `assets/home-bg.webp` (a WebP made
-  from the uploaded `homebackgroundimage.png`), as a CSS background, frame
+  frosted cards and readability patches; drop the class to hide them): the signature, `assets/home-bg.webp` (a lossless WebP
+  of the uploaded `homebackgroundimage.png`: lossy compression smudged the glow), as a CSS background, frame
   width at its own proportions, centred on the window; on phones it stays
   pinned to the screen until the last case-study card scrolls up.
   The statement comes first in the markup (shown first on phones, below the

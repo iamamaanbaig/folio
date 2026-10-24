@@ -28,8 +28,8 @@ as needed, keeping the intent of the reference.
   statement at the bottom of the first screen (contact section to come).
   Its styles are in `home.css`, on top of `styles.css` and the shared
   `case-studies/case-study.css`.
-  Behind the first screen (`has-bg` on `.home-screen` shows it, with the
-  frosted cards and readability patches; drop the class to hide them): the signature, `assets/home-bg.webp` (a lossless WebP
+  Behind the first screen (hidden for now; `has-bg` on `.home-screen` shows
+  it, with the frosted cards and readability patches): the signature, `assets/home-bg.webp` (a lossless WebP
   of the uploaded `homebackgroundimage.png`: lossy compression smudged the glow), as a CSS background, frame
   width at its own proportions, centred on the window; on phones it stays
   pinned to the screen until the last case-study card scrolls up.

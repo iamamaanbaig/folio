@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact · Amaan Baig</title>
+  <meta name="description" content="Have something complicated? Let’s talk. Write to Amaan Baig, UX &amp; Product Designer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
+  <link rel="stylesheet" href="../styles.css?v=contact9">
+  <link rel="stylesheet" href="../case-studies/case-study.css?v=contact9">
+  <link rel="stylesheet" href="../home.css?v=contact9">
+  <link rel="stylesheet" href="contact.css?v=contact9">
+</head>
+<body>
+  <main class="page">
+    <!-- the home page's screen and header, so both pages share one header and one fit -->
+    <div class="home-screen contact-screen">
+      <header class="site-head">
+        <a class="logo" href="../">Amaan Baig<span>.</span></a>
+        <nav class="site-nav" aria-label="Main"><a href="../">Home</a><a href="./" aria-current="page">Contact</a></nav>
+      </header>
+
+      <section class="contact" aria-labelledby="contact-title">
+        <!-- the @ mark: PP Mondwest's @ (18 of its pixels square) seen through a 16-pixel square, so the square's edges cut its outer ring -->
+        <svg class="at" viewBox="0 0 16 16" aria-hidden="true">
+          <defs>
+            <linearGradient id="at-fill" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="16"><stop offset="0" stop-color="#6BABFF"/><stop offset="1" stop-color="#0051FF"/></linearGradient>
+            <mask id="at-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+              <rect width="16" height="16" fill="#fff"/>
+              <path fill="#000" transform="translate(-2.0010 15.9983) scale(0.006104 -0.006104)" d="M2293 2621V2785H983V2621ZM983 2457V2621H655V2457ZM2621 2457V2621H2293V2457ZM655 2293V2457H491V2293ZM2785 2293V2457H2621V2293ZM491 1966V2293H327V1966ZM2949 1966V2293H2785V1966ZM327 655V1966H164V655ZM1802 1802V1966H1310V1802ZM2130 655V1146H2293V1638H2457V1966H2130V1802H1802V1638H1966V1146H1802V819H1966V655ZM3113 1146V1966H2949V1146ZM1638 491V655H1147V819H983V1310H1147V1638H1310V1802H983V1638H819V1310H655V819H819V655H983V491ZM2949 819V1146H2785V819ZM1802 655V819H1638V655ZM2785 655V819H2457V655ZM491 327V655H327V327ZM2457 491V655H2130V491ZM2949 327V491H2785V327ZM655 163V327H491V163ZM2785 163V327H2621V163ZM983 0V163H655V0ZM2621 0V163H2293V0ZM2293 -163V0H983V-163Z"/>
+            </mask>
+          </defs>
+          <rect width="16" height="16" fill="url(#at-fill)" mask="url(#at-cut)"/>
+        </svg>
+
+        <form class="msg" id="msg">
+          <h1 class="contact-title" id="contact-title"><label for="msg-text">Have something complicated? Let’s talk</label></h1>
+          <div class="msg-field">
+            <textarea id="msg-text" name="message" rows="1" placeholder="Type your message" required></textarea>
+            <button class="msg-send" type="submit" aria-label="Send message">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
+            </button>
+          </div>
+          <p class="msg-or">Or connect on <a class="chip" href="#" rel="noopener" target="_blank">LinkedIn</a></p>
+        </form>
+      </section>
+
+      <footer class="contact-foot"><p>© 2026 Amaan Baig</p></footer>
+    </div>
+  </main>
+  <script src="contact.js?v=contact9" defer></script>
+</body>
+</html>

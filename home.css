@@ -1,0 +1,182 @@
+/* Home page. Built on the tokens in styles.css and the shared parts in case-studies/case-study.css
+   (header, labels, frame lines), so it reads as one system with the case studies. */
+.home-screen { position: relative; display: flex; flex-direction: column; min-height: 100vh; overflow: clip; }
+
+/* the signature: large on the right, at its own proportions, running off the top and the right frame line.
+   A CSS background, so the browser offers no "save image" or drag; a lossless WebP of the uploaded PNG.
+   Everything that belongs to it is under .has-bg: drop that class from .home-screen to hide it. */
+.has-bg::before {
+  content: ""; position: absolute; left: 30%; top: -8%; width: 93%; z-index: -1;
+  aspect-ratio: 1440 / 1334; background: url(assets/home-bg.webp?v=4) center / 100% 100% no-repeat; pointer-events: none;
+}
+
+/* hero: the role is the title; the statement under it says what that means */
+.statement { display: flex; flex-direction: column; align-items: flex-start; padding: clamp(40px, 12vw, 64px) var(--pad);
+  border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); }
+.hero-title { margin: 0; max-width: 11.5ch; font-size: clamp(48px, 13vw, 64px); font-weight: 400; line-height: 1.02; letter-spacing: -0.03em; }
+.tagline { margin: clamp(18px, 2.4vw, 40px) 0 0; max-width: 24ch; font-size: clamp(18px, 4.6vw, 22px); font-weight: 400; line-height: 1.35;
+  letter-spacing: .01em; text-transform: uppercase; color: var(--text); } /* uppercase wants its tracking opened a touch */
+
+/* case studies: a quiet label, then four cards. The label is the home page's own: the case studies keep their
+   bold uppercase section titles, which they need to find their way round long pages */
+.work { border-left: 1px solid var(--frame); border-right: 1px solid var(--frame); }
+.work .sec-head { min-height: 0; padding-top: clamp(28px, 3.4vw, 52px); padding-bottom: clamp(24px, 2.6vw, 40px); border-bottom: 1px solid var(--frame); }
+.work .sec-title { font-size: var(--t-lead); font-weight: 400; letter-spacing: -0.005em; text-transform: none; color: var(--text-2); }
+.cs-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.has-bg .cs-list { background: rgba(18, 19, 21, .5); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); } /* frosted: the signature softens behind the cards */
+.cs-card { position: relative; display: flex; flex-direction: column; padding: clamp(22px, 2.4vw, 40px) var(--pad) clamp(28px, 3vw, 48px); color: inherit; text-decoration: none; transition: background .25s, opacity .3s, border-color .3s; }
+.cs-card + .cs-card { border-left: 1px solid var(--frame); }
+/* the card title: the lead size in medium, on the headings' tracking */
+.cs-card h3 { margin: 0; padding-right: 40px; font-size: var(--t-lead); font-weight: 500; line-height: 1.3; letter-spacing: -0.018em; text-wrap: balance; }
+.cs-card p { margin: clamp(10px, 1vw, 16px) 0 0; max-width: 40ch; font-size: var(--t-body); line-height: 1.5; color: var(--text-2); }
+/* a bare arrow beside the title's first line says the card opens; it lifts towards the corner on hover */
+.cs-arrow { position: absolute; top: clamp(22px, 2.4vw, 40px); right: var(--pad); display: grid; place-items: center; width: 24px; height: calc(var(--t-lead) * 1.3); color: var(--text-2); transition: color .2s, transform .5s var(--ease); }
+.cs-arrow svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .3s var(--ease); }
+.cs-card:hover { background: rgba(255, 255, 255, .04); }
+.cs-card:hover .cs-arrow { color: var(--text); }
+.cs-card:hover .cs-arrow svg { transform: translate(2px, -2px); }
+/* one card in focus: the others step back */
+.cs-list:has(.cs-card:hover) .cs-card:not(:hover),
+.cs-list:has(.cs-card:focus-visible) .cs-card:not(:focus-visible),
+.home-screen.previewing .cs-card:not(.active) { opacity: .35; }
+/* the fourth case study, not written yet: a full card, with "Soon" in the arrow's colour where the others have
+   their arrow; it has no page or preview, and its cursor says so */
+.cs-card.soon h3 { padding-right: 64px; }
+.cs-card.soon::after { content: "Soon"; position: absolute; top: clamp(22px, 2.4vw, 40px); right: var(--pad); line-height: calc(var(--t-lead) * 1.3);
+  font-size: var(--t-label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-2); }
+
+@media (max-width: 899px) {
+  .cs-list { grid-template-columns: 1fr; }
+  .cs-card + .cs-card { border-left: 0; border-top: 1px solid var(--frame); }
+  .statement { border-bottom: 1px solid var(--frame); }
+  /* phones: the signature gets its own space under the words, not behind them, and stays on the screen while
+     the cards scroll over it; the end of the cards carries it away. Sticky inside the first screen, so CSS
+     alone does it */
+  .has-bg .statement { padding-bottom: 86vw; }
+  .has-bg::before { order: -1; position: sticky; top: 0; left: auto; width: auto; flex: none;
+    height: 100svh; margin-bottom: -100svh; aspect-ratio: auto; background-size: 100% auto; background-position: center 296px; }
+}
+
+/* hover preview (pointer screens; built by home.js): a light panel covers the hero, the case study's laptop sits
+   in it with air above, cut off where the panel meets the cards, and the hovered card rises to meet the panel,
+   so card and panel read as one light shape. Touch screens keep plain links. */
+.cs-preview { display: none; }
+@media (hover: hover) and (min-width: 900px) {
+  .home-screen { --lift: clamp(104px, calc(var(--u) * 9), 176px); }
+  .cs-preview {
+    display: block; position: absolute; left: 0; right: 0; top: var(--pv-head, 0); bottom: calc(var(--pv-bottom, 0px) + var(--lift)); z-index: 2;
+    container-type: size; background: var(--surface); overflow: hidden; color: inherit;
+    clip-path: inset(100% 0 0 0); transition: clip-path .5s var(--ease); pointer-events: none;
+  }
+  .home-screen.previewing .cs-preview { clip-path: inset(0); pointer-events: auto; }
+  /* sized on the panel's height (container units), so the space above the laptop holds on every screen */
+  .cs-preview img {
+    position: absolute; left: 50%; top: max(56px, 19cqh); width: min(67cqw, 140cqh); height: auto;
+    transform: translate(-50%, 28px); opacity: 0; transition: opacity .35s, transform .6s var(--ease);
+  }
+  .cs-preview img:nth-child(1) { top: max(48px, 16cqh); width: min(76cqw, 159cqh); } /* GIFA: more margin round its laptop */
+  /* the case study to come: an empty screen-shaped frame in the laptop's place, until its image is added */
+  .pv-empty { position: absolute; left: 50%; top: max(56px, 19cqh); width: min(58cqw, 121cqh); aspect-ratio: 1.6; display: grid; place-items: center;
+    border-radius: 14px 14px 0 0; background: #E7E8EB; color: #8A8C91; font-size: var(--t-label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    transform: translate(-50%, 28px); opacity: 0; transition: opacity .35s, transform .6s var(--ease); }
+  .pv-empty > span { margin-top: -18%; }
+  .pv-empty.on { opacity: 1; transform: translate(-50%, 0); transition-delay: .08s; }
+  .cs-preview img.on { opacity: 1; transform: translate(-50%, 0); transition-delay: .08s; }
+
+  /* at rest a card is only as tall as its title: the description hangs just under the title, outside the card,
+     and comes into view when the raised card lifts title and description together; the row itself doesn't move */
+  .cs-card { padding-bottom: clamp(24px, calc(var(--u) * 2.8), 44px); }
+  .cs-card h3, .cs-card p { transition: color .25s; }
+  .cs-text { position: relative; transition: transform .5s var(--ease); }
+  .cs-text p { position: absolute; left: 0; right: 0; top: 100%; opacity: 0; transition: opacity .3s, color .25s; }
+  .cs-card.active .cs-text p { opacity: 1; }
+  .cs-card::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 0; background: var(--surface); transition: height .5s var(--ease); }
+  .cs-card.active { z-index: 3; background: var(--surface); }
+  .cs-card.active::before { height: var(--lift); }
+  .cs-card.active .cs-text, .cs-card.active .cs-arrow, .cs-card.soon.active::after { transform: translateY(calc(var(--lift) * -1)); }
+  .cs-card.soon::after { transition: transform .5s var(--ease), color .25s; }
+  .cs-card.soon.active::after { color: #5B5D62; }
+  .cs-card.active h3 { color: var(--bg); }
+  .cs-card.active p { color: #5B5D62; }
+  .cs-card.active .cs-arrow { color: var(--bg); }
+  .cs-card.active .cs-arrow svg { transform: translate(2px, -2px); }
+
+  /* the hero and the label step out of the way, and so do the lines round the panel and the raised card */
+  .statement > *, .work .sec-head > * { transition: opacity .3s; }
+  .home-screen.previewing .statement > *, .home-screen.previewing .work .sec-head > * { opacity: 0; }
+  .site-head, .statement, .work, .work .sec-head { transition: border-color .3s; }
+  .home-screen.previewing .site-head, .home-screen.previewing .work .sec-head { border-bottom-color: transparent; }
+  .home-screen.previewing .statement, .home-screen.previewing .work { border-left-color: transparent; border-right-color: transparent; }
+  /* the raised card's own divider takes its light colour, and its rise covers the divider too, so its edge is
+     one clean line from top to bottom; the next card's divider steps out */
+  .home-screen.previewing .cs-card.active { border-left-color: var(--surface); }
+  .home-screen.previewing .cs-card.active + .cs-card { border-left-color: transparent; }
+  .cs-card + .cs-card::before { left: -1px; }
+}
+
+/* the cursor over a case study (home.js): a flat dark pill with the site's arrow in the brand gradient and
+   "View case study"; the arrow sits where the pointer is */
+.cs-cursor { display: none; }
+@media (hover: hover) and (min-width: 900px) {
+  .cs-card[href], .cs-card.soon, .cs-preview { cursor: none; }
+  .cs-cursor {
+    display: flex; align-items: center; gap: 10px; position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none;
+    padding: 11px 18px 11px 14px; margin: -22px 0 0 -24px; border-radius: 999px; background: #111214;
+    font-size: 15px; font-weight: 500; letter-spacing: -0.005em; line-height: 1; color: var(--text); white-space: nowrap;
+    opacity: 0; scale: .6; transform-origin: 24px 22px; transition: opacity .2s, scale .3s var(--ease);
+  }
+  .cs-cursor.on { opacity: 1; scale: 1; }
+  .cs-cursor svg { flex: none; width: 18px; height: 18px; }
+  /* over the fourth card: a light grey pill, no arrow, "Case study coming soon" */
+  .cs-cursor.soon { padding: 11px 18px; background: #DCDDDF; color: var(--bg); }
+  .cs-cursor.soon svg { display: none; }
+}
+/* entrance: the title rises in, then the statement and the case studies, and the signature fades up last */
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+@keyframes glow { from { opacity: 0; } }
+.hero-title { animation: rise .9s var(--ease) both .1s; }
+.tagline { animation: rise .9s var(--ease) both .25s; }
+.work { animation: rise .9s var(--ease) both .4s; }
+.has-bg::before { animation: glow 1.4s ease-out both .45s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title, .tagline, .work, .has-bg::before { animation: none; }
+  .cs-preview, .cs-preview img, .cs-text, .cs-arrow, .cs-card::before { transition: none !important; }
+  .cs-cursor { transition: none; scale: 1; }
+}
+
+/* fit: on wide screens the first screen always fits the window. Sizes follow --u, one hundredth of the width
+   or 1.6 hundredths of the height, whichever is smaller (they agree at 16:10), so short windows scale down
+   instead of scrolling. Phones scroll, so they keep the shared sizes. */
+@media (min-width: 900px) {
+  .home-screen {
+    --u: min(1vw, 1.6vh);
+    --t-heading: clamp(20px, calc(var(--u) * 2.2), 32px);
+    --t-body: clamp(14px, calc(var(--u) * 1.25), 18px);
+    --gap-detail: clamp(10px, calc(var(--u) * 1.6), 24px);
+  }
+  .statement { padding: clamp(28px, calc(var(--u) * 5), 88px) var(--pad) 0; }
+  /* "UX & Product" runs to the middle of the frame, the column line the signature starts from (the line is
+     6 ems wide); short windows hold it back */
+  .home-screen { --title: clamp(48px, min(calc((47.25vw - var(--pad)) / 6), calc(var(--u) * 8.4)), 168px); }
+  .hero-title { font-size: var(--title); }
+  /* the signature follows the title: its "A" rises from where "UX & Product" ends (6 ems), so the two stay
+     close on every window, including wide, short ones where the title can't reach the middle line */
+  /* it's never wider than 1.4 window heights, so on wide, short windows it stays the size it has at 16:10 and
+     its crossbar stays above the cards */
+  .has-bg::before { --sigw: min(93%, 140vh); width: var(--sigw); left: calc(var(--pad) + var(--title) * 5.97 - var(--sigw) * .213);
+    /* it fades out as it reaches the cards, so the row sits on calm ground */
+    -webkit-mask-image: linear-gradient(#000 60%, transparent 81%); mask-image: linear-gradient(#000 60%, transparent 81%); }
+  .tagline { margin-top: clamp(20px, calc(var(--u) * 3.4), 64px); font-size: clamp(18px, calc(var(--u) * 2.3), 44px); line-height: 1.45; }
+  .work { margin-top: auto; }
+  /* the label sits close to the cards it heads */
+  .work .sec-head { padding-top: clamp(16px, calc(var(--u) * 2.4), 40px); padding-bottom: clamp(10px, calc(var(--u) * 1.2), 20px); }
+  .cs-card { padding-top: clamp(16px, calc(var(--u) * 2.4), 40px); }
+  .cs-arrow, .cs-card.soon::after { top: clamp(16px, calc(var(--u) * 2.4), 40px); }
+}
+/* very short wide windows (about 600px tall): the title gives up a little size */
+@media (min-width: 900px) and (max-height: 620px) {
+  .statement { padding-top: 24px; }
+  .home-screen { --title: clamp(44px, calc(var(--u) * 7), 168px); }
+  .tagline { margin-top: 16px; line-height: 1.35; }
+}

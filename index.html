@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amaan Baig · UX &amp; Product Designer</title>
+  <meta name="description" content="Amaan Baig, UX &amp; Product Designer. I make complicated software feel obvious.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
+  <link rel="stylesheet" href="styles.css?v=home31">
+  <link rel="stylesheet" href="case-studies/case-study.css?v=home31">
+  <link rel="stylesheet" href="home.css?v=home31">
+</head>
+<body>
+  <main class="page">
+    <!-- has-bg: the signature behind the first screen, with frosted cards and readability patches; drop it to hide them -->
+    <div class="home-screen has-bg">
+      <header class="site-head">
+        <a class="logo" href="./">Amaan Baig<span>.</span></a>
+        <nav class="site-nav" aria-label="Main"><a href="./" aria-current="page">Home</a><a href="contact/">Contact</a></nav>
+      </header>
+
+      <section class="statement" aria-label="About">
+        <h1 class="hero-title">UX &amp; Product Designer</h1>
+        <p class="tagline">I make complicated software feel obvious.</p>
+      </section>
+
+      <section class="work" aria-labelledby="work-title">
+        <header class="sec-head">
+          <h2 class="sec-title" id="work-title">Selected case studies</h2>
+        </header>
+        <!-- each card's preview repeats its case study's opening composition: data-shot alone (one laptop),
+             with data-shot-back (two), or with data-shot-left and data-shot-right (three) -->
+        <div class="cs-list">
+          <a class="cs-card" href="case-studies/global-incentive-fee-awards/" data-shot="GIFAcasestudyimages/GIFAherocenter.png" data-shot-left="GIFAcasestudyimages/GIFAheroleft.png" data-shot-right="GIFAcasestudyimages/GIFAheroright.png">
+            <div class="cs-text">
+              <h3>Saved millions of dollars in taxes</h3>
+              <p>By improving stakeholder visibility and coordination across a complex, multi-stakeholder process.</p>
+            </div>
+            <span class="cs-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg></span>
+          </a>
+          <a class="cs-card" href="case-studies/fee-management/" data-shot="Feemanagementcasestudyimages/Heroleft.png" data-shot-back="Feemanagementcasestudyimages/Heroright.png">
+            <div class="cs-text">
+              <h3>Cut fee management effort by 40 minutes</h3>
+              <p>By reducing the fee templates a single classroom needed from an average of 9&nbsp;to&nbsp;1.</p>
+            </div>
+            <span class="cs-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg></span>
+          </a>
+          <a class="cs-card" href="case-studies/creating-automation/" data-shot="Creatingautomationcasestudyimages/Group%201321317990.png">
+            <div class="cs-text">
+              <h3>Reduced support calls</h3>
+              <p>By making it easy to create a new automation.</p>
+            </div>
+            <span class="cs-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg></span>
+          </a>
+          <!-- coming soon: placeholder until the fourth case study is written -->
+          <!-- the case study to come; its preview pairs two screens like Fee management (data-shot in front, data-shot-back behind) -->
+          <div class="cs-card soon" data-shot="Stampcasestudyimages/Hero%20Image%20Left.png" data-shot-back="Stampcasestudyimages/Hero%20Image%20right.png">
+            <div class="cs-text">
+              <h3>Reduced the compliance review effort with AI</h3>
+              <p>By designing an AI feature that does all the review work and suggests a final action, with AI reasoning and evidence for humans.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <script src="home.js?v=home31" defer></script>
+</body>
+</html>

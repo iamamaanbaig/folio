@@ -4,15 +4,15 @@
   const screen = document.querySelector('.home-screen'), list = document.querySelector('.cs-list');
   const cards = [...list.querySelectorAll('.cs-card[data-shot]')];
 
-  // the panel: one screenshot per card; a card without one yet (the case study to come) gets an empty frame
+  // the panel: each card's case study opening, composed as it is on the case study (one, two or three
+  // laptops); a card without images yet gets an empty frame
   const pv = document.createElement('a');
   pv.className = 'cs-preview'; pv.tabIndex = -1; pv.setAttribute('aria-hidden', 'true');
-  pv.innerHTML = cards.map(c => c.dataset.shotBack
-    // two screens: one behind, up and to the right, and one in front
-    ? `<span class="pv-pair"><img class="pv-back" src="${c.dataset.shotBack}" alt="" loading="lazy" decoding="async">` +
-      `<img class="pv-front" src="${c.dataset.shot}" alt="" loading="lazy" decoding="async"></span>`
-    : c.dataset.shot
-    ? `<img src="${c.dataset.shot}" alt="" loading="lazy" decoding="async">`
+  const img = (src, cls) => `<img class="${cls}" src="${src}" alt="" loading="lazy" decoding="async">`;
+  pv.innerHTML = cards.map(({ dataset: d }) =>
+    d.shotLeft ? `<span class="pv-comp trio">${img(d.shotLeft, 'pv-left')}${img(d.shotRight, 'pv-right')}${img(d.shot, 'pv-center')}</span>`
+    : d.shotBack ? `<span class="pv-comp duo">${img(d.shotBack, 'pv-back')}${img(d.shot, 'pv-front')}</span>`
+    : d.shot ? `<span class="pv-comp solo">${img(d.shot, 'pv-center')}</span>`
     : '<span class="pv-empty"><span>Image coming soon</span></span>').join('');
   screen.append(pv);
   const imgs = [...pv.children];

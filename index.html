@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
-  <link rel="stylesheet" href="styles.css?v=home29">
-  <link rel="stylesheet" href="case-studies/case-study.css?v=home29">
-  <link rel="stylesheet" href="home.css?v=home29">
+  <link rel="stylesheet" href="styles.css?v=home30">
+  <link rel="stylesheet" href="case-studies/case-study.css?v=home30">
+  <link rel="stylesheet" href="home.css?v=home30">
 </head>
 <body>
   <main class="page">
@@ -30,15 +30,17 @@
         <header class="sec-head">
           <h2 class="sec-title" id="work-title">Selected case studies</h2>
         </header>
+        <!-- each card's preview repeats its case study's opening composition: data-shot alone (one laptop),
+             with data-shot-back (two), or with data-shot-left and data-shot-right (three) -->
         <div class="cs-list">
-          <a class="cs-card" href="case-studies/global-incentive-fee-awards/" data-shot="GIFAcasestudyimages/GIFAherocenter.png">
+          <a class="cs-card" href="case-studies/global-incentive-fee-awards/" data-shot="GIFAcasestudyimages/GIFAherocenter.png" data-shot-left="GIFAcasestudyimages/GIFAheroleft.png" data-shot-right="GIFAcasestudyimages/GIFAheroright.png">
             <div class="cs-text">
               <h3>Saved millions of dollars in taxes</h3>
               <p>By improving stakeholder visibility and coordination across a complex, multi-stakeholder process.</p>
             </div>
             <span class="cs-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg></span>
           </a>
-          <a class="cs-card" href="case-studies/fee-management/" data-shot="Feemanagementcasestudyimages/Heroleft.png">
+          <a class="cs-card" href="case-studies/fee-management/" data-shot="Feemanagementcasestudyimages/Heroleft.png" data-shot-back="Feemanagementcasestudyimages/Heroright.png">
             <div class="cs-text">
               <h3>Cut fee management effort by 40 minutes</h3>
               <p>By reducing the fee templates a single classroom needed from an average of 9&nbsp;to&nbsp;1.</p>
@@ -53,7 +55,7 @@
             <span class="cs-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg></span>
           </a>
           <!-- coming soon: placeholder until the fourth case study is written -->
-          <!-- the case study to come: its preview pairs two screens (data-shot in front, data-shot-back behind) -->
+          <!-- the case study to come; its preview pairs two screens like Fee management (data-shot in front, data-shot-back behind) -->
           <div class="cs-card soon" data-shot="Stampcasestudyimages/Hero%20Image%20Left.png" data-shot-back="Stampcasestudyimages/Hero%20Image%20right.png">
             <div class="cs-text">
               <h3>Reduced the compliance review process with AI, with a human still in control</h3>
@@ -65,6 +67,6 @@
 
     </div>
   </main>
-  <script src="home.js?v=home29" defer></script>
+  <script src="home.js?v=home30" defer></script>
 </body>
 </html>

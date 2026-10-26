@@ -69,31 +69,31 @@
     clip-path: inset(100% 0 0 0); transition: clip-path .5s var(--ease); pointer-events: none;
   }
   .home-screen.previewing .cs-preview { clip-path: inset(0); pointer-events: auto; }
-  /* sized on the panel's height (container units), so the space above the laptop holds on every screen */
-  .cs-preview img {
-    position: absolute; left: 50%; top: max(56px, 19cqh); width: min(67cqw, 140cqh); height: auto;
-    transform: translate(-50%, 28px); opacity: 0; transition: opacity .35s, transform .6s var(--ease);
-  }
-  .cs-preview img:nth-child(1) { top: max(48px, 16cqh); width: min(76cqw, 159cqh); } /* GIFA: more margin round its laptop */
-  /* the case study to come: an empty screen-shaped frame in the laptop's place, until its image is added */
+  /* each preview repeats its case study's opening: the same laptops in the same places and proportions
+     (case-study.css, hero-comp), laid out on the panel. --F is the composition's width: the panel's, or less on
+     short windows so the laptops keep their air above; the numbers come from the image files, as there */
+  .pv-comp { position: absolute; inset: 0; --F: min(100cqw, 290cqh); --o: calc((100cqw - var(--F)) / 2); --t: max(36px, 10cqh);
+    opacity: 0; transform: translateY(28px); transition: opacity .35s, transform .6s var(--ease); }
+  .pv-comp.on { opacity: 1; transform: none; transition-delay: .08s; }
+  .pv-comp img { position: absolute; display: block; height: auto; }
+  /* one laptop (Creating Automation) */
+  .solo .pv-center { z-index: 2; left: 50%; top: var(--t); width: calc(var(--F) * .6); transform: translateX(-50%); }
+  /* two (Fee management, Stamp): the front one on the left, the other behind it on the right */
+  .duo { --bf: calc(var(--F) * .6); --bb: calc(var(--F) * .5); }
+  .duo .pv-front { z-index: 2; left: var(--o); top: var(--t); width: var(--bf); }
+  .duo .pv-back { left: calc(var(--o) + var(--F) - var(--bb)); top: calc(var(--t) + var(--bf) * 970 / 1505 * .18); width: var(--bb); }
+  /* three (GIFA): the centre one in front and larger, the side ones smaller and set back */
+  .trio { --bc: calc(var(--F) * .52); --bs: calc(var(--bc) * .73); }
+  .trio .pv-center { z-index: 2; left: calc(50cqw - var(--bc) / 2 - var(--bc) * 83 / 1567); top: calc(var(--t) - var(--bc) * 43 / 1567); width: calc(var(--bc) * 1733 / 1567); }
+  .trio .pv-left, .trio .pv-right { top: calc(var(--t) + var(--bc) * 1008 / 1567 * .27 - var(--bs) * 43 / 1567); width: calc(var(--bs) * 1653 / 1567); }
+  .trio .pv-left { left: calc(var(--o) - var(--bs) * 83 / 1567); }
+  .trio .pv-right { left: calc(var(--o) + var(--F) - var(--bs) - var(--bs) * 3 / 1567); }
+  /* the case study to come, until its images are in: an empty screen-shaped frame */
   .pv-empty { position: absolute; left: 50%; top: max(56px, 19cqh); width: min(58cqw, 121cqh); aspect-ratio: 1.6; display: grid; place-items: center;
     border-radius: 14px 14px 0 0; background: #E7E8EB; color: #8A8C91; font-size: var(--t-label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
     transform: translate(-50%, 28px); opacity: 0; transition: opacity .35s, transform .6s var(--ease); }
   .pv-empty > span { margin-top: -18%; }
   .pv-empty.on { opacity: 1; transform: translate(-50%, 0); transition-delay: .08s; }
-  /* two screens for one case study: the second sits behind, up and to the right, a little smaller */
-  .pv-pair { position: absolute; inset: 0; opacity: 0; transform: translateY(28px); transition: opacity .35s, transform .6s var(--ease); }
-  .pv-pair.on { opacity: 1; transform: none; transition-delay: .08s; }
-  .pv-pair img { position: absolute; height: auto; opacity: 1; transform: none; transition: none; }
-  /* the pair is centred as one group, and the back screen stays inside the panel */
-  /* (stated with .cs-preview so they outrank the single-laptop rules) the front screen overlaps the back one */
-  /* both are cut off where the panel meets the cards, like the single laptops; the front one is larger and
-     overlaps the back one */
-  .cs-preview .pv-pair { --wf: min(52cqw, 127cqh); --wb: min(44cqw, 108cqh); --ov: calc(var(--wb) * .2);
-    --x: calc(50cqw - (var(--wf) + var(--wb) - var(--ov)) / 2); } /* the pair centred as one group */
-  .cs-preview .pv-pair img.pv-back { left: calc(var(--x) + var(--wf) - var(--ov)); top: auto; bottom: 0; width: var(--wb); }
-  .cs-preview .pv-pair img.pv-front { left: var(--x); top: auto; bottom: 0; width: var(--wf); }
-  .cs-preview img.on { opacity: 1; transform: translate(-50%, 0); transition-delay: .08s; }
 
   /* at rest a card is only as tall as its title: the description hangs just under the title, outside the card,
      and comes into view when the raised card lifts title and description together; the row itself doesn't move */
@@ -153,7 +153,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-title, .tagline, .work, .has-bg::before { animation: none; }
-  .cs-preview, .cs-preview img, .cs-text, .cs-arrow, .cs-card::before { transition: none !important; }
+  .cs-preview, .pv-comp, .pv-empty, .cs-text, .cs-arrow, .cs-card::before { transition: none !important; }
   .cs-cursor { transition: none; scale: 1; }
 }
 

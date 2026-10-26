@@ -42,14 +42,16 @@ as needed, keeping the intent of the reference.
   sits under the hero and stays pinned until the last card scrolls up.
   Cards: GIFA, Fee management, Creating Automation, then the fourth case
   study to come, Stamp (`.soon`: a full card but not a link; its preview pairs
-  two screens from `Stampcasestudyimages/`, `data-shot` in front and
-  `data-shot-back` behind, centred as one group; "Soon" in
+  two screens from `Stampcasestudyimages/`; "Soon" in
   the arrow's colour and place; its cursor is a light grey pill, "Case study
   coming soon"). At rest a card is only
   its title and arrow; its description waits under it (`.cs-text`). Phones
   always show the descriptions.
   Hover (`home.js`, pointer screens): a light panel covers the hero with the
-  case study's laptop (`data-shot`), and the hovered card rises to meet it,
+  case study's opening composition, as on the case study itself: one laptop
+  (`data-shot`), two (`data-shot` in front, `data-shot-back` behind) or three
+  (`data-shot` centre, `data-shot-left`, `data-shot-right`); the hovered card
+  rises to meet it,
   title and description lifting with it, so they read as one light shape; the
   other cards fade to 35%, the hero and label fade out, and the frame lines
   round the panel step out. The cursor becomes a flat dark pill: the site's

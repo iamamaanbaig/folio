@@ -41,8 +41,9 @@ as needed, keeping the intent of the reference.
   after the title, statement and cards rise in; on phones it
   sits under the hero and stays pinned until the last card scrolls up.
   Cards: GIFA, Fee management, Creating Automation, then the fourth case
-  study to come (`.soon`: a full card but not a link; its preview shows an
-  empty screen frame until its image goes in `data-shot`; "Soon" in
+  study to come, Stamp (`.soon`: a full card but not a link; its preview pairs
+  two screens from `Stampcasestudyimages/`, `data-shot` in front and
+  `data-shot-back` behind, centred as one group; "Soon" in
   the arrow's colour and place; its cursor is a light grey pill, "Case study
   coming soon"). At rest a card is only
   its title and arrow; its description waits under it (`.cs-text`). Phones

@@ -7,7 +7,11 @@
   // the panel: one screenshot per card; a card without one yet (the case study to come) gets an empty frame
   const pv = document.createElement('a');
   pv.className = 'cs-preview'; pv.tabIndex = -1; pv.setAttribute('aria-hidden', 'true');
-  pv.innerHTML = cards.map(c => c.dataset.shot
+  pv.innerHTML = cards.map(c => c.dataset.shotBack
+    // two screens: one behind, up and to the right, and one in front
+    ? `<span class="pv-pair"><img class="pv-back" src="${c.dataset.shotBack}" alt="" loading="lazy" decoding="async">` +
+      `<img class="pv-front" src="${c.dataset.shot}" alt="" loading="lazy" decoding="async"></span>`
+    : c.dataset.shot
     ? `<img src="${c.dataset.shot}" alt="" loading="lazy" decoding="async">`
     : '<span class="pv-empty"><span>Image coming soon</span></span>').join('');
   screen.append(pv);

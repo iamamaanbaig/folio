@@ -39,7 +39,7 @@ as needed, keeping the intent of the reference.
   where the title ends, running off the top and
   right frame line and fading out before the cards; it fades in last on load,
   after the title, statement and cards rise in; on phones it
-  sits under the hero and stays pinned until the last card scrolls up.
+  sits under the hero and scrolls away with the page (not pinned).
   Cards: GIFA, Fee management, Creating Automation, then the fourth case
   study to come, Stamp (`.soon`: a full card but not a link; its preview pairs
   two screens from `Stampcasestudyimages/`; "Soon" in

@@ -60,6 +60,9 @@ as needed, keeping the intent of the reference.
   on the left; its styles live in the shared `case-studies/case-study.css`. On case studies it opens the first
   screen, then floats: hidden while scrolling down, shown when scrolling up,
   when the pointer reaches the top edge, or on keyboard focus (`case-study.js`).
+- Case-study section index: a bar of section numbers on desktop; on phones one
+  "Index" button (bottom right) that opens the sections in a panel from the
+  right, the current one marked, Close at the bottom (`.ix-*`, case-study.js).
 - Case-study footers: "Other projects" shows the other two case studies, each
   a link with its opening screen (the same shot as the home preview), title,
   description and arrow.

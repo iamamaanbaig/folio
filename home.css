@@ -49,6 +49,8 @@
   .cs-list { grid-template-columns: 1fr; }
   .cs-card + .cs-card { border-left: 0; border-top: 1px solid var(--frame); }
   .statement { border-bottom: 1px solid var(--frame); }
+  /* the case study to come: just its title and "Soon" on phones, with no description to tap at */
+  .cs-card.soon p { display: none; }
   /* phones: the signature gets its own space under the words, not behind them, and stays on the screen while
      the cards scroll over it; the end of the cards carries it away. Sticky inside the first screen, so CSS
      alone does it */

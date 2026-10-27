@@ -44,7 +44,7 @@ as needed, keeping the intent of the reference.
   study to come, Stamp (`.soon`: a full card but not a link; its preview pairs
   two screens from `Stampcasestudyimages/`; "Soon" in
   the arrow's colour and place; its cursor is a light grey pill, "Case study
-  coming soon"). At rest a card is only
+  coming soon"; on phones it shows only its title and "Soon"). At rest a card is only
   its title and arrow; its description waits under it (`.cs-text`). Phones
   always show the descriptions.
   Hover (`home.js`, pointer screens): a light panel covers the hero with the

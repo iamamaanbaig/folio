@@ -63,6 +63,10 @@ as needed, keeping the intent of the reference.
 - Case-study section index: a bar of section numbers on desktop; on phones one
   "Index" button (bottom right) that opens the sections in a panel from the
   right, the current one marked, Close at the bottom (`.ix-*`, case-study.js).
+- Case-study body copy (descriptions) uses `--text-body` (#B8B9BC), a step
+  lighter than `--text-2`. On phones, small controls (header name and links,
+  footer links, screen-switch squares) have tap areas of at least 44px, and the
+  footer links use the small label style.
 - Case-study footers: "Other projects" shows the other two case studies, each
   a link with its opening screen (the same shot as the home preview), title,
   description and arrow.

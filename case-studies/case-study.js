@@ -423,3 +423,55 @@
   }, { passive: true });
   head.addEventListener('focusin', () => show(true));
 })();
+
+/* Phones: the section index as one "Index" button that opens the sections in a panel from the right. Built from
+   the desktop bar's links, so both stay in step; the current section is read from the bar when it opens. */
+(() => {
+  const bar = document.querySelector('.index'); if (!bar) return;
+  const links = [...bar.querySelectorAll('a')];
+  const btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'ix-btn'; btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<span class="ix-burger" aria-hidden="true"></span>Index';
+  const shade = document.createElement('div'); shade.className = 'ix-shade';
+  const panel = document.createElement('nav');
+  panel.className = 'ix-panel'; panel.id = 'ix-panel'; panel.setAttribute('aria-label', 'Case study sections');
+  panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-modal', 'true');
+  panel.innerHTML = '<p class="ix-head">Index</p>' + links.map(a => `<a href="${a.getAttribute('href')}">${a.innerHTML}</a>`).join('') +
+    '<button type="button" class="ix-close"><span class="ix-x" aria-hidden="true"></span>Close</button>';
+  btn.setAttribute('aria-controls', 'ix-panel');
+  document.body.append(btn, shade, panel);
+  const items = [...panel.querySelectorAll('a')], close = panel.querySelector('.ix-close');
+  const root = document.documentElement;
+
+  const open = () => {
+    items.forEach((a, i) => a.setAttribute('aria-current', links[i].getAttribute('aria-current') || 'false'));
+    root.classList.add('ix-open'); btn.setAttribute('aria-expanded', 'true');
+    // once the panel is visible, focus goes to the current section
+    requestAnimationFrame(() => (items.find(a => a.getAttribute('aria-current') === 'true') || items[0]).focus({ preventScroll: true }));
+  };
+  const shut = (back = true) => {
+    root.classList.remove('ix-open'); btn.setAttribute('aria-expanded', 'false');
+    if (back) btn.focus();
+  };
+  btn.addEventListener('click', open);
+  close.addEventListener('click', () => shut());
+  shade.addEventListener('click', () => shut());
+  // a section: close, then scroll there
+  items.forEach((a, i) => a.addEventListener('click', e => {
+    e.preventDefault(); shut(false);
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    history.replaceState(null, '', a.getAttribute('href'));
+  }));
+  // Escape closes; Tab stays inside the open panel
+  addEventListener('keydown', e => {
+    if (!root.classList.contains('ix-open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); shut(); return; }
+    if (e.key !== 'Tab') return;
+    const f = [...items, close], first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  // leaving phone width with the panel open: close it
+  matchMedia('(min-width: 900px)').addEventListener('change', e => { if (e.matches) shut(false); });
+})();

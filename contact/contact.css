@@ -51,7 +51,7 @@
 @media (max-width: 899px) {
   .contact { padding-top: 48px; padding-bottom: 56px; }
   .msg { width: 100%; margin-top: 56px; }
-  .msg-field textarea { font-size: 34px; }
+  .msg-field textarea { font-size: 26px; } /* the prompt a size smaller on phones */
   .msg.long .msg-field textarea { font-size: 20px; }
   .msg-send { bottom: 8px; }
 }

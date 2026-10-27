@@ -5,6 +5,7 @@
 :root {
   --frame: var(--stroke);
   --ghost-2: #1D1F22;
+  --text-body: #B8B9BC; /* descriptions: a step lighter than --text-2, so long passages read easily */
   --sticky-h: 0px;
 
   /* Type scale: one size per role */
@@ -2510,4 +2511,234 @@ div.sol-view {
 
 @media (prefers-reduced-motion: reduce) {
   .head-slot.floating .site-head { transition: none; }
+}
+
+/* ---------- phones: the section index as a button and a panel ----------
+   The bar of section numbers gives way to one "Index" button, bottom right; it opens the sections as a panel
+   from the right (case-study.js), the current one marked, with Close at the bottom. Desktop keeps the bar. */
+.ix-btn,
+.ix-shade,
+.ix-panel {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .index {
+    display: none;
+  }
+
+  .ix-btn {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px 12px 16px;
+    border: 1px solid var(--stroke);
+    border-radius: 999px;
+    background: rgba(18, 19, 21, .88);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    font: inherit;
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .ix-burger {
+    position: relative;
+    width: 16px;
+    height: 10px;
+    border-top: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+  }
+
+  .ix-burger::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 1.5px solid currentColor;
+    transform: translateY(-50%);
+  }
+
+  .ix-shade {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: block;
+    background: rgba(0, 0, 0, .45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+
+  .ix-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 41;
+    display: flex;
+    flex-direction: column;
+    width: min(80vw, 320px);
+    padding: 56px 28px 28px;
+    border-left: 1px solid var(--stroke);
+    background: #18191C;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform .4s var(--ease), visibility .4s;
+  }
+
+  /* opening, they become visible at once (so focus can move in); closing, they stay until they've slid away */
+  .ix-open .ix-shade { opacity: 1; visibility: visible; transition: opacity .3s, visibility 0s; }
+  .ix-open .ix-panel { transform: none; visibility: visible; transition: transform .4s var(--ease), visibility 0s; }
+  .ix-open { overflow: hidden; } /* the page behind stays put */
+
+  .ix-head {
+    margin: 0 0 20px;
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+
+  .ix-panel a {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--stroke);
+    font-size: 18px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+
+  .ix-panel a span {
+    font-size: var(--t-label);
+    font-variant-numeric: tabular-nums;
+    opacity: .6;
+  }
+
+  .ix-panel a[aria-current="true"] {
+    color: var(--text);
+  }
+
+  .ix-panel a[aria-current="true"] span {
+    opacity: 1;
+    background: var(--accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .ix-close {
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 12px 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: var(--t-label);
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-2);
+    cursor: pointer;
+  }
+
+  .ix-x {
+    position: relative;
+    width: 14px;
+    height: 14px;
+  }
+
+  .ix-x::before,
+  .ix-x::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    top: 50%;
+    border-top: 1.5px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  .ix-x::after {
+    transform: rotate(-45deg);
+  }
+
+  .ix-btn:focus-visible,
+  .ix-close:focus-visible,
+  .ix-panel a:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-shade, .ix-panel { transition: none; }
+}
+
+/* ---------- body copy ----------
+   Descriptions under challenges, problems, solutions, outcomes and iterations, a step lighter than the
+   secondary grey; labels, captions and the lead sentences keep their own colours. */
+.card p,
+.ch-text p,
+.sol-problem p,
+.sol-solution p,
+.outcome p,
+.dz-text p,
+.bullets.small li,
+.it-text p {
+  color: var(--text-body);
+}
+
+/* ---------- phones: comfortable tap areas ----------
+   Small controls keep their look but take a larger touch area: the header's name and links, the footer's
+   links, and the screen-switch squares above a solution's screenshot. */
+@media (max-width: 899px) {
+  .logo,
+  .site-nav a {
+    padding: 14px 0;
+  }
+
+  .site-nav a {
+    margin: 0 -8px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .thumb {
+    position: relative;
+  }
+
+  .thumb::after {
+    content: "";
+    position: absolute;
+    inset: -10px -4px; /* 32 x 44: wide as the gap allows, so neighbouring squares don't overlap */
+  }
+
+  /* the footer's links in the nav's label style, so "Other projects" leads; each a full-height tap */
+  .sf-links {
+    gap: 0;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .sf-links a {
+    padding: 16px 0;
+    font-size: var(--t-label);
+    letter-spacing: .1em;
+  }
 }

@@ -49,12 +49,12 @@
   .cs-list { grid-template-columns: 1fr; }
   .cs-card + .cs-card { border-left: 0; border-top: 1px solid var(--frame); }
   .statement { border-bottom: 1px solid var(--frame); }
-  /* phones: the signature gets its own space under the words, not behind them, and stays on the screen while
-     the cards scroll over it; the end of the cards carries it away. Sticky inside the first screen, so CSS
-     alone does it */
+  /* the case study to come: just its title and "Soon" on phones, with no description to tap at */
+  .cs-card.soon p { display: none; }
+  /* phones: the signature gets its own space under the words, not behind them, and scrolls away with the page */
   .has-bg .statement { padding-bottom: 86vw; }
-  .has-bg::before { order: -1; position: sticky; top: 0; left: auto; width: auto; flex: none;
-    height: 100svh; margin-bottom: -100svh; aspect-ratio: auto; background-size: 100% auto; background-position: center 296px; }
+  .has-bg::before { position: absolute; top: 0; left: 0; right: 0; width: auto; height: 100svh; transform: none;
+    aspect-ratio: auto; background-size: 100% auto; background-position: center 296px; }
 }
 
 /* hover preview (pointer screens; built by home.js): a light panel covers the hero, the case study's laptop sits

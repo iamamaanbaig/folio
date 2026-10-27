@@ -39,12 +39,12 @@ as needed, keeping the intent of the reference.
   where the title ends, running off the top and
   right frame line and fading out before the cards; it fades in last on load,
   after the title, statement and cards rise in; on phones it
-  sits under the hero and stays pinned until the last card scrolls up.
+  sits under the hero and scrolls away with the page (not pinned).
   Cards: GIFA, Fee management, Creating Automation, then the fourth case
   study to come, Stamp (`.soon`: a full card but not a link; its preview pairs
   two screens from `Stampcasestudyimages/`; "Soon" in
   the arrow's colour and place; its cursor is a light grey pill, "Case study
-  coming soon"). At rest a card is only
+  coming soon"; on phones it shows only its title and "Soon"). At rest a card is only
   its title and arrow; its description waits under it (`.cs-text`). Phones
   always show the descriptions.
   Hover (`home.js`, pointer screens): a light panel covers the hero with the
@@ -60,6 +60,13 @@ as needed, keeping the intent of the reference.
   on the left; its styles live in the shared `case-studies/case-study.css`. On case studies it opens the first
   screen, then floats: hidden while scrolling down, shown when scrolling up,
   when the pointer reaches the top edge, or on keyboard focus (`case-study.js`).
+- Case-study section index: a bar of section numbers on desktop; on phones one
+  "Index" button (bottom right) that opens the sections in a panel from the
+  right, the current one marked, Close at the bottom (`.ix-*`, case-study.js).
+- Case-study body copy (descriptions) uses `--text-body` (#B8B9BC), a step
+  lighter than `--text-2`. On phones, small controls (header name and links,
+  footer links, screen-switch squares) have tap areas of at least 44px, and the
+  footer links use the small label style.
 - Case-study footers: "Other projects" shows the other two case studies, each
   a link with its opening screen (the same shot as the home preview), title,
   description and arrow.
